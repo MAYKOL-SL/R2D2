@@ -1,0 +1,93 @@
+@extends('app')
+
+@section('htmlheader_title')
+    %%crudNameCap%%
+@endsection
+
+@section('contentheader_title')
+    %%crudNameCap%%
+@endsection
+
+@section('contentheader_description')
+    Descripción %%crudNameCap%%
+@endsection
+
+
+@section('enlaces')
+    <li class="active"><a href="#"><i class="fa fa-dashboard"></i> %%crudNameCap%% </a></li>
+   
+@endsection
+
+
+@section('main-content')
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">%%crudNameCap%%</div>
+                    @if(Session::has('flash_message1'))
+                    <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-info"></i> {{Session::get('flash_message1')}} </h4>
+                    </div>
+                    @endif
+                    @if(Session::has('flash_message2'))
+                    <div class="alert alert-info alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-info"></i> {{Session::get('flash_message2')}}</h4>
+                    </div>
+                    @endif
+                    @if(Session::has('flash_message3'))
+                    <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-info"></i>  {{Session::get('flash_message3')}}</h4>
+                    </div>
+                    @endif
+                    <div class="panel-body">
+                    <div class="table-responsive">
+
+                        <a href="{{ url('/%%routeGroup%%%%viewName%%/create') }}" class="btn btn-primary btn-xs" title="Registrar Nuevo %%modelName%%"><span class="glyphicon glyphicon-plus" aria-hidden="true"/></a>
+                        <br/>
+                        <br/>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>%%formHeadingHtml%%<th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($%%crudName%% as $item)
+                                    <tr>
+                                        <td>{{ $item->id }}</td>
+                                        %%formBodyHtml%%
+                                        <td>
+                                            <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%%) }}" class="btn btn-success btn-xs" title="Ver %%modelName%%"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
+                                            <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $item->%%primaryKey%% . '/edit') }}" class="btn btn-primary btn-xs" title="Editar %%modelName%%"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
+                                            {!! Form::open([
+                                                'method'=>'DELETE',
+                                                'url' => ['/%%routeGroup%%%%viewName%%', $item->%%primaryKey%%],
+                                                'style' => 'display:inline'
+                                            ]) !!}
+                                                {!! Form::button('<span class="glyphicon glyphicon-trash" aria-hidden="true" title="Eliminar %%modelName%%" />', array(
+                                                        'type' => 'submit',
+                                                        'class' => 'btn btn-danger btn-xs',
+                                                        'title' => 'Eliminar %%modelName%%',
+                                                        'onclick'=>'return confirm("Confirma Eliminar?")'
+                                                )) !!}
+                                            {!! Form::close() !!}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <div class="pagination-wrapper"> {!! $%%crudName%%->render() !!} </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+@endsection

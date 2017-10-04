@@ -1,0 +1,25 @@
+php artisan crud:generate Users --fields="name#string#required, email#email#required, password#password#required" --route=yes --pk=id --view-path="admin" --namespace=Admin --route-group=admin
+
+
+
+php artisan crud:generate Roles --fields="name#string#required, display_name#string#required, description#string" --route=yes --pk=id --view-path="admin" --namespace=Admin --route-group=admin
+
+php artisan crud:generate Permissions --fields="name#string#required, display_name#string#required, description#string" --route=yes --pk=id --view-path="admin" --namespace=Admin --route-group=admin
+
+
+php artisan crud:generate Posts --fields="title#string; content#text; category#select#options=technology,tips,health" --view-path=admin --controller-namespace=Admin --route-group=admin
+
+
+
+php artisan crud:generate Prueba --fields="textarea#string#required; text#text#required;  password#password#required; email#email#required; number#number#required; date#date#required; datetime#datetime#required; time#time#required;  select#select#options=seleccion1,seleccion2,seleccion3; file#file#required"  --view-path=admin --controller-namespace=Admin --route-group=admin --pk=id   --route-group=admin --validations="text#min:10|max:30|required" --pagination=2
+
+
+
+php artisan crud:generate Users --fields="name#string#required; email#email#required; password#password#required" --view-path=admin --controller-namespace=Admin  --route=yes --pk=id --route-group=admin --validations="name#min:2" --pagination=20 --localize=yes --locales=en
+
+php artisan crud:generate Roles --fields="name#string#required; display_name#string#required; description#string" --view-path=admin --controller-namespace=Admin  --route=yes --pk=id --route-group=admin --validations="name#min:2" --pagination=20 --localize=yes --locales=en
+
+php artisan crud:generate Permissions --fields="name#string#required; display_name#string#required; description#string" --view-path=admin --controller-namespace=Admin  --route=yes --pk=id --route-group=admin --validations="name#min:2" --pagination=20 --localize=yes --locales=en
+
+
+php artisan crud:generate Foto --fields="nombre#string#required; sigla#string#required; descripcion#string" --view-path=admin --controller-namespace=Admin  --route=yes --pk=id --route-group=admin --validations="nombre#min:2" --pagination=20 --localize=yes --locales=en
