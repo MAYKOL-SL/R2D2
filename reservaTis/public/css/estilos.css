@@ -1,0 +1,34 @@
+.fondo{
+  background: url('../img/adinfondo.jpg') no-repeat;
+  background-size: cover;
+
+}
+
+.wizard-card {
+    min-height: 410px;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 10px 0;
+    transition: all 0.2s;
+    -webkit-transition: all 0.2s;
+}
+
+.card {
+    background-color:rgba(255, 255, 255, 0.15);;
+    padding: 120px  26px;
+    width: 116%;
+}
+
+.texto{
+  text-align: center;
+  color: cyan;
+  font-size: 36px;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+.rec{
+  color: cyan;
+  font-size: 16px;
+}
