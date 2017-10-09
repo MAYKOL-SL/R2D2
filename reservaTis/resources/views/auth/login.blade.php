@@ -7,57 +7,56 @@
 @section('content')
 <body class="fondo">
     <div class="login-box ">
+
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>Reserva Ambiente</a>
+            <a  href="{{ url('/home') }}"><b class="re">Reserva Ambiente</a>
         </div><!-- /.login-logo -->
 
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <strong>Hubo un error!</strong>Verifique los datos ingrasados .<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>Hubo un error!</strong>Verifique los datos ingrasados .
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <div class="container card wizard-card">
-    <h2 class="texto">INICIAR SECION</h2>
-    <form action="{{ url('/auth/login') }}" method="post">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="Email" name="email"/>
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-        </div>
-        <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password" name="password"/>
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-        </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <div class="checkbox icheck">
-                    <label>
-                        <input type="checkbox" name="remember">Recuerdame
-                    </label>
-                </div>
-            </div><!-- /.col -->
-            <div class="col-xs-8">
-                <button type="submit" class="btn btn-primary btn-block btn-lg">AUTENTICAR</button>
-            </div><!-- /.col -->
-        </div>
-    </form>
 
-    <div class="social-auth-links text-center">
-        <p>- OR -</p>
-        <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>
-        <a href="#" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i> Sign in using Google+</a>
-    </div><!-- /.social-auth-links -->
+      <div class="container signupSection">
+        <div class="info">
+          <h2>WEBSOFT</h2>
+           <br><br><br>
+            <a href="#" class="imglogo"><img src="../img/logotec.jpg" alt="" width="100px"></a>
+            <br><br><br><br><br>
+          <p>Cochabamba-Bolivia</p>
+        </div>
+        <form action="{{ url('/auth/login') }}" method="POST" class="signupForm" name="signupform">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-    <!--a href="{{ url('/password/email') }}">I forgot my password</a><br>
-    <a href="{{ url('/auth/register') }}" class="text-center">Register a new membership</a-->
+          <h2>Iniciar Sesi&oacute;n</h2>
+          <ul class="noBullet">
 
-</div><!-- /.login-box-body -->
+            <div class="has-feedback">
+              <li>
+                <label for="email"></label>
+                <input type="email" class="inputFields" id="email" name="email" placeholder="Email" value="" />
+              </li>
+            </div>
+            <div class="has-feedback">
+              <li>
+                <label for="password"></label>
+                <input type="password" class="inputFields" id="password" name="password" placeholder="Password" value="" oninput="return passwordValidation(this.value)" />
+              </li>
+            </div>
+            <li id="center-btn">
+              <input type="submit" id="join-btn" name="join" alt="Join" value="Iniciar Sesi&oacute;n">
+            </li>
+          </ul>
+        </form>
+      </div>
+
 
 </div><!-- /.login-box -->
 
