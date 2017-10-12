@@ -6,12 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoAmbiente extends Model
 {
-    protected $table = 'tipoAmbientes';
-    protected $timestamps = false;
-
-    public function ambientes()
-    {
-        return $this->hasMany('Reserva\Ambiente');
-    }
+    protected $table = 'tipo_ambientes';
+        protected $primaryKey='id';
+    	protected $fillable=['tipo_aula','id'];
 
 }
