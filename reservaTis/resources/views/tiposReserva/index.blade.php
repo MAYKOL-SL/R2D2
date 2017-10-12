@@ -1,9 +1,8 @@
 @extends('app')
 
-@section('htmlheader_title')
-   BIENVENIDO
+@section('contentheader_title')
+    TIPOS DE RESERVAS
 @endsection
-
 
 @section('main-content')
 <div class="box box-primary">
@@ -11,12 +10,6 @@
     <label class = "box-title">Seleccione su tipo de reserva: </label>
     </div>
     <div class="box-body">
-      <div class="box-body">
-          <div class="row">
-            <div class="col-md-6">
-            </div>
-          </div>
-      </div>
 <body>
   <div class="container" style="margin-top: 60px;">
     <ul class="nav nav-tabs">
@@ -30,10 +23,11 @@
     <div class="tab-pane fade in active" id="aula">
                  <div class="box-body">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
             <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
-                 {!!Form::label('Tipo de aula')!!}
-                    {!!Form::select('tipoAmbiente',$tipoambiente,null,['placeholder'=>'Seleccione','required'=>'required'])!!}
+                 {!!Form::label('Tipo de ambiente')!!}
+                    {!!Form::select('tipoAmbiente',$tipoambiente,null,['class'=>'form-control input-sm'
+                    ,'placeholder'=>'Seleccione','required'=>'required'])!!}
               </div>
               </div>
               </div>
