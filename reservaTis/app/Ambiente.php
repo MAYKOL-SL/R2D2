@@ -10,14 +10,9 @@ class Ambiente extends Model
 
     public $timestamps = false;
 
-    protected $fillable=['id','nombre_aula','capacidad','ubicacion','tipo_ambiente_id','complemento_id'];
+    protected $fillable=['nombre_aula','capacidad','ubicacion','tipo_ambiente_id','complemento_id'];
 
-    //protected $timestamps = false;
-        protected $primaryKey='id';
-        protected $fillable=['id','nombre_aula','capacidad','ubicacion','tipo_ambiente_id','complemento_id'];
-
-
-    public function complementos()
+      public function complementos()
     {
         return $this->hasMany('Reserva\Complemento');
     }
