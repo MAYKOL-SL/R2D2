@@ -21,3 +21,5 @@ Route::get('/','PrincipalController@index');
 Route::resource('admin/permissions', 'Admin\\PermissionsController');
 Route::resource('admin/roles', 'Admin\\RolesController');
 Route::resource('admin/users', 'Admin\\UsersController');
+Route::resource('reserva', 'Reservacion\\ReservacionController');
+Route::resource('tiposReserva', 'tipoDeReserva\\tipoDeReservaController');
