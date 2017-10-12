@@ -54,7 +54,11 @@
               <input type="submit" id="join-btn" name="join" alt="Join" value="Iniciar Sesi&oacute;n">
             </li>
           </ul>
+
+          <a href="{{ url('/auth/register') }}" class="text-center">Registrar nuevo</a>
         </form>
+
+
       </div>
 
 
