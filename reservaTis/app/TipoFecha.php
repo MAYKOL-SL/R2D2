@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TipoFecha extends Model
 {
     protected $table = 'tipoFechas';
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function calendarios()
     {
