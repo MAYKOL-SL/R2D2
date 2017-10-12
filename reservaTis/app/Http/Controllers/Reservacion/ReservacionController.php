@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
 use Reserva\TipoAmbiente;
+use Reserva\Ambiente;
 
 
 class ReservacionController extends Controller
@@ -30,7 +31,9 @@ class ReservacionController extends Controller
     public function create()
     {
          $tipoambiente = TipoAmbiente::lists('tipo_aula','id');
-        return view('reserva.create',compact('tipoambiente'));
+         $ambiente = Ambiente::lists('nombre_aula','id');
+         $capacidad = Ambiente::lists('capacidad','id');
+        return view('reserva.create',compact('tipoambiente','ambiente','capacidad'));
     }
 
     /**

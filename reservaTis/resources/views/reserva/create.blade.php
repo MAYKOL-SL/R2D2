@@ -1,6 +1,6 @@
 @extends('app')
 @section('contentheader_title')
-    Registrar Ventas
+    Registrar Reserva
 @endsection
 
 @section('main-content')
@@ -19,21 +19,96 @@
   <div class="box-header with-border">
   <label class = "box-title">Ingrese datos de su reserva </label>
   </div>
-  <div>
 
 <div class="box-body">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
             <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
-                 {!!Form::label('Tipo de aula')!!}
-                    {!!Form::select('tipoAmbiente',$tipoambiente,null,['placeholder'=>'Seleccione','required'=>'required'])!!}
+                 {!!Form::label('Tipo de ambiente')!!}
+                    {!!Form::select('tipoAmbiente',$tipoambiente,null,['class'=>'form-control input-sm'
+                    ,'placeholder'=>'Seleccione','required'=>'required'])!!}
+              </div>
+               <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
+                 {!!Form::label('Ambiente')!!}
+                    {!!Form::select('ambiente',$ambiente,null,['class'=>'form-control input-sm','placeholder'=>'Seleccione','required'=>'required'])!!}
+              </div>
+              <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
+                 {!!Form::label('Capacidad')!!}
+                    {!!Form::select('capacidad',$capacidad,null,['class'=>'form-control input-sm','placeholder'=>'Seleccione','required'=>'required'])!!}
               </div>
               </div>
               </div>
               </div>
 
+<div class="box-header">
+            <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
+                 {!!Form::label('Marque los días:')!!}
+                 <div class="form-check form-check-inline">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" id="lunes" value="option1"> Lunes
+  </label>
+</div>
+<div class="form-check form-check-inline">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" id="martes" value="option2"> Martes
+  </label>
+</div>
+<div class="form-check form-check-inline disabled">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" id="miercoles" value="option3">Miercoles
+  </label>
+</div>
+<div class="form-check form-check-inline">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" id="jueves" value="option1">Jueves
+  </label>
+</div>
+<div class="form-check form-check-inline">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" id="viernes" value="option2">Viernes
+  </label>
+</div>
+<div class="form-check form-check-inline disabled">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" id="sabado" value="option3"> Sábado
+  </label>
+</div>
+<div class="form-check form-check-inline disabled">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" id="domingo" value="option3">Domingo
+  </label>
+</div>
+  
+</div>
+</div>
 
+<div class="box-header">
+      {!!Form::label('Hora inicio y final:')!!}
+      <div class="input-group">
+      <div class="input-group-addon">
+                    <i class="fa fa-safari"></i>
+                  </div>
+      {!!Form::time('fechaInicio')!!}  
+      {!!Form::time('fechaFin')!!}
+      </div>
+      </div>
 
+<div class="box-header">
+      {!!Form::label('Fecha inicio y final:')!!}
+      <div class="input-group">
+      <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+      {!!Form::date('fechaInicio', \Carbon\Carbon::now())!!}  
+      {!!Form::date('fechaFin', \Carbon\Carbon::now())!!}
+      </div>
+      </div>
 
+        
+<div class="box-header">
+<td>
+          {!!Form::submit('Crear Reserva',['class'=>'btn btn-primary'])!!}
+        </td>
+    </div>
 
 @endsection

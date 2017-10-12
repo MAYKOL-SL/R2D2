@@ -1,6 +1,6 @@
 @extends('app')
 @section('contentheader_title')
-    BIENVENIDO
+    RESERVACIÓN
 @endsection
 
 @section('main-content')
