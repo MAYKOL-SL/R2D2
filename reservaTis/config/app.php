@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -146,7 +146,7 @@ return [
         Reserva\Providers\RouteServiceProvider::class,
 
 
-        // AdminLTE template provider         
+        // AdminLTE template provider
 Acacha\AdminLTETemplateLaravel\app\Providers\AdminLTETemplateServiceProvider::class,
  Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
  Collective\Html\HtmlServiceProvider::class,
