@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Periodo extends Model
 {
     protected $table = 'periodos';
-    protected $timestamps = false;
+    public $timestamps = false;
 
     public function dias()
     {

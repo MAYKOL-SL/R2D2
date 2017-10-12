@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Ambiente extends Model
 {
     protected $table = 'ambientes';
-        protected $primaryKey='id';
-        protected $fillable=['id','nombre_aula','capacidad','ubicacion','tipo_ambiente_id','complemento_id'];
+    public $timestamps = false;
+
+    protected $fillable=['id','nombre_aula','capacidad','ubicacion','tipo_ambiente_id','complemento_id'];
 
     public function complementos()
     {
