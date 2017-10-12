@@ -21,9 +21,7 @@ Route::get('/','PrincipalController@index');
 Route::resource('admin/permissions', 'Admin\\PermissionsController');
 Route::resource('admin/roles', 'Admin\\RolesController');
 Route::resource('admin/users', 'Admin\\UsersController');
-<<<<<<< HEAD
 Route::get('regAula','regController@regAula');
-=======
+
 Route::resource('reserva', 'Reservacion\\ReservacionController');
 Route::resource('tiposReserva', 'tipoDeReserva\\tipoDeReservaController');
->>>>>>> 7b9ab5be25312549aa34a620eea1f9e927236f04
