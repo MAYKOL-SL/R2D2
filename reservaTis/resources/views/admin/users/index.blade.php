@@ -1,16 +1,16 @@
 @extends('app')
 
 @section('htmlheader_title')
-   Users 
+   Users
 @endsection
 
 
 @section('main-content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Users </div>
+        <div class="col-md-10 col-sm-11 col-md-12">
+            <div class="panel panel-default box box-primary">
+                <!--div class="panel-heading">Users </div-->
                      @if(Session::has('flash_message1'))
                     <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -33,6 +33,7 @@
                 <div class="table-responsive">
 
     <h1>Users <a href="{{ url('/admin/users/create') }}" class="btn btn-primary btn-xs" title="Add New User"><span class="glyphicon glyphicon-plus" aria-hidden="true"/></a></h1>
+    <hr/>
     <div class="table">
         <table class="table table-bordered table-striped table-hover">
             <thead>
@@ -67,7 +68,7 @@
             @endforeach
             </tbody>
         </table>
-       
+
     </div>
 
                 </div>

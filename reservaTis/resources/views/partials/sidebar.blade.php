@@ -37,7 +37,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url('admin/users') }}">Usuarios</a></li>
                     <li><a href="{{ url('admin/roles') }}">Roles</a></li>
-                    <li><a href="{{ url('admin/permissions') }}">Permisos</a></li>
+                    
                 </ul>
             </li>
 

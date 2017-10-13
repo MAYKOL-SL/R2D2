@@ -24,8 +24,8 @@ class RolesController extends Controller
 
     public function index()
     {
-        
-        $roles = Role::with('permissions')->get();
+
+        $roles = Role::get();
 
         return view('admin.roles.index', compact('roles'));
     }
@@ -37,9 +37,9 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::lists('display_name', 'id');
-        
-        return view('admin.roles.create' , compact('permissions'));
+
+
+        return view('admin.roles.create');
     }
 
     /**
@@ -49,13 +49,12 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $this->validate($request, ['name' => 'required', 'display_name' => 'required', ]);
 
-        $roles=Role::create($request->all());
-        
-        $roles->attachPermissions($request->input('permission_id'));
+        $roles = Role::create($request->all());
+         $roles->save();
 
-       
 
         Session::flash('flash_message1', 'Role  '.$roles->id.' Añadido!');
 
@@ -87,11 +86,11 @@ class RolesController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        $permission_role = Role::find($id)->permissions()->lists('permission_id')->toArray();
+        /*$permission_role = Role::find($id)->permissions()->lists('permission_id')->toArray();
 
-        $permissions = Permission::lists('display_name', 'id');
+        $permissions = Permission::lists('display_name', 'id');*/
 
-        return view('admin.roles.edit', compact('role', 'permissions', 'permission_role'));
+        return view('admin.roles.edit', compact('role'));
 
 
     }
@@ -111,20 +110,20 @@ class RolesController extends Controller
         $role->update($request->all());
 
 
-        if($role->permissions->count()) {
+        /*if($role->permissions->count()) {
 
                $role->permissions()->detach($role->permissions()->lists('permission_id')->toArray());
-            }
+            }*/
 
-        $role->attachPermissions($request->input('permission_id'));
+        //$role->attachPermissions($request->input('permission_id'));
 
         Session::flash('flash_message2', 'Role  '.$role->id.' Actualizado!');
 
         return redirect('admin/roles');
 
-           
 
-            
+
+
 
 
 
