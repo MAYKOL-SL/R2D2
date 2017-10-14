@@ -1,16 +1,16 @@
 @extends('app')
 
 @section('htmlheader_title')
-    User 
+    User
 @endsection
 
 
 @section('main-content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">User </div>
+        <div class="col-xs-12 col-sm-11 col-md-12">
+            <div class="panel panel-default box box-primary">
+                <!--div class="panel-heading">Usuario</div-->
 
                 <div class="panel-body">
                 <div class="table-responsive">
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group ">
                 {!! Form::label('roles', 'Roles: ', ['class' => 'col-sm-3 control-label']) !!}
                 <div class="col-sm-6">
 

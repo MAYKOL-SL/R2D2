@@ -3,8 +3,9 @@
 namespace Reserva;
 
 use Illuminate\Database\Eloquent\Model;
+use Zizaco\Entrust\EntrustPermission;
 
-class Permission extends Model
+class Permission extends EntrustPermission
 {
 
     /**
@@ -12,18 +13,18 @@ class Permission extends Model
      *
      * @var string
      */
-    protected $table = 'permissions';
+    //protected $table = 'permissions';
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'display_name', 'description'];
+    //protected $fillable = ['name', 'display_name', 'description'];
 
-    public function roles()
+    /*public function roles()
     {
         return $this->belongsToMany('Reserva\Role');
-    }
+    }*/
 
 }
