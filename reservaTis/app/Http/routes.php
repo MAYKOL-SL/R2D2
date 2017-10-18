@@ -25,3 +25,4 @@ Route::get('regAula','regController@regAula');
 
 Route::resource('reserva', 'Reservacion\\ReservacionController');
 Route::resource('tiposReserva', 'tipoDeReserva\\tipoDeReservaController');
+Route::resource('reservas', 'ReservasController');
