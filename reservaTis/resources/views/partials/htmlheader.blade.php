@@ -26,4 +26,10 @@
     <!-- estilos aumentado -->
 
     <link href="{{ asset('/css/estilos.css') }}" rel="stylesheet" type="text/css" />
+
+    <!-- Fullcalendar -->
+    <link href='fullcalendar/fullcalendar.min.css' rel='stylesheet' />
+    <link href='fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+
+    
 </head>

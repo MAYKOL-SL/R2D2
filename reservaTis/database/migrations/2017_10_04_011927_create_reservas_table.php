@@ -18,11 +18,6 @@ class CreateReservasTable extends Migration
               $table->string('descripcion',500);
             $table->timestamps();
 
-            $table->integer('calendario_id')->unsigned();
-              $table->foreign('calendario_id')->references('id')->on('calendarios')
-            ->onUpdate('CASCADE')
-            ->onDelete('NO ACTION');
-
             $table->integer('dia_id')->unsigned();
             $table->foreign('dia_id')->references('id')->on('dias')
             ->onUpdate('CASCADE')
