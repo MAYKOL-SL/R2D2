@@ -19,3 +19,13 @@ $factory->define(Reserva\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(Reserva\Fullcalendarevento::class, function (Faker\Generator $faker) {
+    return [
+        'start' => $faker->dateTimeThisYear(),
+        'end' => $faker->dateTimeThisYear(),
+        'aula' => $faker->sentence(2),
+        'color' => $faker->hexColor,
+        'title' => $faker->sentence(4)
+     ];
+});

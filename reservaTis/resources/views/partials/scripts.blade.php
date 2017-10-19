@@ -16,7 +16,10 @@
              <script src="{{ asset('js/jquery-multi-select/js/jquery.tinysort.js') }}"></script>
                 <script src="{{ asset('js/multi-select-init.js') }}"></script>
 
-
+	<!-- Fullcalendar -->	
+	<script src='fullcalendar/lib/moment.min.js'></script>
+	<script src='fullcalendar/fullcalendar.min.js'></script>
+	 		
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance the
       user experience. Slimscroll is required when using the
