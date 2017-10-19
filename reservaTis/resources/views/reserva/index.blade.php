@@ -31,6 +31,7 @@
   </table>
   </div>
   </div>
+  </div>
   <td>
           {!!Form::submit('Buscar aula',['class'=>'btn btn-primary'])!!}
         </td>

@@ -7,15 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reserva extends Model
 {
   protected $table = 'reservas';
-  public $timestamps = true;
-  protected $fillable=[
-        'calendario_id',
-        'dia_id',
-        'ambiente_id',
-        'user_id'
-    ];
-
-    protected $guarded=[];
+  public $timestamps = false;
 
     public function ambientes()
     {
