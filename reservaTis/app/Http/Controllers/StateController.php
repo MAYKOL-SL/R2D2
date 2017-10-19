@@ -1,6 +1,6 @@
 <?php
 
-namespace Reserva\Http\Controllers\tipoDeReserva;
+namespace Reserva\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -9,19 +9,17 @@ use Reserva\Http\Controllers\Controller;
 use Reserva\TipoAmbiente;
 use Reserva\Ambiente;
 
-class tipoDeReservaController extends Controller
+class StateController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-     public function index()
+    public function index()
     {    
-        $states = TipoAmbiente::lists('tipo_aula','id');
-            $towns = Ambiente::all();     
-        return view('tiposReserva.index',compact('states','towns'));
+        $states = TipoAmbiente::lists('tipo_aula','id');   
+        return view('reserva.create',compact('states'));
     }
 
     public function getTowns(Request $request, $id){         
@@ -30,7 +28,6 @@ class tipoDeReservaController extends Controller
             return response()->json($towns);         
          }
     }
-
 
     /**
      * Show the form for creating a new resource.

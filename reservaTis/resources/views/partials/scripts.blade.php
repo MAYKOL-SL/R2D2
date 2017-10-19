@@ -6,7 +6,7 @@
 <script src="{{ asset('/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('/js/app.min.js') }}" type="text/javascript"></script>
-
+<script src="{{ asset('js/dropdown.js') }}" type="text/javascript"></script>
 
             
              <script src="{{ asset('js/jquery-multi-select/js/jquery.multi-select.js') }}"></script>

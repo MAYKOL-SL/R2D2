@@ -20,28 +20,46 @@
       <li><a href="#horas" data-toggle = "tab">Hora</a></li>
     </ul>
 <div class="tab-content">
-    <div class="tab-pane fade in active" id="aula">
+    <div class="tab-pane fade in active" id="aula" >
                  <div class="box-body">
           <div class="row">
             <div class="col-md-3">
             <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
                  {!!Form::label('Tipo de ambiente')!!}
-                    {!!Form::select('tipoAmbiente',$tipoambiente,null,['class'=>'form-control input-sm'
-                    ,'placeholder'=>'Seleccione','required'=>'required'])!!}
+            {!! Form::select('state',$states,null,['id'=>'state','class'=>'form-control input-sm'
+                    ,'placeholder'=>'Seleccione','required'=>'required']) !!}
+
+            {!!Form::label('Lista de ambientes disponibles a reservar:')!!}
+            <div class="btn-group" id="town">
+            </div>
+            <div class="table">
+              <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Aulas</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+             <tbody>
+              @foreach($towns as $townes)
+                <tr>
+                    <td>{{$townes->nombre_aula}}</td>
+                    <td>
+                        <a href="" class="btn btn-success btn-xs" title="View User"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
+                        <a href="" class="btn btn-primary btn-xs" title="Edit User"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+          </table>
               </div>
               </div>
               </div>
               </div>
-              <td>
-          {!!Form::submit('Buscar aula',['class'=>'btn btn-primary'])!!}
-        </td>
-    </div>
+              </div>
+</div>
       <div class="tab-pane fade" id="ambiente"><div class="tab-content">
             <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
-              <div class="box-body">
-                 {!!Form::label('Tipo de aula')!!}
-                    {!!Form::select('tipoAmbiente',$tipoambiente,null,['placeholder'=>'Seleccione','required'=>'required'])!!}
-              </div>
               <td>
           {!!Form::submit('Crear reserva',['class'=>'btn btn-primary'])!!}
         </td>

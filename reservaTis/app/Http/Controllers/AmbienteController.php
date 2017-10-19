@@ -1,6 +1,6 @@
 <?php
 
-namespace Reserva\Http\Controllers\tipoDeReserva;
+namespace Reserva\Http\Controllers;
 
 use Illuminate\Http\Request;
 
@@ -9,28 +9,18 @@ use Reserva\Http\Controllers\Controller;
 use Reserva\TipoAmbiente;
 use Reserva\Ambiente;
 
-class tipoDeReservaController extends Controller
+class AmbienteController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-     public function index()
-    {    
-        $states = TipoAmbiente::lists('tipo_aula','id');
-            $towns = Ambiente::all();     
-        return view('tiposReserva.index',compact('states','towns'));
+    public function index(Request $request)
+    {
+        $ambiente = Ambiente::search($request->name)->orderBy('id','ASC')->paginate(7);
+        return view('porAmbiente.index')->with('ambiente',$ambiente);
     }
-
-    public function getTowns(Request $request, $id){         
-         if($request->ajax()){
-            $towns = Ambiente::towns($id);                
-            return response()->json($towns);         
-         }
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -39,7 +29,7 @@ class tipoDeReservaController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -61,7 +51,7 @@ class tipoDeReservaController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -72,7 +62,8 @@ class tipoDeReservaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $idambiente = Ambiente::find($id);
+        return view('porAmbiente.create')->with('idambiente',$idambiente);
     }
 
     /**
