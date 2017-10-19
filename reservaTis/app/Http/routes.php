@@ -26,13 +26,9 @@ Route::get('regAula','regController@regAula');
 
 Route::resource('reserva', 'Reservacion\\ReservacionController');
 Route::resource('tiposReserva', 'tipoDeReserva\\tipoDeReservaController');
-<<<<<<< HEAD
-Route::resource('reservas', 'ReservasController');
-=======
 
 
 Route::get('calendario','CalendarioController@vistaCalendario');
 Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
 
 
->>>>>>> 07b3d01663933a7f1cea7554d9f87343ad1186d3
