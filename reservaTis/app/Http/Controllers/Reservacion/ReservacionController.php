@@ -18,9 +18,16 @@ class ReservacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('reserva.index');
-       
+    {    
+        $states = TipoAmbiente::lists('tipo_aula','id');    
+        return view('reserva.create',compact('states'));
+    }
+
+    public function getTowns(Request $request, $id){         
+         if($request->ajax()){
+            $towns = Ambiente::towns($id);                
+            return response()->json($towns);         
+         }
     }
 
     /**
@@ -30,10 +37,7 @@ class ReservacionController extends Controller
      */
     public function create()
     {
-         $tipoambiente = TipoAmbiente::lists('tipo_aula','id');
-         $ambiente = Ambiente::lists('nombre_aula','id');
-         $capacidad = Ambiente::lists('capacidad','id');
-        return view('reserva.create',compact('tipoambiente','ambiente','capacidad'));
+        //
     }
 
     /**

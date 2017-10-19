@@ -21,6 +21,7 @@
     <!-- iCheck -->
     <link href="{{ asset('/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
      <link href="{{ asset('js/jquery-multi-select/css/multi-select.css') }}" rel="stylesheet" />
+    
 
     <!-- estilos aumentado -->
 

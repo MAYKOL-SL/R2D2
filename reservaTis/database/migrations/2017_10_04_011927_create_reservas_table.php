@@ -14,6 +14,8 @@ class CreateReservasTable extends Migration
     {
         Schema::create('reservas', function (Blueprint $table) {
             $table->increments('id');
+             $table->string('nombre_reseva',500);
+              $table->string('descripcion',500);
             $table->timestamps();
 
             $table->integer('calendario_id')->unsigned();
@@ -22,7 +24,7 @@ class CreateReservasTable extends Migration
             ->onDelete('NO ACTION');
 
             $table->integer('dia_id')->unsigned();
-              $table->foreign('dia_id')->references('id')->on('dias')
+            $table->foreign('dia_id')->references('id')->on('dias')
             ->onUpdate('CASCADE')
             ->onDelete('NO ACTION');
 
