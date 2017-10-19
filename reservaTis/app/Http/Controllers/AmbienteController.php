@@ -29,8 +29,7 @@ class AmbienteController extends Controller
      */
     public function create()
     {
-        $idambiente = Ambiente::find($id);
-        return view('porAmbiente.edit')->with('idambiente',$idambiente);
+        
     }
 
     /**
@@ -63,7 +62,8 @@ class AmbienteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $idambiente = Ambiente::find($id);
+        return view('porAmbiente.create')->with('idambiente',$idambiente);
     }
 
     /**

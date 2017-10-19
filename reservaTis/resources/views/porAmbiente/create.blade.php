@@ -20,17 +20,7 @@
   <label class = "box-title">Ingrese datos de su reserva </label>
   </div>
 
-<div class="box-body">
-          <div class="row">
-            <div class="col-md-3">
-              {!!Form::label('Tipo de ambiente')!!}
-            {!! Form::select('state',$states,null,['id'=>'state','class'=>'form-control input-sm'
-                    ,'placeholder'=>'Seleccione','required'=>'required']) !!}
-          {!!Form::label('Ambiente')!!}
-  {!! Form::select('town',['placeholder'=>'Selecciona'],null,['id'=>'town','class'=>'form-control input-sm'
-                    ,'required'=>'required']) !!}
-              </div>
-              </div>
+
 
 <div class="box-header">
             <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
