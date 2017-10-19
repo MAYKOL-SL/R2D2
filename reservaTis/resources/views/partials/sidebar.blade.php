@@ -44,11 +44,17 @@
 
             <li><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>Home</span></a></li>
 
+<<<<<<< HEAD
+            <li class="#"><a href="{{ url('reserva') }}"><i class='fa fa-link'></i> <span>Reserva</span></a></li>
+            <li class="#"><a href="{{ url('reservas') }}"><i class='fa fa-link'></i> <span>Reservas</span></a></li>
+            <li><a href="#"><i class='fa fa-link'></i> <span>Another Link</span></a></li>
+=======
             <li><a href="{{ url('consulta') }}"><i class='fa fa-link'></i> <span>Consulta Capacidad</span></a></li>
 
             <li><a href="{{ url('reserva') }}"><i class='fa fa-link'></i> <span>Reserva</span></a></li>
 
             <li><a href="{{ url('calendario') }}"><i class='fa fa-link'></i> <span>Ver Calendario</span></a></li>
+>>>>>>> 07b3d01663933a7f1cea7554d9f87343ad1186d3
             <li class="treeview">
                 <a href="#"><i class='fa fa-link'></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
