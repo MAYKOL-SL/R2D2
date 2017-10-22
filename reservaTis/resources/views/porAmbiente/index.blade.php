@@ -5,18 +5,18 @@
     
 @section('main-content')
  <div class="row">
-  <div class="col-md-10">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
 <div class="box box-primary">
-  <div class="box-header with-border">
-  <label class = "box-title">LISTA DE AMBIENTES </label>
+  <div class="col-sm-10">
+  <h1>LISTA DE AMBIENTES </h1>
+  </div>
 <!-- Buscador de ambiente-->
   {!! Form::open(['route'=>'ambiente.index','method'=>'GET', 'class'=>'navbar-form pull-right']) !!}
   <div class="input-group col-md-6 pull-right">
   <span class="input-group-addon"><i class="fa fa-search"></i></span>
           {!! Form::text('name',null,['class'=>'form-control','placelhoder'=>'Buscar ambiente...','aria-describebdy'=>'search']) !!}
  </div>
-
-      </div>
   {!! Form::close() !!}
 <!--Fin de buscador -->
 <table class="table table-striped">
@@ -41,7 +41,7 @@
 </table>
 {!! $ambiente->render() !!}
 </div>
- </div>
+<div class="col-md-2"></div>
  </div>
  </div>
 
