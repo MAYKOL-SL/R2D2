@@ -13,8 +13,8 @@
 html,
 body {
   min-height: 100%;
-  overflow: scroll;
-  background: #fff;
+  overflow: auto;
+  /*background: #fff;*/
 }
 .layout-boxed html,
 .layout-boxed body {

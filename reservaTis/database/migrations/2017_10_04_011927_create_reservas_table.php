@@ -14,20 +14,15 @@ class CreateReservasTable extends Migration
     {
         Schema::create('reservas', function (Blueprint $table) {
             $table->increments('id');
-             $table->string('nombre_reseva',500);
-              $table->string('descripcion',500);
+            $table->string('nombre_reseva',500);
+           $table->string('description',500);
+           /*start = fecha inicio*/
+           $table->date('start');
+           /*start = fecha fin*/
+           $table->date('end');
             $table->timestamps();
 
-            $table->integer('dia_id')->unsigned();
-            $table->foreign('dia_id')->references('id')->on('dias')
-            ->onUpdate('CASCADE')
-            ->onDelete('NO ACTION');
-
-            $table->integer('ambiente_id')->unsigned();
-              $table->foreign('ambiente_id')->references('id')->on('ambientes')
-            ->onUpdate('CASCADE')
-            ->onDelete('NO ACTION');
-
+            
             $table->integer('user_id')->unsigned();
               $table->foreign('user_id')->references('id')->on('users')
             ->onUpdate('CASCADE')

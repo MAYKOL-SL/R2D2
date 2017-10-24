@@ -14,9 +14,10 @@ class CreateCalendariosTable extends Migration
     {
         Schema::create('calendarios', function (Blueprint $table) {
             $table->increments('id');
-             $table->string('mes',50);
-              $table->string('ano',50);
-               $table->string('dia',50);
+             $table->string('Fecha',50);
+             $table->string('Dia',50);
+             $table->integer('Sem');
+             $table->string('Actividad',300);
             $table->timestamps();
 
             $table->integer('tipo_fecha_id')->unsigned();

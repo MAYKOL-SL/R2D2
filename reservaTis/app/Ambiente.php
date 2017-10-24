@@ -14,11 +14,11 @@ class Ambiente extends Model
 
     public static function towns($id){
        return Ambiente::where('tipo_ambiente_id','=',$id)
-       ->get();  
+       ->get();
     }
 
     public function scopeSearch($query,$name){
-       return $query->where('nombre_aula','LIKE', "%$name%");  
+       return $query->where('nombre_aula','LIKE', "%$name%");
     }
       public function complementos()
     {
@@ -30,9 +30,6 @@ class Ambiente extends Model
         return $this->belongsTo('Reserva\TipoAmbientes');
     }
 
-    public function reservas()
-    {
-        return $this->belongsTo('Reserva\Reserva');
-    }
+    
 
 }
