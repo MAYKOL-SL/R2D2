@@ -25,11 +25,6 @@ class CreateAmbientesTable extends Migration
             ->onUpdate('CASCADE')
             ->onDelete('NO ACTION');
 
-            $table->integer('complemento_id')->unsigned();
-              $table->foreign('complemento_id')->references('id')->on('complementos')
-            ->onUpdate('CASCADE')
-            ->onDelete('NO ACTION');
-
         });
     }
 

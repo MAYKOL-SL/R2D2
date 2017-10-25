@@ -1,6 +1,6 @@
 <?php
 
-namespace Reserva\Http\Controllers;
+namespace Reserva\Http\Controllers\Reservacion;
 
 use Illuminate\Http\Request;
 
@@ -8,6 +8,8 @@ use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
 use Reserva\TipoAmbiente;
 use Reserva\Ambiente;
+use Reserva\Periodo;
+
 
 class StateController extends Controller
 {
@@ -18,8 +20,11 @@ class StateController extends Controller
      */
     public function index()
     {    
+        $hora = Periodo::lists('hora','id');
         $states = TipoAmbiente::lists('tipo_aula','id');   
-        return view('reserva.create',compact('states'));
+        return view('reserva.create',compact('states', 'hora'));
+        add('periodos');
+
     }
 
     public function getTowns(Request $request, $id){         

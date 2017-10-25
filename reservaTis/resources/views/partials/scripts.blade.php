@@ -7,6 +7,7 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('/js/app.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/dropdown.js') }}" type="text/javascript"></script>
+<script src="{{ asset('plugins/chosen/chosen.jquery.js') }}" type="text/javascript"></script>
 
             
              <script src="{{ asset('js/jquery-multi-select/js/jquery.multi-select.js') }}"></script>
@@ -19,6 +20,8 @@
 	<!-- Fullcalendar -->	
 	<script src='fullcalendar/lib/moment.min.js'></script>
 	<script src='fullcalendar/fullcalendar.min.js'></script>
+
+  @yield('js')
 	 		
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance the

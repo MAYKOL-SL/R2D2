@@ -24,8 +24,8 @@ Route::resource('admin/users', 'Admin\\UsersController');
 Route::resource('events','CalendarioController@index');
 Route::get('regAula','regController@regAula');
 
-Route::resource('reserva', 'StateController');
-Route::get('towns/{id}','StateController@getTowns');
+Route::resource('reserva', 'Reservacion\\StateController');
+Route::get('towns/{id}','Reservacion\\StateController@getTowns');
 
 
 Route::get('calendario','CalendarioController@vistaCalendario');
