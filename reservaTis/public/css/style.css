@@ -97,7 +97,8 @@ p{
 
 .header{
 	text-align:center;
-	background:url(../img/principalImagen.jpg) ;
+	background:url(../img/principalImagen.jpg) no-repeat;
+  background-size: cover;
 	padding:170px 0;
 
 }

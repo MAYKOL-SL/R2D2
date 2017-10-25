@@ -15,8 +15,5 @@ class Calendario extends Model
         return $this->belongsTo('Reserva\TipoFecha');
     }
 
-    public function reservas()
-    {
-        return $this->hasMany('Reserva\Reserva');
-    }
+    
 }
