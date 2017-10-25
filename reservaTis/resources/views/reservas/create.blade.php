@@ -85,13 +85,9 @@
                     <i class="fa fa-safari col-md-1"></i>
                     <select name="periodo_id" class="col-md-4" >
                     @foreach ($periodo_ini as $perIni)
-                    
-                        @if($perIni->hora_ini>$fechaActual->toTimeString())
                         <option value="{{$perIni->id}}">
                             {{$perIni->hora}}
                         </option>
-                        @else
-                        @endif
                     @endforeach
                     </select>
 
