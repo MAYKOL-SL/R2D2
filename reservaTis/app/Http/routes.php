@@ -31,6 +31,8 @@ Route::get('towns/{id}','Reservacion\\StateController@getTowns');
 Route::get('calendario','CalendarioController@vistaCalendario');
 Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
 
+Route::resource('ReservaAmbiente','ReservaAmbiente\\ReservaAmbienteController');
+
 Route::resource('tiposReserva', 'tipoDeReserva\\tipoDeReservaController');
 
 Route::get('towns/{id}','tipoDeReserva\\tipoDeReservaController@getTowns');
