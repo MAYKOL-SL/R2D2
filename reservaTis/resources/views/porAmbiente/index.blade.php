@@ -29,7 +29,7 @@
     @foreach($ambiente as $ambientes)
 
       <tr>
-        <td>{{$ambientes->nombre_aula}}</td>
+        <td>{{$ambientes->title}}</td>
         <td>{{$ambientes->ubicacion}}</td>
         <td>
           <a href="{{ route('ambiente.edit', $ambientes->id)}}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>

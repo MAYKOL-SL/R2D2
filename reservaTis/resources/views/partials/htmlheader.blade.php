@@ -30,6 +30,7 @@
     <!-- Fullcalendar -->
     <link href='fullcalendar/fullcalendar.min.css' rel='stylesheet' />
     <link href='fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+     <link rel="stylesheet" href="{{ asset('plugins/chosen/chosen.css')}}" />
 
     
 </head>
