@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Session;
 use Reserva\Role;
+use Reserva\Complemento;
+use Reserva\TipoAmbiente;
 use DB;
 
 
@@ -28,13 +30,12 @@ class ReservaAmbienteController extends Controller
     {
 
 
-        // $users = User::with('roles')->get();
+       
 
-        // return view('ReservaAmbiente.index', compact('users'));
+        $complementos = Complemento::lists('nombre_complemento','id'); 
+        $tipos = TipoAmbiente::lists('tipo_aula','id');
 
-        $roles = Role::orderBy('display_name', 'asc')->lists('display_name', 'id');
-
-        return view('ReservaAmbiente.create', compact('roles'));
+        return view('ReservaAmbiente.create', compact('complementos','tipos'));
     }
 
     /**

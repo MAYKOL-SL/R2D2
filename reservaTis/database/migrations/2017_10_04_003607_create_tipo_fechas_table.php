@@ -15,6 +15,7 @@ class CreateTipoFechasTable extends Migration
         Schema::create('tipo_fechas', function (Blueprint $table) {
             $table->increments('id');
              $table->string('nombre_fecha',50);
+             $table->string('motivo_feriado',200);
             $table->timestamps();
         });
     }
