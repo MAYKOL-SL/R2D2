@@ -44,16 +44,21 @@
 
             <li><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>Home</span></a></li>
 
-            <li><a href="{{ url('consulta') }}"><i class='fa fa-link'></i> <span>Consulta Capacidad</span></a></li>
-
             <li><a href="{{ url('reserva') }}"><i class='fa fa-link'></i> <span>Reserva</span></a></li>
 
             <li><a href="{{ url('calendario') }}"><i class='fa fa-link'></i> <span>Ver Calendario</span></a></li>
             <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-link'></i> <span>Registrar Ambiente</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
+                    <li><a href="#">Ambiente</a></li>
+                    <li><a href="{{url('complemento')}}">Complementos</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#"><i class='fa fa-link'></i> <span>Tipos de Reservas</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{url('ambiente')}}">Por Ambiente</a></li>
+                    <li><a href="{{ url('consulta') }}">Por Capacidad</a></li>
                 </ul>
             </li>
         </ul><!-- /.sidebar-menu -->

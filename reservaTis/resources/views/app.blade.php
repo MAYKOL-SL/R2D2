@@ -42,6 +42,7 @@ desired effect
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
+            @include('flash::message')
             @yield('main-content')
         </section><!-- /.content -->
     </div><!-- /.content-wrapper -->
