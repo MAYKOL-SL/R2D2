@@ -48,6 +48,8 @@
 
             <li><a href="{{ url('reserva') }}"><i class='fa fa-link'></i> <span>Reserva</span></a></li>
 
+            <li><a href="{{ url('ReservaAmbiente') }}"><i class='fa fa-link'></i> <span>Registro Ambiente</span></a></li>
+
             <li><a href="{{ url('calendario') }}"><i class='fa fa-link'></i> <span>Ver Calendario</span></a></li>
             <li class="treeview">
                 <a href="#"><i class='fa fa-link'></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>

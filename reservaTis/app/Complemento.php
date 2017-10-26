@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Reserva;
 
 use Illuminate\Database\Eloquent\Model;
 

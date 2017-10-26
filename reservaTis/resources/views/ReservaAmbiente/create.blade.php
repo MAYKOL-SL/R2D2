@@ -29,7 +29,10 @@
             </div>
             <div class="form-group {{ $errors->has('capacidad') ? 'has-error' : ''}}">
                 {!! Form::label('capacidad', trans('capacidad'), ['class' => 'col-sm-3 control-label']) !!}
-                <div class="col-sm-6">
+
+
+                <div class="col-sm-6 " >
+                
                     {!! Form::number('capacidad', null, ['class' => 'form-control', 'required' => 'required']) !!}
                     {!! $errors->first('capacidad', '<p class="help-block">:message</p>') !!}
                 </div>
@@ -42,7 +45,25 @@
                 </div>
             </div>
 
-           
+          
+           <div class="form-group {{ $errors->has('complementos') ? 'has-error' : ''}}">
+               {!! Form::label('complementos', trans('complementos'), ['class' => 'col-sm-3 control-label']) !!}
+                <div class=" col-sm-6"> 
+                {!! Form::select('complementos',$complementos,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
+                </div>
+            </div>
+
+            <div class="form-group {{ $errors->has('tipo ambiente') ? 'has-error' : ''}}">
+               
+                 {!! Form::label('tipoambiente', trans('tipoambiente'), ['class' => 'col-sm-3 control-label']) !!}
+                <div class="col-sm-6">
+               
+                {!! Form::select('state',$tipos,null,['id'=>'state','class'=>'form-control input-sm'
+                       ,'placeholder'=>'Seleccione','required'=>'required']) !!}
+              
+                </div>
+            </div>
+
 
 
     <div class="form-group">
@@ -66,4 +87,15 @@
     </div>
 </div>
 </div>
+
+
+
+@endsection
+@section('js')
+<script>
+  $('.select-tag').chosen({
+    placeholder_text_multiple:'Seleccione los complementos del ambiente'
+  });
+
+</script>
 @endsection

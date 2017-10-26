@@ -20,10 +20,10 @@ class CreateCalendariosTable extends Migration
              $table->string('Actividad',300);
             $table->timestamps();
 
-            $table->integer('tipo_fecha_id')->unsigned();
-              $table->foreign('tipo_fecha_id')->references('id')->on('tipo_fechas')
-            ->onUpdate('CASCADE')
-            ->onDelete('NO ACTION');
+            //$table->integer('tipo_fecha_id')->unsigned();
+             // $table->foreign('tipo_fecha_id')->references('id')->on('tipo_fechas')
+           // ->onUpdate('CASCADE')
+           // ->onDelete('NO ACTION');
         });
     }
 
