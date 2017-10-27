@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Reserva;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,6 +8,7 @@ class Complemento extends Model
 {
     protected $table = 'complementos';
     public $timestamps = false;
+    protected $fillable =['nombre_complemento'];
 
     public function ambientes()
     {

@@ -31,12 +31,15 @@ Route::get('towns/{id}','Reservacion\\StateController@getTowns');
 Route::get('calendario','CalendarioController@vistaCalendario');
 Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
 
+Route::resource('ReservaAmbiente','ReservaAmbiente\\ReservaAmbienteController');
+
 Route::resource('tiposReserva', 'tipoDeReserva\\tipoDeReservaController');
 
 Route::get('towns/{id}','tipoDeReserva\\tipoDeReservaController@getTowns');
 
 Route::resource('ambiente','AmbienteController');
 Route::resource('porAmbiente.create','AmbienteController.create');
+Route::resource('complemento','Complementos\\ComplementoController');
 
 Route::get('calendario','CalendarioController@vistaCalendario');
 Route::get('consulta', 'ConsultasController@consultaPorCapacidad');

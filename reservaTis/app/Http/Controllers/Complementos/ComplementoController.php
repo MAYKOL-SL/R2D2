@@ -1,17 +1,17 @@
 <?php
 
-namespace Reserva\Http\Controllers\Reservacion;
+namespace Reserva\Http\Controllers\Complementos;
 
 use Illuminate\Http\Request;
 
 use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
-use Reserva\TipoAmbiente;
-use Reserva\Ambiente;
-use Reserva\Periodo;
+use Reserva\Complemento;
+use Session;
+use Illuminate\Support\Facades\Redirect;
+use Laracasts\Flash\Flash;
 
-
-class StateController extends Controller
+class ComplementoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,19 +19,9 @@ class StateController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {    
-        $hora = Periodo::lists('hora','id');
-        $states = TipoAmbiente::lists('tipo_aula','id');   
-        return view('reserva.create',compact('states', 'hora'));
-        add('periodos');
-
-    }
-
-    public function getTowns(Request $request, $id){         
-         if($request->ajax()){
-            $towns = Ambiente::towns($id);                
-            return response()->json($towns);         
-         }
+    {
+        $complemento = Complemento::all();
+        return view ('VistaComplemento.index',compact('complemento'));
     }
 
     /**
@@ -39,9 +29,9 @@ class StateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        //
+        return view('VistaComplemento.create');
     }
 
     /**
@@ -52,7 +42,11 @@ class StateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $complemento = new Complemento;
+        $complemento->nombre_complemento = $request->input('complemento');
+        $complemento->save();
+        Flash::success("Se ha creado el complemento " . $complemento->nombre_complemento . " de forma correcta");
+        return redirect()->route('complemento.index');
     }
 
     /**
