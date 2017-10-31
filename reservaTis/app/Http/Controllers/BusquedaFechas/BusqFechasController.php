@@ -18,7 +18,21 @@ class BusqFechasController extends Controller
      */
     public function find()
     {
-          return " desde modificacion de fecha";
+         $busqueda = Reserva::select('id')->where('start','=','2017-10-02')->orWhere('end','=','2017-10-23')->get();
+         //dd($busgeda);
+         $dato='2017-10-02';
+         $dato1='2017-10-09';
+         $esta='Libre';
+         $resultado=DB::select(DB::raw("select am.title ,am.capacidad,am.ubicacion , ca.Fecha , dr.estado
+                                        from detalle_reservas AS dr , calendarios AS ca ,ambientes am
+                                        where UPPER(dr.calendario_id) like UPPER(ca.id)
+                                            AND  UPPER(dr.ambiente_id) like UPPER(am.id)
+                                            AND  UPPER(dr.estado) like UPPER('%$esta%')
+                                            AND  ca.Fecha >".$dato."
+                                            and  ca.Fecha < ".$dato1));
+
+
+         return $resultado;
     }
 
     public function FunctionName($value='')
