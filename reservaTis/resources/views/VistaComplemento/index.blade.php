@@ -1,41 +1,46 @@
 @extends('app')
 @section('contentheader_title')
-    Tipo De Reserva Por Ambiente
+    Lista de Complementos
 @endsection
     
 @section('main-content')
- <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8">
-<div class="box box-primary">
-  <div class="col-sm-10">
-  <h1>LISTA DE COMPLEMENTOS </h1>
+ <div class="box box-primary">
+  <div class="box-header with-border">
+  <label class = "box-title">Lista de complementos</label>
   </div>
 <div class="box-header">
-                <h1 class="box-title">Añadir nuevo complemento<a href="{{ url('complemento/create') }}" class="btn btn-primary btn-xs" title="Registrar reseva"><span class="glyphicon glyphicon-plus" aria-hidden="true"/></a></h1>
-            </div>
+             <a href="{{ url('complemento/create') }}" class="btn btn-info">Crear nuevo complemento</a>
+            </div><hr>
 <table class="table table-striped">
   <thead>
-    <th>ID</th>
     <th>Nombre Componente</th>
+    <th>Estado</th>
     <th>Acciones</th>
   </thead>
   <tbody>
     @foreach($complemento as $complementos)
 
       <tr>
-        <td>{{$complementos->id}}</td>
         <td>{{$complementos->nombre_complemento}}</td>
         <td>
-          <a href="" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
+          @if($complementos->estado == "Inactivo")
+          <span class="label label-danger">{{$complementos->estado}}</span>
+            @else
+            <span class="label label-primary">{{$complementos->estado}}</span>
+          @endif
+        </td>
+        <td>
+          <a href="{{ route('complemento.edit', $complementos->id) }}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
+          <a href="{{ route('complemento.destroy', $complementos->id) }}" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
         </td>
       </tr>
 
     @endforeach
   </tbody>
 </table>
+
+<div class="text-center">
+{!! $complemento->render() !!}
 </div>
-<div class="col-md-2"></div>
- </div>
- </div>
+</div>
  @endsection

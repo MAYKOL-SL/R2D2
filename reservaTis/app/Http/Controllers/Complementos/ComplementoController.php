@@ -9,6 +9,7 @@ use Reserva\Http\Controllers\Controller;
 use Reserva\Complemento;
 use Session;
 use Illuminate\Support\Facades\Redirect;
+use Reserva\Http\Requests\ComponenteRequest;
 use Laracasts\Flash\Flash;
 
 class ComplementoController extends Controller
@@ -20,7 +21,7 @@ class ComplementoController extends Controller
      */
     public function index()
     {
-        $complemento = Complemento::all();
+        $complemento = Complemento::orderBy('id','ASC')->paginate(10);
         return view ('VistaComplemento.index',compact('complemento'));
     }
 
@@ -40,10 +41,9 @@ class ComplementoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ComponenteRequest $request)
     {
-        $complemento = new Complemento;
-        $complemento->nombre_complemento = $request->input('complemento');
+        $complemento = new Complemento($request -> all());
         $complemento->save();
         Flash::success("Se ha creado el complemento " . $complemento->nombre_complemento . " de forma correcta");
         return redirect()->route('complemento.index');
@@ -68,7 +68,9 @@ class ComplementoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $complemento = Complemento::find($id);
+
+        return view('VistaComplemento.edit')->with('complemento',$complemento);
     }
 
     /**
@@ -80,7 +82,12 @@ class ComplementoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $complemento = Complemento::find($id);
+        $complemento->fill($request->all());
+        $complemento->save();
+
+        Flash::warning("El complemento " . $complemento->nombre_complemento . " ha sido editado con exito!");
+        return redirect()->route('complemento.index');
     }
 
     /**
@@ -91,6 +98,10 @@ class ComplementoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $complemento = Complemento::find($id);
+        $complemento->delete();
+
+        Flash::error('El complemento '. $complemento->nombre_complemento . ' ha sido eliminado con exito!');
+        return redirect()->route('complemento.index');
     }
 }
