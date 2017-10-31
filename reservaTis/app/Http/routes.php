@@ -45,3 +45,5 @@ Route::get('calendario','CalendarioController@vistaCalendario');
 Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
 
 Route::resource('reservas', 'ReservasController');
+Route::resource('porHora', 'PorHoraController');
+
