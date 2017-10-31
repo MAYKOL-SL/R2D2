@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('contentheader_title')
-    RESERVACIÓN
+    Crear ambiente
 @endsection
 
 @section('main-content')
@@ -14,10 +14,17 @@
 
 <div class="box-header">
         {!!Form::label('Nombre del complemento')!!}
-        <div class="input-group">
-           {!!Form::text('complemento',null,['required'=>'required'])!!}
-      </div>
-      </div>
+           {!!Form::text('nombre_complemento',null,['class' =>'form-control','placeholder' => 'Ingrese nombre del complemento','required'])!!}
+</div>
+
+<div class="box-header"> 
+{!! Form::label('Estado: ') !!}
+{!! Form::select('estado',[
+  'Activo'=>'Activo',
+  'Inactivo'=>'Inactivo'],null,['class'=>'form-control input-sm'
+    ,'placeholder'=>'Seleccione un estado','required'=>'required']) !!}
+</div>
+
       <div class="box-header">
         <td>
           {!!Form::submit('Registrar Complemento',['class'=>'btn btn-primary'])!!}
