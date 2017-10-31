@@ -8,10 +8,10 @@ class Complemento extends Model
 {
     protected $table = 'complementos';
     public $timestamps = false;
-    protected $fillable =['nombre_complemento'];
+    protected $fillable =['nombre_complemento','estado'];
 
     public function ambientes()
     {
-        return $this->belongsTo('Reserva\Ambiente');
+        return $this->belongsToMany('Reserva\Ambiente');
     }
 }

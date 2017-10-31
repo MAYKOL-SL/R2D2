@@ -18,7 +18,7 @@ class BusqFechasController extends Controller
      */
     public function find()
     {
-
+          return " desde fecha";
     }
 
     public function FunctionName($value='')

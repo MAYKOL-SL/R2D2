@@ -15,6 +15,7 @@ class CreateComplementosTable extends Migration
         Schema::create('complementos', function (Blueprint $table) {
             $table->increments('id');
              $table->string('nombre_complemento',50);
+             $table->string('estado',50);
             $table->timestamps();
         });
     }
