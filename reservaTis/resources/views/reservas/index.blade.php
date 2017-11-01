@@ -20,7 +20,7 @@
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
                 <thead>
-                    <th>Id reserva</th>
+                    <th>Id</th>
                     <th>Usuario</th>
                     <th>Ambiente</th>
                     <th>Fecha</th>
@@ -46,7 +46,6 @@
                 @endforeach
             </table>
         </div>
-      
     </div>
 </div>
 </div>
