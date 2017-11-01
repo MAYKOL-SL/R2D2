@@ -60,6 +60,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{url('ambiente')}}">Por Ambiente</a></li>
                     <li><a href="{{ url('consulta') }}">Por Capacidad</a></li>
+                    <li><a href="{{ url('porHora') }}">Por Hora</a></li>
                 </ul>
             </li>
         </ul><!-- /.sidebar-menu -->

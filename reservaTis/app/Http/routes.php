@@ -59,4 +59,10 @@ Route::get('complemento/{id}/destroy',[
 Route::get('calendario','CalendarioController@vistaCalendario');
 Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
 
+
+Route::resource('reservas', 'ReservasController');
+Route::resource('porHora', 'PorHoraController');
+
+
 Route::get('busquedaFecha', 'BusquedaFechas\\BusqFechasController@find');
+
