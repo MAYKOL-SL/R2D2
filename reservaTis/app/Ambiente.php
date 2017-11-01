@@ -10,7 +10,7 @@ class Ambiente extends Model
 
     public $timestamps = false;
 
-    protected $fillable=['title','capacidad','ubicacion','tipo_ambiente_id','complemento_id'];
+    protected $fillable=['title','capacidad','ubicacion','tipo_ambiente_id'];
 
     public static function towns($id){
        return Ambiente::where('tipo_ambiente_id','=',$id)
@@ -22,14 +22,12 @@ class Ambiente extends Model
     }
       public function complementos()
     {
-        return $this->hasMany('Reserva\Complemento');
+        return $this->belongsToMany('Reserva\Complemento');
     }
 
-    public function tipoAmbientes()
+    public function tipo_ambiente()
     {
-        return $this->belongsTo('Reserva\TipoAmbientes');
+        return $this->belongsTo('Reserva\TipoAmbiente');
     }
-
-    
 
 }

@@ -1,25 +1,43 @@
 <?php
 
-namespace Reserva\Http\Controllers;
+namespace Reserva\Http\Controllers\BusquedaFechas;
 
 use Illuminate\Http\Request;
 
 use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
-use Reserva\TipoAmbiente;
-use Reserva\Ambiente;
+use Reserva\Reserva;
+use DB;
 
-class AmbienteController extends Controller
+class BusqFechasController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function find()
     {
-        $ambiente = Ambiente::search($request->name)->orderBy('id','ASC')->paginate(10);
-        return view('porAmbiente.index')->with('ambiente',$ambiente);
+         $busqueda = Reserva::select('id')->where('start','=','2017-10-02')->orWhere('end','=','2017-10-23')->get();
+         //dd($busgeda);
+         $dato='2017-10-02';
+         $dato1='2017-10-09';
+         $esta='Libre';
+         $resultado=DB::select(DB::raw("select am.title ,am.capacidad,am.ubicacion , ca.Fecha , dr.estado
+                                        from detalle_reservas AS dr , calendarios AS ca ,ambientes am
+                                        where UPPER(dr.calendario_id) like UPPER(ca.id)
+                                            AND  UPPER(dr.ambiente_id) like UPPER(am.id)
+                                            AND  UPPER(dr.estado) like UPPER('%$esta%')
+                                            AND  ca.Fecha >".$dato."
+                                            and  ca.Fecha < ".$dato1));
+
+
+         return $resultado;
+    }
+
+    public function FunctionName($value='')
+    {
+      # code...
     }
 
     /**
@@ -29,7 +47,7 @@ class AmbienteController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -51,7 +69,7 @@ class AmbienteController extends Controller
      */
     public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -62,8 +80,7 @@ class AmbienteController extends Controller
      */
     public function edit($id)
     {
-        $idambiente = Ambiente::find($id);
-        return view('porAmbiente.create')->with('idambiente',$idambiente);
+        //
     }
 
     /**

@@ -14,9 +14,10 @@ class CreateDetalleReservasTable extends Migration
     {
         Schema::create('detalle_reservas', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('estado');
             $table->timestamps();
 
-            $table->integer('reserva_id')->unsigned();
+            $table->integer('reserva_id')->unsigned()->nullable();
             $table->foreign('reserva_id')->references('id')->on('reservas')
             ->onUpdate('CASCADE')
             ->onDelete('NO ACTION');

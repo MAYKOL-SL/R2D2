@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAmbienteComplementosTable extends Migration
+class CreateAmbienteComplementoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateAmbienteComplementosTable extends Migration
      */
     public function up()
     {
-        Schema::create('ambiente_complementos', function (Blueprint $table) {
+        Schema::create('ambiente_complemento', function (Blueprint $table) {
           $table->integer('ambiente_id')->unsigned();
           $table->integer('complemento_id')->unsigned();
 
@@ -20,8 +20,6 @@ class CreateAmbienteComplementosTable extends Migration
               ->onUpdate('cascade')->onDelete('cascade');
           $table->foreign('complemento_id')->references('id')->on('complementos')
               ->onUpdate('cascade')->onDelete('cascade');
-
-          $table->primary(['ambiente_id', 'complemento_id']);
         });
     }
 

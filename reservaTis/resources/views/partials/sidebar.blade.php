@@ -46,13 +46,12 @@
 
             <li><a href="{{ url('reserva') }}"><i class='fa fa-link'></i> <span>Reserva</span></a></li>
 
-            <li><a href="{{ url('ReservaAmbiente') }}"><i class='fa fa-link'></i> <span>Registro Ambiente</span></a></li>
-
             <li><a href="{{ url('calendario') }}"><i class='fa fa-link'></i> <span>Ver Calendario</span></a></li>
             <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Registrar Ambiente</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href=""><i class='fa fa-link'></i> <span>Registrar Ambiente</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Ambiente</a></li>
+                    <li><a href="{{url('CrearAmbiente')}}">Ambiente</a></li>
+                    <li><a href="{{url('tiposambiente')}}">Tipos Ambiente</a></li>
                     <li><a href="{{url('complemento')}}">Complementos</a></li>
                 </ul>
             </li>

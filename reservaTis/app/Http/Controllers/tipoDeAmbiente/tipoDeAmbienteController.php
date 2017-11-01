@@ -1,25 +1,26 @@
 <?php
 
-namespace Reserva\Http\Controllers;
+namespace Reserva\Http\Controllers\tipoDeAmbiente;
 
 use Illuminate\Http\Request;
 
 use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
 use Reserva\TipoAmbiente;
-use Reserva\Ambiente;
+use Illuminate\Support\Facades\Redirect;
+use Laracasts\Flash\Flash;
 
-class AmbienteController extends Controller
+class tipoDeAmbienteController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $ambiente = Ambiente::search($request->name)->orderBy('id','ASC')->paginate(10);
-        return view('porAmbiente.index')->with('ambiente',$ambiente);
+        $tipoambiente = TipoAmbiente::orderBy('id','ASC')->paginate(10);
+        return view ('VistaTipoAmbiente.index',compact('tipoambiente'));
     }
 
     /**
@@ -29,7 +30,8 @@ class AmbienteController extends Controller
      */
     public function create()
     {
-        
+        return view('VistaTipoAmbiente.create');
+
     }
 
     /**
@@ -40,7 +42,10 @@ class AmbienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tipoambiente = new TipoAmbiente($request -> all());
+        $tipoambiente->save();
+        Flash::success("Se ha creado el tipo de ambiente: " . $tipoambiente->tipo_aula . " de forma correcta");
+        return redirect()->route('tiposambiente.index');
     }
 
     /**
@@ -51,7 +56,7 @@ class AmbienteController extends Controller
      */
     public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -62,8 +67,9 @@ class AmbienteController extends Controller
      */
     public function edit($id)
     {
-        $idambiente = Ambiente::find($id);
-        return view('porAmbiente.create')->with('idambiente',$idambiente);
+        $tipoambiente = TipoAmbiente::find($id);
+
+        return view('VistaTipoAmbiente.edit')->with('tipoambiente',$tipoambiente);
     }
 
     /**
@@ -75,7 +81,12 @@ class AmbienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $tipoambiente = TipoAmbiente::find($id);
+        $tipoambiente->fill($request->all());
+        $tipoambiente->save();
+
+        Flash::warning("El tipo de aula: " . $tipoambiente->tipo_aula . " ha sido editado con exito!");
+        return redirect()->route('tiposambiente.index');
     }
 
     /**
@@ -86,6 +97,10 @@ class AmbienteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tipoambiente = TipoAmbiente::find($id);
+        $tipoambiente->delete();
+
+        Flash::error('El tipo de aula: '. $tipoambiente->tipo_aula . ' ha sido eliminado con exito!');
+        return redirect()->route('tiposambiente.index');
     }
 }
