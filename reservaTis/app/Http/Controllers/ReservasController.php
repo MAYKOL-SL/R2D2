@@ -81,6 +81,7 @@ class ReservasController extends Controller
         //creado la reserva
         foreach ($fechas as $fc) {
             $detres=new DetalleReserva;
+            $detres->estado="Activo";
             $detres->reserva_id=$reserva->id;
             $detres->calendario_id=$fc->id;
             $detres->ambiente_id=$request->get('ambiente_id');
