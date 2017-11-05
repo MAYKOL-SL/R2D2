@@ -13,7 +13,7 @@
   <label class = "box-title">BUSQUEDA POR HORA Y FECHA</label>
   </div>
 
-@include('porHora.search')
+@include('porCapacidad.search')
 
 <div class="box-header">
 <div class="row">

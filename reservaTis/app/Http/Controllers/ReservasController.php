@@ -28,41 +28,68 @@ class ReservasController extends Controller
             ->join('users as u','u.id','=','r.user_id')
             ->select('dr.id as id_reserva','u.name as usuario','a.title as nombre_aula',
                     'c.fecha','p.hora')
-            ->paginate(5);
+            ->paginate(10);
             return view('reservas.index',["reservas"=>$datos]);
         }
     }
 
     
-    public function create()
+    public function create(Request $request)
     {
-        $ambiente=DB::table('ambientes')->get();
-        $calendarios=DB::table('calendarios')->get();
-        $user=DB::table('users')->get();
-        $periodo=DB::table('periodos')->get();
-        $fechaActual=Carbon::now();
-        $fechaActual=$fechaActual->addDay(1);
-        return view("reservas.create",["calendario"=>$calendarios,"ambiente"=>$ambiente,"user"=>$user,"periodo_ini"=>$periodo, "periodo_fin"=>$periodo, "fechaActual"=>$fechaActual]);
+        if ($request) {
+            $amb_id=$request->get('ambiente_id');
+            $fechaActual=Carbon::now();
+            $lunes="lunes";//$request->get('lunes');
+            $martes="martes";//$request->get('martes');
+            $miercoles="miercoles";//$request->get('miercoles');
+            $jueves="jueves";//$request->get('jueves');
+            $viernes="viernes";//$request->get('viernes');
+            $sabado="sabado";//$request->get('sabado');
+
+
+            $user=DB::table('users')->get();
+            $ambiente=DB::table('ambientes')/*->where('id','=',$amb_id)*/->get();
+            $periodo=DB::table('periodos')->get();
+            $fechaActual=$fechaActual->addDay(1);
+            $fechaIni=$request->get('fecha_ini');
+            $fechaFin=$request->get('fecha_fin');
+
+            return view("reservas.create",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"fechaActual"=>$fechaActual,"fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado]);
+        }
+        
     }
 
     
     public function store(Request $request)
     {
-
+        $fecha_ini=$request->get('fecha_ini');
+        $fecha_fin=$request->get('fecha_fin');
+        $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
+                $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
+        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
+        ->get();
+        
+        
+        //registro de reserva
         $reserva=new Reserva;
         $reserva->nombre_reseva=$request->get('nombre_reserva');
         $reserva->description=$request->get('description');
-        $reserva->start=$request->get('fecha_ini');
-        $reserva->end=$request->get('fecha_fin');
+        $reserva->start=$fecha_ini;
+        $reserva->end=$fecha_fin;
         $reserva->user_id=$request->get('user_id');
         $reserva->save();
         //creado la reserva
-        $detres=new DetalleReserva;
-        $detres->reserva_id=$reserva->id;
-        $detres->calendario_id='1';
-        $detres->periodo_id=$request->get('periodo_id');
-        $detres->ambiente_id=$request->get('ambiente_id');
-        $detres->save();
+        foreach ($fechas as $fc) {
+            $detres=new DetalleReserva;
+            $detres->estado="Activo";
+            $detres->reserva_id=$reserva->id;
+            $detres->calendario_id=$fc->id;
+            $detres->ambiente_id=$request->get('ambiente_id');
+            $detres->periodo_id="1";
+            $detres->save();
+        } 
+                   
+        
         return Redirect::to('reservas');
     }
 
@@ -75,7 +102,7 @@ class ReservasController extends Controller
     
     public function edit($id)
     {
-        $reserva=Reserva::findOrFail($id);
+        $detalleReserva=Reserva::findOrFail($id);
         $calendario=DB::table('calendarios')->get();
         $dia=DB::table('dias')->get();
         $ambiente=DB::table('calendarios')->get();
@@ -86,7 +113,7 @@ class ReservasController extends Controller
     
     public function update(Request $request, $id)
     {
-        $reserva=Reserva::findOrFail($id);
+        $reserva=DetalleReserva::findOrFail($id);
         $reserva->calendario_id=$request->get('calendario_id');
         $reserva->dia_id=$request->get('dia_id');
         $reserva->ambiente_id=$request->get('ambiente_id');
