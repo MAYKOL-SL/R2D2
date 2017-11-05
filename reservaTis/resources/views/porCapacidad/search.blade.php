@@ -1,7 +1,15 @@
-{!! Form::open(array('url'=>'porHora','method'=>'GET','autocomplete'=>'off','role'=>'search')) !!}
+{!! Form::open(array('url'=>'porCapacidad','method'=>'GET','autocomplete'=>'off','role'=>'search')) !!}
 
 <div class="form-group">
 	<div class="input-group">
+
+
+		<div class="box-header">
+		{!!Form::label('Capacidad:')!!}
+		<div class="input-group">
+			<input type="text" class="form-control" name="capacidad" placeholder="Buscar..." value="{{$capacidad}}" required="">
+		</div>
+		</div>
 
 		<div class="box-header">
 	        <div class="input-group col-md-12">
@@ -16,14 +24,7 @@
 			</div>
 		</div>
 
-		<div class="box-header">
-		{!!Form::label('Capacidad:')!!}
-		<div class="input-group">
-			<input type="text" class="form-control" name="capacidad" placeholder="Buscar..." value="{{$capacidad}}" required="">
-		</div>
-		</div>
-
-		
+				
 
 		<div class="box-header">
 		<div class="input-group col-md-12">
