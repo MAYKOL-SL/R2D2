@@ -15,15 +15,39 @@
                 <div class="panel-body">
                 <div class="table-responsive">
 
-    <h1>User {{ $user->id }}</h1>
+    <h1>Usuario {{ $user->name }}</h1>
    <hr/>
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover">
             <tbody>
                 <tr>
-                    <th>ID.</th><td>{{ $user->id }}</td>
+                    <th>ID.</th>
+                    <td>{{ $user->id }}</td>
                 </tr>
-                <tr><th> {{ trans('users.name') }} </th><td> {{ $user->name }} </td></tr><tr><th> {{ trans('users.email') }} </th><td> {{ $user->email }} </td></tr><tr><th> {{ trans('users.password') }} </th><td> {{ $user->password }} </td></tr>
+                <tr>
+                  <th> {{ trans('Nombre :') }} </th>
+                  <td> {{ $user->name }} </td>
+                </tr>
+                <tr>
+                  <th> {{ trans('Apellido :') }} </th>
+                  <td> {{ $user->apellido }} </td>
+                </tr>
+                <tr>
+                  <th> {{ trans('Telefono :') }} </th>
+                  <td> {{ $user->telefono }} </td>
+                </tr>
+                <tr>
+                  <th> {{ trans('Direccion :') }} </th>
+                  <td> {{ $user->direccion }} </td>
+                </tr>
+                <tr>
+                  <th> {{ trans('Email :') }} </th>
+                  <td> {{ $user->email }} </td>
+                </tr>
+                <tr>
+                  <th> {{ trans('Password :') }} </th>
+                  <td> {{ $user->password }} </td>
+                </tr>
             </tbody>
             <tfoot>
                 <tr>

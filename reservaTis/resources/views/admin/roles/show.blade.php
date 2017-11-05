@@ -23,7 +23,7 @@
                 <tr>
                     <th>ID.</th><td>{{ $role->id }}</td>
                 </tr>
-                <tr><th> {{ trans('roles.name') }} </th><td> {{ $role->name }} </td></tr><tr><th> {{ trans('roles.display_name') }} </th><td> {{ $role->display_name }} </td></tr><tr><th> {{ trans('roles.description') }} </th><td> {{ $role->description }} </td></tr>
+                <tr><th> {{ trans('Nombre :') }} </th><td> {{ $role->name }} </td></tr><tr><th> {{ trans('Nombre Rol :') }} </th><td> {{ $role->display_name }} </td></tr><tr><th> {{ trans('Descripci&oacute;n') }} </th><td> {{ $role->description }} </td></tr>
             </tbody>
             <tfoot>
                 <tr>

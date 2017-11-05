@@ -65,4 +65,3 @@ Route::resource('porHora', 'PorHoraController');
 
 
 Route::get('busquedaFecha', 'BusquedaFechas\\BusqFechasController@find');
-
