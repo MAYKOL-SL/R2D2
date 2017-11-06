@@ -82,9 +82,9 @@
       <div class="input-group col-md-5">
             
                     <i class="fa fa-calendar col-md-1"></i>
-                    <input type="date" name="fecha_ini" min={{$fechaActual}} class="col-md-5" value={{$fechaIni}} required>
+                    <input type="date" name="fecha_ini" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
                     
-                    <input type="date" name="fecha_fin" min={{$fechaActual}} class="col-md-5" value={{$fechaFin}} required>
+                    <input type="date" name="fecha_fin" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
                     
             
         
@@ -108,24 +108,19 @@
 <div class="box-header">
       {!!Form::label('Dias:')!!}
       <div class="input-group col-md-5">
-              @if ($lunes == "lunes")
-                <input type="checkbox" name="lunes" value="lunes" checked>Lunes<br>
-              @endif
-              @if ($martes == "martes")
-                <input type="checkbox" name="martes" value="martes" checked>Martes<br>
-              @endif
-              @if ($miercoles == "miercoles")
-                <input type="checkbox" name="miercoles" value="miercoles" checked>Miercoles<br>
-              @endif
-              @if ($jueves == "jueves")
-                <input type="checkbox" name="jueves" value="jueves" checked>Jueves<br>
-              @endif
-              @if ($viernes == "viernes")
-                <input type="checkbox" name="viernes" value="viernes" checked>Viernes<br>
-              @endif
-              @if ($sabado == "sabado")
-                <input type="checkbox" name="sabado" value="sabado" checked>Sabado<br>
-              @endif
+              
+                <input type="checkbox" name="lunes" value="Lunes">Lunes<br>
+              
+                <input type="checkbox" name="martes" value="Martes">Martes<br>
+              
+                <input type="checkbox" name="miercoles" value="Miercoles">Miercoles<br>
+              
+                <input type="checkbox" name="jueves" value="Jueves">Jueves<br>
+              
+                <input type="checkbox" name="viernes" value="Viernes">Viernes<br>
+              
+                <input type="checkbox" name="sabado" value="Sabado">Sabado<br>
+              
       </div>
 </div>
 
