@@ -21,7 +21,7 @@ class PorCapacidadController extends Controller
         if($request)
         {
 
-            $capacidad=trim($request->get('capacidad'));
+            $capacidad=$request->get('capacidad');
             $fechaActual=Carbon::now();
             $fechaActual=$fechaActual->addDay(1);
             $periodo=DB::table('periodos')->get();
@@ -44,7 +44,7 @@ class PorCapacidadController extends Controller
 
 
             $ambientes=DB::table('ambientes')
-            ->where('capacidad','LIKE','%'.$capacidad.'%')
+            ->where('capacidad','=',$capacidad)
             ->whereNotIn('id',$reservados)
             ->get();
 
