@@ -28,7 +28,8 @@
                     <th>Opciones</th>
                 </thead>
                 @foreach ($datos as $res)
-                <tr>                    <td>{{ $res->id_reserva}}</td>
+                <tr>                    
+                    <td>{{ $res->id_reserva}}</td>
                     <td>{{ $res->nombre_user}}</td>
                     <td>{{ $res->nombre_aula}}</td>
                     <td>{{ $res->fecha}}</td>
@@ -38,10 +39,10 @@
                         <a href="{{URL::action('ReservasController@edit',$res->id_reserva)}}"><button class="btn btn-info">Editar</button></a>
                         <a href="" data-target="#modal-delete-{{$res->id_reserva}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
                     </td>
+                    @include('reservas.modal')
                     @else
                     @endif
                 </tr>
-               
                 @endforeach
             </table>
             <div class="text-center">

@@ -21,7 +21,7 @@ class ReservasController extends Controller
     {
             $fechaActual=Carbon::now();
             $fechaActual=$fechaActual->addDay(1);
-            $datos=DB::table('detalle_reservas as dr')->where('estado','=','Activo')
+            $datos=DB::table('detalle_reservas as dr')->where('estado','=','activo')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')
             ->join('calendarios as c','c.id','=','dr.calendario_id')->where('c.Fecha','>',$fechaActual)
             ->join('periodos as p','p.id','=','dr.periodo_id')
@@ -32,8 +32,9 @@ class ReservasController extends Controller
             ->orderBy('id_reserva','asc')
             ->paginate(10);
 
-            $reservas=DB::table('reservas');
-            //Flash::success("hola " . $datos->nombre_user . " prueba!! ");
+            //$contador=array(2);
+            //$contador=count($contador);
+            //Flash::success("hola " . $contador . " prueba!! ");
             return view('reservas.index',["datos"=>$datos]);
         
     }
@@ -77,38 +78,48 @@ class ReservasController extends Controller
         ->get();
         $periodo=$request->get('periodo_id');
         //reservados
-        /*$reservados=DB::table('detalle_reservas as dr')
+        $reservados=DB::table('detalle_reservas as dr')->where('estado','=','activo')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
             ->join('calendarios as c','c.id','=','dr.calendario_id')->whereBetween('c.Fecha',[$fecha_ini,$fecha_fin])
             ->whereIn('c.Dia',$dias)
             ->join('periodos as p','p.id','=','dr.periodo_id')
-            ->where('p.id','=',$periodoBuscado)
-            ->select('c.fecha','p.hora');*/
+            ->where('p.id','=',$periodo)
+            ->get();
 
+            $contador = array();
+            foreach ($reservados as $res ) {
+                array_push($contador, $res->id);
+            }
 
+            $contador=count($contador);
+            
         
         //verificar
-        
-        //registro de reserva
-        $reserva=new Reserva;
-        $reserva->nombre_reseva=$request->get('nombre_reserva');
-        $reserva->description=$request->get('description');
-        $reserva->start=$fecha_ini;
-        $reserva->end=$fecha_fin;
-        $reserva->user_id=$request->get('user_id');
-        $reserva->save();
-        //creando la reserva
-        foreach ($fechas as $fc) {
-            $detres=new DetalleReserva;
-            $detres->estado="Activo";
-            $detres->reserva_id=$reserva->id;
-            $detres->calendario_id=$fc->id;
-            $detres->ambiente_id=$ambiente;
-            $detres->periodo_id=$periodo;
-            $detres->save();
-        } 
-                   
-        //Flash::success("Se ha creado la reserva: " . $tipoambiente->tipo_aula . " de forma correcta");
+        if ($contador > 0) {
+            Flash::success("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
+        }
+        else{
+            //registro de reserva
+            $reserva=new Reserva;
+            $reserva->nombre_reseva=$request->get('nombre_reserva');
+            $reserva->description=$request->get('description');
+            $reserva->start=$fecha_ini;
+            $reserva->end=$fecha_fin;
+            $reserva->user_id=$request->get('user_id');
+            $reserva->save();
+            //creando la reserva
+            foreach ($fechas as $fc) {
+                $detres=new DetalleReserva;
+                $detres->estado="Activo";
+                $detres->reserva_id=$reserva->id;
+                $detres->calendario_id=$fc->id;
+                $detres->ambiente_id=$ambiente;
+                $detres->periodo_id=$periodo;
+                $detres->save();
+            }
+            Flash::success("Se ha creado la reserva de forma correcta");
+        }
+
         return Redirect::to('reservas');
     }
 
@@ -143,9 +154,9 @@ class ReservasController extends Controller
     
     public function destroy($id)
     {
-        $reserva=Reserva::findOrFail($id);
-        //$reserva->estado='0';
+        $reserva=DetalleReserva::findOrFail($id);
+        $reserva->estado='inactivo';
         $reserva->update();
-        return Redirect::to('reserva');
+        return Redirect::to('reservas');
     }
 }

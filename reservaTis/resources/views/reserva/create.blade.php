@@ -14,75 +14,61 @@
     </ul>
     </div>
     @endif
-
+{!!Form::open(array('url'=>'reserva','autocomplete'=>'off'))!!}
 <div class="box box-primary">
   <div class="box-header with-border">
   <label class = "box-title">Ingrese datos de su reserva </label>
   </div>
 
-<div class="box-header">
+      <div class="box-header">
+        {!!Form::label('Usuario:')!!}
+        <div class="input-group col-md-3"> 
+              <select name="user_id" class="form-control" required>
+                    @foreach ($user as $us)
+                        @if($us->id==Auth::user()->id)
+                          <option value="{{$us->id}}">
+                              {{$us->name}}
+                          </option>
+                        @else
+                        @endif
+                    @endforeach
+              </select>
+        </div>
+      </div>
+
+        <div class="box-header">
             <div class="col-md-3">
               {!!Form::label('Tipo de ambiente')!!}
-            {!! Form::select('state',$states,null,['id'=>'state','class'=>'form-control input-sm'
+              {!! Form::select('state',$states,null,['id'=>'state','class'=>'form-control input-sm'
                     ,'placeholder'=>'Seleccione','required'=>'required']) !!}
-          {!!Form::label('Ambiente')!!}
-  {!! Form::select('town',['placeholder'=>'Selecciona'],null,['id'=>'town','class'=>'form-control select-category input-sm'
-                    ,'required'=>'required']) !!}
-              </div>
-              </div>
+              {!!Form::label('Ambiente')!!}
+              {!! Form::select('ambiente',['placeholder'=>'Selecciona'],null,['id'=>'town','class'=>'form-control select-category input-sm', 'required'=>'required']) !!}
+            </div>
+        </div>
 
 
 <div class="box-header">
       {!!Form::label('Fecha inicio y final:')!!}
       <div class="input-group">
-      <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </div>
-      {!!Form::date('fechaInicio', \Carbon\Carbon::now())!!}  
-      {!!Form::date('fechaFin', \Carbon\Carbon::now())!!}
+          <i class="fa fa-calendar col-md-1"></i>
+          <input type="date" name="fecha_ini" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
+         <input type="date" name="fecha_fin" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
       </div>
-      </div>
+</div>
+
 
 <div class="box-header">
-            <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
-                 {!!Form::label('Marque los días:')!!}
-                 <div class="form-check form-check-inline">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="lunes" value="option1"> Lunes
-  </label>
-</div>
-<div class="form-check form-check-inline">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="martes" value="option2"> Martes
-  </label>
-</div>
-<div class="form-check form-check-inline disabled">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="miercoles" value="option3">Miercoles
-  </label>
-</div>
-<div class="form-check form-check-inline">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="jueves" value="option1">Jueves
-  </label>
-</div>
-<div class="form-check form-check-inline">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="viernes" value="option2">Viernes
-  </label>
-</div>
-<div class="form-check form-check-inline disabled">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="sabado" value="option3"> Sábado
-  </label>
-</div>
-<div class="form-check form-check-inline disabled">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="domingo" value="option3">Domingo
-  </label>
-</div>
-  
-</div>
+      {!!Form::label('Marque los Días:')!!}
+      <div class="input-group col-md-5">
+                <label class="form-check-label">
+                <input type="checkbox" name="lunes" value="lunes">Lunes<br>
+                <input type="checkbox" name="martes" value="martes">Martes<br>
+                <input type="checkbox" name="miercoles" value="miercoles">Miercoles<br>
+                <input type="checkbox" name="jueves" value="jueves">Jueves<br>
+                <input type="checkbox" name="viernes" value="viernes">Viernes<br>
+                <input type="checkbox" name="sabado" value="sabado">Sabado
+                </label>
+      </div>
 </div>
 
 <div class="box-header">
@@ -94,13 +80,13 @@
 
 <div class="box-header">
         {!!Form::label('Nombre de Reserva:')!!}
-        <div>        {!!Form::textarea('NombreReserva',null,['class'=>'textarea', 'placeholder'=>'Ingrese Nombre de Reserva','style'=>'width: 25%; height: 50px; font-size: 14px; line-height: 18px; border: 2px solid #dddddd; padding: 10px;'])!!}
+        <div>        {!!Form::textarea('nombre_reserva',null,['class'=>'textarea', 'placeholder'=>'Ingrese Nombre de Reserva','style'=>'width: 25%; height: 50px; font-size: 14px; line-height: 18px; border: 2px solid #dddddd; padding: 10px;','required'])!!}
       </div>
       </div>
 
     <div class="box-header">
         {!!Form::label('Descripción de Reserva:')!!}
-        <div>        {!!Form::textarea('DescripcionReserva',null,['class'=>'textarea', 'placeholder'=>'Ingrese descripcion de reserva','style'=>'width: 25%; height: 100px; font-size: 14px; line-height: 18px; border: 2px solid #dddddd; padding: 10px;'])!!}
+        <div>        {!!Form::textarea('description',null,['class'=>'textarea', 'placeholder'=>'Ingrese descripcion de reserva','style'=>'width: 25%; height: 100px; font-size: 14px; line-height: 18px; border: 2px solid #dddddd; padding: 10px;','required'])!!}
       </div>
       </div>
 
@@ -111,6 +97,19 @@
         </td>
     </div>
 
+    <div class="box-header">
+      <div class="input-group col-md-5">
+            
+                    
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Guardar</button>
+                <button class="btn btn-danger" type="reset">Cancelar</button>
+            </div>
+        
+      </div>
+</div>
+    {!!Form::close()!!}
+</div>
 @endsection
 
 @section('js')
