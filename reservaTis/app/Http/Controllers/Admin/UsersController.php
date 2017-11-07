@@ -82,6 +82,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
 
         $roles = Role::orderBy('display_name', 'asc')->lists('display_name', 'id');
+        //dd($user);
         return view('admin.users.show', compact('user','roles'));
     }
 

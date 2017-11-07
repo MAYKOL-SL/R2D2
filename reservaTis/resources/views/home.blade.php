@@ -14,22 +14,15 @@
 @endsection
 
 
-@section('enlaces')
-    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-    <li class="active">Here</li>
-@endsection
-
-
-
 @section('main-content')
-<div class="container">
+<div class="container fondoDos">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
-				<div class="panel-heading">Home</div>
+				<div class="panel-heading"><h1 class="text-primary">BIENVENIDOS A LA RESERVA DE AMBIENTES</h1></div>
 
 				<div class="panel-body">
-					You are logged in!
+					<a href="#"><img src="img/principalImagen.jpg" alt="" width="910px"></a>
 				</div>
 			</div>
 		</div>
