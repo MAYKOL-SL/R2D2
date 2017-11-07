@@ -31,39 +31,35 @@
         <ul class="sidebar-menu">
             <li class="header">Munu</li>
             <!-- Optionally, you can add icons to the links -->
-
+            <li><a href="{{ url('home') }}"><i class='fa fa-bank'></i> <span>Home</span></a></li>
             <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Admin</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-user-plus'></i> <span>Admin</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="{{ url('admin/users') }}">Usuarios</a></li>
                     <li><a href="{{ url('admin/roles') }}">Roles</a></li>
 
                 </ul>
             </li>
-
-
-            <li><a href="{{ url('home') }}"><i class='fa fa-link'></i> <span>Home</span></a></li>
-
-            <li><a href="{{ url('reserva') }}"><i class='fa fa-link'></i> <span>Reserva</span></a></li>
-
-            <li><a href="{{ url('calendario') }}"><i class='fa fa-link'></i> <span>Ver Calendario</span></a></li>
+            <li><a href="{{ url('calendario') }}"><i class='fa fa-calendar'></i> <span>Calendario</span></a></li>
+            <li><a href="{{ url('reserva') }}"><i class='fa fa-pencil-square-o'></i> <span>Reserva</span></a></li>
             <li class="treeview">
-                <a href=""><i class='fa fa-link'></i> <span>Registrar Ambiente</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-tasks'></i> <span>Tipos de Reservas</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{url('ambiente')}}">Busqueda Por Ambiente</a></li>
+                    <li><a href="{{ url('consulta') }}">Busqueda Por Capacidad</a></li>
+                    <li><a href="{{ url('porHora') }}">Busqueda Por Hora</a></li>
+                    <li><a href="{{ url('porCapacidad') }}">Busqueda Por Capacidad</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href=""><i class='fa fa-building'></i> <span>Registrar Ambiente</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="{{url('CrearAmbiente')}}">Ambiente</a></li>
                     <li><a href="{{url('tiposambiente')}}">Tipos Ambiente</a></li>
                     <li><a href="{{url('complemento')}}">Complementos</a></li>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#"><i class='fa fa-link'></i> <span>Tipos de Reservas</span> <i class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{url('ambiente')}}">Por Ambiente</a></li>
-                    <li><a href="{{ url('consulta') }}">Por Capacidad</a></li>
-                    <li><a href="{{ url('porHora') }}">Por Hora</a></li>
-                    <li><a href="{{ url('porCapacidad') }}">PorCapacidad</a></li>
-                </ul>
-            </li>
+
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->

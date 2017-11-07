@@ -48,6 +48,7 @@
                   <th> {{ trans('Password :') }} </th>
                   <td> {{ $user->password }} </td>
                 </tr>
+                
             </tbody>
             <tfoot>
                 <tr>
