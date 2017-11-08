@@ -36,7 +36,7 @@ class PorHoraController extends Controller
 
             $reservados=DB::table('detalle_reservas as dr')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')
-            ->join('calendarios as c','c.id','=','dr.calendario_id')->whereIn('c.Fecha',[$fechaIni,$fechaFin])
+            ->join('calendarios as c','c.id','=','dr.calendario_id')->whereBetween('c.Fecha',[$fechaIni,$fechaFin])
             ->whereIn('c.Dia',$dias)
             ->join('periodos as p','p.id','=','dr.periodo_id')
             ->where('p.id','=',$periodoBuscado)

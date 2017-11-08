@@ -27,24 +27,27 @@
                     <th>periodo</th>
                     <th>Opciones</th>
                 </thead>
-                @foreach ($reservas as $res)
-                <tr>
-                    @if($res->usuario==Auth::user()->name)
+                @foreach ($datos as $res)
+                <tr>                    
                     <td>{{ $res->id_reserva}}</td>
-                    <td>{{ $res->usuario}}</td>
+                    <td>{{ $res->nombre_user}}</td>
                     <td>{{ $res->nombre_aula}}</td>
                     <td>{{ $res->fecha}}</td>
                     <td>{{ $res->hora}}</td>
+                    @if($res->nombre_user==Auth::user()->name)
                     <td>
                         <a href="{{URL::action('ReservasController@edit',$res->id_reserva)}}"><button class="btn btn-info">Editar</button></a>
                         <a href="" data-target="#modal-delete-{{$res->id_reserva}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
                     </td>
+                    @include('reservas.modal')
                     @else
                     @endif
                 </tr>
-               
                 @endforeach
             </table>
+            <div class="text-center">
+                {!! $datos->render() !!}
+            </div>
         </div>
     </div>
 </div>
