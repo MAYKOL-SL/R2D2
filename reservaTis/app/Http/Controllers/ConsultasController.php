@@ -1,13 +1,14 @@
 <?php
 
-namespace Reserva\Http\Controllers\Reservacion;
+namespace Reserva\Http\Controllers;
 
 use Illuminate\Http\Request;
 
 use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
+use Reserva\Ambiente;
 
-class ReservaController extends Controller
+class ConsultasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,14 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        return view('reserva_capacidad');
+        return view('consulta');
+    }
+
+    public function consultaPorCapacidad()
+    {
+        $datos = Ambiente::get(['capacidad']);
+
+        return view('consulta', compact('datos'));
     }
 
     /**

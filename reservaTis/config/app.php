@@ -113,7 +113,6 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Maatwebsite\Excel\ExcelServiceProvider::class,
         Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
@@ -148,7 +147,7 @@ return [
 
 
         // AdminLTE template provider
-  Acacha\AdminLTETemplateLaravel\app\Providers\AdminLTETemplateServiceProvider::class,
+Acacha\AdminLTETemplateLaravel\app\Providers\AdminLTETemplateServiceProvider::class,
  Appzcoder\CrudGenerator\CrudGeneratorServiceProvider::class,
  Collective\Html\HtmlServiceProvider::class,
  Zizaco\Entrust\EntrustServiceProvider::class,
@@ -169,7 +168,6 @@ return [
 
     'aliases' => [
 
-        'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
         'App'       => Illuminate\Support\Facades\App::class,
         'Artisan'   => Illuminate\Support\Facades\Artisan::class,
         'Auth'      => Illuminate\Support\Facades\Auth::class,
