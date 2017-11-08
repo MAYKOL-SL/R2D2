@@ -14,11 +14,10 @@ class CreateFullcalendareventosTable extends Migration
     {
         Schema::create('fullcalendareventos', function (Blueprint $table) {
             $table->increments('id');
-            $table->datetime('start');
-            $table->datetime('end')->nullable();
-            $table->mediumText('title')->nullable();
+            $table->date('start');
+            $table->date('end')->nullable();
+            $table->string('title',500)->nullable();
             $table->string('color')->nullable();
-            $table->mediumText('aula')->nullable();
             $table->timestamps();
         });
     }
