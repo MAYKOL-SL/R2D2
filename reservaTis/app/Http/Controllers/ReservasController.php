@@ -70,16 +70,13 @@ class ReservasController extends Controller
     
     public function store(Request $request)
     {
-        if ($request->get('lunes')==null) {
-            dd($request->get('lunes'));
-        }
-        //dd($request->get('lunes'));
+        
         //datos recogidos
         $ambiente=$request->get('ambiente_id');
         $fecha_ini=$request->get('fecha_ini');
         $fecha_fin=$request->get('fecha_fin');
         $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
-                $request->get('jueves'),$request->get('viernes'),$request->get('sabado'),$request->get('domingo')];
+                $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
         $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
         ->get();
         $periodos=$request->get('periodos');
