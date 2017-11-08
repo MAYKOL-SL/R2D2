@@ -44,11 +44,6 @@
 
                     
 
-
-                    <td>{{ $res->fecha}}</td>
-                    <td>{{ $res->hora}}</td>
-                    @if($res->nombre_user==Auth::user()->name)
-
                     <td>
                          <a href="{{URL::action('ReservasController@show',$res->id_reserva)}}"><button class="btn btn-primary btn-sm">Ver</button></a>
                         <a href=""><button class="btn btn-sm btn-info">Editar</button></a>
