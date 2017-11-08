@@ -66,3 +66,4 @@ Route::resource('porCapacidad', 'PorCapacidadController');
 
 
 Route::get('busquedaFecha', 'BusquedaFechas\\BusqFechasController@find');
+Route::resource('DetalleReserva','DetalleReserva\\DetalleReservaController');

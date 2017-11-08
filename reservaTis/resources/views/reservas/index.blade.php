@@ -20,24 +20,39 @@
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
                 <thead>
-                    <th>Id</th>
+                   <th>Id</th>
                     <th>Usuario</th>
                     <th>Ambiente</th>
-                    <th>Fecha</th>
-                    <th>periodo</th>
+                    <th>Nombre Reserva</th>
+                    <th>Descripcion</th>
+                    <th>start</th>
+                    <th>end</th>
                     <th>Opciones</th>
                 </thead>
-                @foreach ($datos as $res)
+                @foreach ($reservas as $res)
                 <tr>                    
-                    <td>{{ $res->id_reserva}}</td>
-                    <td>{{ $res->nombre_user}}</td>
+                     <td>{{ $res->id_reserva}}</td>
+                    <td>{{ $res->usuario}}</td>
                     <td>{{ $res->nombre_aula}}</td>
+
+
+                    <td>{{ $res->nombre_reserva}}</td>
+                    <td>{{ $res->description}}</td>
+                    <td>{{ $res->start}}</td>
+                    <td>{{ $res->end}}</td>
+                    @if($res->usuario==Auth::user()->name)
+
+                    
+
+
                     <td>{{ $res->fecha}}</td>
                     <td>{{ $res->hora}}</td>
                     @if($res->nombre_user==Auth::user()->name)
+
                     <td>
-                        <a href="{{URL::action('ReservasController@edit',$res->id_reserva)}}"><button class="btn btn-info">Editar</button></a>
-                        <a href="" data-target="#modal-delete-{{$res->id_reserva}}" data-toggle="modal"><button class="btn btn-danger">Eliminar</button></a>
+                         <a href="{{URL::action('ReservasController@show',$res->id_reserva)}}"><button class="btn btn-primary btn-sm">Ver</button></a>
+                        <a href=""><button class="btn btn-sm btn-info">Editar</button></a>
+                        <a href="" data-target="#modal-delete-{{$res->id_reserva}}" data-toggle="modal"><button class="btn btn-sm btn-danger">Eliminar</button></a>
                     </td>
                     @include('reservas.modal')
                     @else
@@ -46,7 +61,7 @@
                 @endforeach
             </table>
             <div class="text-center">
-                {!! $datos->render() !!}
+               
             </div>
         </div>
     </div>
