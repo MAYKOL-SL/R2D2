@@ -29,7 +29,7 @@ class ReservasController extends Controller
             ->join('reservas as r','r.id','=','dr.reserva_id')
             ->join('users as u','u.id','=','r.user_id')
             ->select('dr.id as id_reserva','u.name as nombre_user','a.title as nombre_aula',
-                    'c.fecha','p.hora')
+                    'c.Fecha','p.hora')
             ->orderBy('id_reserva','asc')
             ->paginate(10);
 
