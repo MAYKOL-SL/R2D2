@@ -20,22 +20,23 @@ class ReservasController extends Controller
 {
     public function index(Request $request)
     {
-            $datos=DB::table('reservas as r')
-                        ->join('detalle_reservas as dr','dr.reserva_id','=','r.id')
-                        ->join('ambientes as amb','amb.id','=','dr.ambiente_id')
-                        ->join('users as us','us.id','=','r.user_id')
-                        
-                         ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end')
+            $fechaActual=Carbon::now();
+            $fechaActual=$fechaActual->addDay(1);
+            $datos=DB::table('detalle_reservas as dr')->where('estado','=','activo')
+            ->join('ambientes as a','a.id','=','dr.ambiente_id')
+            ->join('calendarios as c','c.id','=','dr.calendario_id')->where('c.Fecha','>',$fechaActual)
+            ->join('periodos as p','p.id','=','dr.periodo_id')
+            ->join('reservas as r','r.id','=','dr.reserva_id')
+            ->join('users as u','u.id','=','r.user_id')
+            ->select('dr.id as id_reserva','u.name as nombre_user','a.title as nombre_aula',
+                    'c.fecha','p.hora')
+            ->orderBy('id_reserva','asc')
+            ->paginate(10);
 
-                        
-                         ->distinct()
-                         ->orderBy('r.id')
-                        ->get();
-
-                        //dd($datos);
-            return view('reservas.index',["reservas"=>$datos]);
-
-
+            //$contador=array(2);
+            //$contador=count($contador);
+            //Flash::success("hola " . $contador . " prueba!! ");
+            return view('reservas.index',["datos"=>$datos]);
         
     }
 
@@ -69,13 +70,16 @@ class ReservasController extends Controller
     
     public function store(Request $request)
     {
-        
+        if ($request->get('lunes')==null) {
+            dd($request->get('lunes'));
+        }
+        //dd($request->get('lunes'));
         //datos recogidos
         $ambiente=$request->get('ambiente_id');
         $fecha_ini=$request->get('fecha_ini');
         $fecha_fin=$request->get('fecha_fin');
         $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
-                $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
+                $request->get('jueves'),$request->get('viernes'),$request->get('sabado'),$request->get('domingo')];
         $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
         ->get();
         $periodos=$request->get('periodos');
@@ -138,9 +142,7 @@ class ReservasController extends Controller
     
     public function show($id)
     {
-      
-          return redirect()->action('DetalleReserva\DetalleReservaController@index',["idr"=>$id]);
-
+        return view("reservas.show",["reservas"=>reservas::findOrFail($id)]);
     }
 
     

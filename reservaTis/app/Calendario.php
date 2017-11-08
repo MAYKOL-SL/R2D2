@@ -8,7 +8,6 @@ class Calendario extends Model
 {
     protected $table = 'calendarios';
     public $timestamps = false;
-    protected $fillable = ['Fecha', 'Dia', 'Actividad', 'created_at', 'updated_at'];
 
 
     public function tipoFechas()

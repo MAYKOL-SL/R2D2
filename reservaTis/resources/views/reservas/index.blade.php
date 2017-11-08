@@ -34,11 +34,15 @@
                      <td>{{ $res->id_reserva}}</td>
                     <td>{{ $res->usuario}}</td>
                     <td>{{ $res->nombre_aula}}</td>
+
                     <td>{{ $res->nombre_reserva}}</td>
                     <td>{{ $res->description}}</td>
                     <td>{{ $res->start}}</td>
                     <td>{{ $res->end}}</td>
                     @if($res->usuario==Auth::user()->name)
+
+                    
+
                     <td>
                          <a href="{{URL::action('ReservasController@show',$res->id_reserva)}}"><button class="btn btn-primary btn-sm">Ver</button></a>
                         <a href=""><button class="btn btn-sm btn-info">Editar</button></a>

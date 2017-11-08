@@ -28,13 +28,9 @@
     <link href="{{ asset('/css/estilos.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Fullcalendar -->
-    <link href='fullcalendar/bootstrap/css/bootstrap.min.css' rel='stylesheet' />
-    <link href='fullcalendar/bootstrap-datetimepicker/css/bootstrap-material-datetimepicker.css' rel='stylesheet' />
-    <link href='fullcalendar/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css' rel='stylesheet' />
     <link href='fullcalendar/fullcalendar.min.css' rel='stylesheet' />
     <link href='fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <link rel="stylesheet" href="{{ asset('plugins/chosen/chosen.css')}}" />
-
+     <link rel="stylesheet" href="{{ asset('plugins/chosen/chosen.css')}}" />
 
     
 </head>

@@ -66,7 +66,7 @@
       {!!Form::label('Ambiente:')!!}
       <div class="input-group col-md-4" > 
             <!--<div class="input-group-addon">-->
-                <select name="ambiente_id" class="form-control" required>
+                <select name="ambiente_id" class="form-control select-category" required>
                     @foreach ($ambiente as $amb)
                         <option value="{{$amb->id}}">
                             {{$amb->title}}
@@ -120,6 +120,8 @@
                 <input type="checkbox" name="viernes" value="Viernes">Viernes<br>
               
                 <input type="checkbox" name="sabado" value="Sabado">Sabado<br>
+
+                <input type="checkbox" name="domingo" value="Domingo">Domingo<br>
               
       </div>
 </div>
@@ -161,6 +163,10 @@
 <script>
   $('.select-tag').chosen({
     placeholder_text_multiple:'Seleccione los periodos de reserva'
+  });
+
+  $('.select-category').chosen({
+    placeholder_text_single:'Seleccione el ambiente'
   });
 
 </script>
