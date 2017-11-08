@@ -22,8 +22,8 @@ class UsersController extends Controller
      * @return Response
      */
 
-    
-   
+
+
     public function index()
     {
 
@@ -54,12 +54,13 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['name' => 'required', 'email' => 'required', 'password' => 'required', ]);
+       //dd($request->all());
+      $this->validate($request, ['name' => 'required','apellido'=> 'required', 'telefono'=> 'required','direccion'=> 'required', 'email' => 'required', 'password' => 'required', ]);
 
        $user = User::create($request->all());
 
         $user->password=(bcrypt($user->password));
-        
+
        $user->save();
        $user->attachRoles($request->input('role_id'));
 
@@ -81,6 +82,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
 
         $roles = Role::orderBy('display_name', 'asc')->lists('display_name', 'id');
+        //dd($user);
         return view('admin.users.show', compact('user','roles'));
     }
 
@@ -100,7 +102,7 @@ class UsersController extends Controller
         $roles_user = User::find($id)->roles()->lists('role_id')->toArray();
 
         $roles = Role::orderBy('display_name', 'asc')->lists('display_name', 'id');
-        
+
 
         return view('admin.users.edit', compact('user' , 'roles', 'roles_user'));
     }
@@ -114,12 +116,12 @@ class UsersController extends Controller
      */
     public function update($id, Request $request)
     {
-        $this->validate($request, ['name' => 'required', 'email' => 'required', 'password' => 'required', ]);
+        $this->validate($request, ['name' => 'required','apellido'=> 'required', 'telefono'=> 'required','direccion'=> 'required', 'email' => 'required', 'password' => 'required', ]);
 
         $user = User::findOrFail($id);
         $user->update($request->all());
 
-        
+
 
 
             if($user->roles->count()) {
@@ -130,7 +132,7 @@ class UsersController extends Controller
             $user->attachRoles($request->input('role_id'));
 
             $user->password=(bcrypt($user->password));
-        
+
        $user->save();
 
         Session::flash('flash_message2', 'Usuario  '.$user->id.' Actualizado!');
@@ -154,5 +156,5 @@ class UsersController extends Controller
         return redirect('admin/users');
     }
 
-    
+
 }

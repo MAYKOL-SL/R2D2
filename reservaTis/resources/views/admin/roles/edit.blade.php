@@ -24,21 +24,21 @@
     ]) !!}
 
                 <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
-                {!! Form::label('name', trans('roles.name'), ['class' => 'col-sm-3 control-label']) !!}
+                {!! Form::label('name', trans('Nombre :'), ['class' => 'col-sm-3 control-label']) !!}
                 <div class="col-sm-6">
                     {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
                     {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
                 </div>
             </div>
             <div class="form-group {{ $errors->has('display_name') ? 'has-error' : ''}}">
-                {!! Form::label('display_name', trans('roles.display_name'), ['class' => 'col-sm-3 control-label']) !!}
+                {!! Form::label('display_name', trans('Nombre Rol :'), ['class' => 'col-sm-3 control-label']) !!}
                 <div class="col-sm-6">
                     {!! Form::text('display_name', null, ['class' => 'form-control', 'required' => 'required']) !!}
                     {!! $errors->first('display_name', '<p class="help-block">:message</p>') !!}
                 </div>
             </div>
             <div class="form-group {{ $errors->has('description') ? 'has-error' : ''}}">
-                {!! Form::label('description', trans('roles.description'), ['class' => 'col-sm-3 control-label']) !!}
+                {!! Form::label('description', trans('Descripci&oacute;n :'), ['class' => 'col-sm-3 control-label']) !!}
                 <div class="col-sm-6">
                     {!! Form::text('description', null, ['class' => 'form-control']) !!}
                     {!! $errors->first('description', '<p class="help-block">:message</p>') !!}

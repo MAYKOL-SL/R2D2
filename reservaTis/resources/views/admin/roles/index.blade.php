@@ -38,7 +38,11 @@
         <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    <th>S.No</th><th> {{ trans('roles.name') }} </th><th> {{ trans('roles.display_name') }} </th><th> {{ trans('roles.description') }} </th><th>Acciones</th>
+                    <th>S.No</th>
+                    <th> {{ trans('Nombre') }} </th>
+                    <th> {{ trans('Nombre Rol') }} </th>
+                    <th> {{ trans('Descripci&oacute;n') }} </th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>

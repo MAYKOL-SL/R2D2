@@ -55,7 +55,7 @@
             </li>
           </ul>
 
-          <a href="{{ url('/auth/register') }}" class="text-center">Registrar nuevo</a>
+          
         </form>
 
 
