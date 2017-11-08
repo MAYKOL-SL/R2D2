@@ -35,6 +35,7 @@
                     <td>{{ $res->usuario}}</td>
                     <td>{{ $res->nombre_aula}}</td>
 
+
                     <td>{{ $res->nombre_reserva}}</td>
                     <td>{{ $res->description}}</td>
                     <td>{{ $res->start}}</td>
@@ -42,6 +43,11 @@
                     @if($res->usuario==Auth::user()->name)
 
                     
+
+
+                    <td>{{ $res->fecha}}</td>
+                    <td>{{ $res->hora}}</td>
+                    @if($res->nombre_user==Auth::user()->name)
 
                     <td>
                          <a href="{{URL::action('ReservasController@show',$res->id_reserva)}}"><button class="btn btn-primary btn-sm">Ver</button></a>
