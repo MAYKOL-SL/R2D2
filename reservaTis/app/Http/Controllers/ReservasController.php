@@ -14,6 +14,7 @@ use Reserva\DetalleReserva;
 use DB;
 use Laracasts\Flash\Flash;
 use Carbon\Carbon;
+use Reserva\Periodo;
 
 class ReservasController extends Controller
 {
@@ -56,11 +57,12 @@ class ReservasController extends Controller
             $user=DB::table('users')->get();
             $ambiente=DB::table('ambientes')/*->where('id','=',$amb_id)*/->get();
             $periodo=DB::table('periodos')->get();
+            $hora = Periodo::lists('hora','id');
             $fechaActual=$fechaActual->addDay(1);
             $fechaIni=$request->get('fecha_ini');
             $fechaFin=$request->get('fecha_fin');
 
-            return view("reservas.create",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"fechaActual"=>$fechaActual,"fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado]);
+            return view("reservas.create",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"fechaActual"=>$fechaActual,"fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado, "hora"=>$hora]);
         }
         
     }
@@ -68,6 +70,7 @@ class ReservasController extends Controller
     
     public function store(Request $request)
     {
+        
         //datos recogidos
         $ambiente=$request->get('ambiente_id');
         $fecha_ini=$request->get('fecha_ini');
@@ -76,15 +79,16 @@ class ReservasController extends Controller
                 $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
         $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
         ->get();
-        $periodo=$request->get('periodo_id');
+        $periodos=$request->get('periodos');
         //reservados
         $reservados=DB::table('detalle_reservas as dr')->where('estado','=','activo')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
             ->join('calendarios as c','c.id','=','dr.calendario_id')->whereBetween('c.Fecha',[$fecha_ini,$fecha_fin])
             ->whereIn('c.Dia',$dias)
             ->join('periodos as p','p.id','=','dr.periodo_id')
-            ->where('p.id','=',$periodo)
+            ->whereIn('p.id',$periodos)
             ->get();
+
 
             $contador = array();
             foreach ($reservados as $res ) {
@@ -92,6 +96,8 @@ class ReservasController extends Controller
             }
 
             $contador=count($contador);
+            $cantPer=count($periodos);
+            //dd($cantPer);
             
         
         //verificar
@@ -108,17 +114,24 @@ class ReservasController extends Controller
             $reserva->user_id=$request->get('user_id');
             $reserva->save();
             //creando la reserva
+            
+        //fin de recoger periodos
             foreach ($fechas as $fc) {
-                $detres=new DetalleReserva;
-                $detres->estado="Activo";
-                $detres->reserva_id=$reserva->id;
-                $detres->calendario_id=$fc->id;
-                $detres->ambiente_id=$ambiente;
-                $detres->periodo_id=$periodo;
-                $detres->save();
+                for ($i=0; $i < $cantPer; $i++) { 
+                    $detres=new DetalleReserva;
+                    $detres->estado="Activo";
+                    $detres->reserva_id=$reserva->id;
+                    $detres->calendario_id=$fc->id;
+                    $detres->ambiente_id=$ambiente;
+                    $detres->periodo_id=$periodos[$i];
+                    $detres->save();
+                }
+
+                
             }
             Flash::success("Se ha creado la reserva de forma correcta");
         }
+        
 
         return Redirect::to('reservas');
     }

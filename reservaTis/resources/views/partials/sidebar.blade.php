@@ -41,7 +41,7 @@
                 </ul>
             </li>
             <li><a href="{{ url('calendario') }}"><i class='fa fa-calendar'></i> <span>Calendario</span></a></li>
-            <li><a href="{{ url('reserva') }}"><i class='fa fa-pencil-square-o'></i> <span>Reserva</span></a></li>
+            <li><a href="{{ url('reservas') }}"><i class='fa fa-pencil-square-o'></i> <span>Reserva</span></a></li>
             <li class="treeview">
                 <a href="#"><i class='fa fa-tasks'></i> <span>Tipos de Reservas</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">

@@ -124,25 +124,14 @@
       </div>
 </div>
 
-
-
 <div class="box-header">
       {!!Form::label('Hora inicio y final:')!!}
-      <div class="input-group col-md-5">
-        <!--<div class="input-group-addon">-->
-                    <i class="fa fa-safari col-md-1"></i>
-                    <select type="text" name="periodo_id" class="col-md-4"  required>
-                    @foreach ($periodo as $per)
-                        <option value="{{$per->id}}">
-                            {{$per->hora}}
-                        </option>
-                    @endforeach
-                    </select>
-
-        <!--</div>-->
-                  
+      <div class="input-group col-md-3"> 
+      {!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
       </div>
-</div>
+ </div>
+
+
 
 
 
@@ -166,4 +155,13 @@
         
 </div>
 
+@endsection
+
+@section('js')
+<script>
+  $('.select-tag').chosen({
+    placeholder_text_multiple:'Seleccione los periodos de reserva'
+  });
+
+</script>
 @endsection
