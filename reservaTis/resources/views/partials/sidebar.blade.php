@@ -29,7 +29,7 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header">Munu</li>
+            <li class="header">Menu</li>
             <!-- Optionally, you can add icons to the links -->
             <li><a href="{{ url('home') }}"><i class='fa fa-bank'></i> <span>Home</span></a></li>
             @if(Auth::check() && Auth::user()->hasRole('Administrador'))
@@ -50,10 +50,9 @@
             @endif
             @if(Auth::check() && Auth::user()->hasRole('Administrador')|| Auth::user()->hasRole('Docente')|| Auth::user()->hasRole('Secretaria'))
             <li class="treeview">
-                <a href="#"><i class='fa fa-tasks'></i> <span>Tipos de Reservas</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <a href="#"><i class='fa fa-tasks'></i> <span>Busquedas</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
                     <li><a href="{{url('ambiente')}}">Busqueda Por Ambiente</a></li>
-                    <li><a href="{{ url('consulta') }}">Busqueda Por Capacidad</a></li>
                     <li><a href="{{ url('porHora') }}">Busqueda Por Hora</a></li>
                     <li><a href="{{ url('porCapacidad') }}">Busqueda Por Capacidad</a></li>
                 </ul>
