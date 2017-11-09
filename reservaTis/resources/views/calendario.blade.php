@@ -15,20 +15,22 @@
 
 @section('main-content')
 
-<link href='fullcalendar/bootstrap/css/bootstrap.min.css' rel='stylesheet' />
-    <link href='fullcalendar/bootstrap-datetimepicker/css/bootstrap-material-datetimepicker.css' rel='stylesheet' />
-    <link href='fullcalendar/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css' rel='stylesheet' />
 <link href='fullcalendar/fullcalendar.min.css' rel='stylesheet' />
 <link href='fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 
+<link href='fullcalendar/bootstrap/css/bootstrap.min.css' rel='stylesheet' />
+<link href='fullcalendar/bootstrap-datetimepicker/css/bootstrap-material-datetimepicker.css' rel='stylesheet' />
+<link href='fullcalendar/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css' rel='stylesheet' />
 
-<script src='fullcalendar/jquery-1.9.1.js'></script>
-<script src='fullcalendar/lib/moment.min.js'></script>
 
 
   <script src='fullcalendar/bootstrap/js/bootstrap.min.js'></script>
   <script src='fullcalendar/bootstrap-datetimepicker/js/bootstrap-material-datetimepicker.js'></script>
   <script src='fullcalendar/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'></script>
+
+  <script src='fullcalendar/jquery-1.9.1.js'></script>
+  <script src='fullcalendar/lib/moment.min.js'></script>
+
 <body>
 
 
