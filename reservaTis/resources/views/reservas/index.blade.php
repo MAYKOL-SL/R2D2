@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('htmlheader_title')
-   Lista de Reservas 
+   Lista de Reservas
 @endsection
 
 
@@ -30,7 +30,7 @@
                     <th>Opciones</th>
                 </thead>
                 @foreach ($reservas as $res)
-                <tr>                    
+                <tr>
                      <td>{{ $res->id_reserva}}</td>
                     <td>{{ $res->usuario}}</td>
                     <td>{{ $res->nombre_aula}}</td>
@@ -41,8 +41,6 @@
                     <td>{{ $res->start}}</td>
                     <td>{{ $res->end}}</td>
                     @if($res->usuario==Auth::user()->name)
-
-                    
 
                     <td>
                          <a href="{{URL::action('ReservasController@show',$res->id_reserva)}}"><button class="btn btn-primary btn-sm">Ver</button></a>
@@ -56,7 +54,7 @@
                 @endforeach
             </table>
             <div class="text-center">
-               
+
             </div>
         </div>
     </div>

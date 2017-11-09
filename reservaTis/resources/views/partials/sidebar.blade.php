@@ -32,6 +32,7 @@
             <li class="header">Munu</li>
             <!-- Optionally, you can add icons to the links -->
             <li><a href="{{ url('home') }}"><i class='fa fa-bank'></i> <span>Home</span></a></li>
+            @if(Auth::check() && Auth::user()->hasRole('Administrador'))
             <li class="treeview">
                 <a href="#"><i class='fa fa-user-plus'></i> <span>Admin</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -40,8 +41,14 @@
 
                 </ul>
             </li>
+            @endif
+            @if(Auth::check() && Auth::user()->hasRole('Administrador'))
             <li><a href="{{ url('calendario') }}"><i class='fa fa-calendar'></i> <span>Calendario</span></a></li>
+            @endif
+            @if(Auth::check() && Auth::user()->hasRole('Administrador')|| Auth::user()->hasRole('Docente')|| Auth::user()->hasRole('Secretaria')|| Auth::user()->hasRole('Auxiliar'))
             <li><a href="{{ url('reservas') }}"><i class='fa fa-pencil-square-o'></i> <span>Reserva</span></a></li>
+            @endif
+            @if(Auth::check() && Auth::user()->hasRole('Administrador')|| Auth::user()->hasRole('Docente')|| Auth::user()->hasRole('Secretaria'))
             <li class="treeview">
                 <a href="#"><i class='fa fa-tasks'></i> <span>Tipos de Reservas</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -51,6 +58,8 @@
                     <li><a href="{{ url('porCapacidad') }}">Busqueda Por Capacidad</a></li>
                 </ul>
             </li>
+            @endif
+            @if(Auth::check() && Auth::user()->hasRole('Administrador'))
             <li class="treeview">
                 <a href=""><i class='fa fa-building'></i> <span>Registrar Ambiente</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -59,6 +68,7 @@
                     <li><a href="{{url('complemento')}}">Complementos</a></li>
                 </ul>
             </li>
+            @endif
 
         </ul><!-- /.sidebar-menu -->
     </section>
