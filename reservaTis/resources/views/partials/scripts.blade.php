@@ -21,6 +21,7 @@
 
 	<script src='fullcalendar/lib/moment.min.js'></script>
 	<script src='fullcalendar/fullcalendar.min.js'></script>
+  
   <script src='fullcalendar/bootstrap/js/bootstrap.min.js'></script>
   <script src='fullcalendar/bootstrap-datetimepicker/js/bootstrap-material-datetimepicker.js'></script>
   <script src='fullcalendar/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'></script>

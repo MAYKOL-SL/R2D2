@@ -34,6 +34,7 @@ class CalendarioController extends Controller
     }
 
     public function getDatosFullCalendar()
+    
     {
         $data = Fullcalendarevento::get(['start', 'end', 'title', 'color']);
         return Response()->json($data);

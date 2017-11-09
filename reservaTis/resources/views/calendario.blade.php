@@ -21,6 +21,7 @@
 <link href='fullcalendar/fullcalendar.min.css' rel='stylesheet' />
 <link href='fullcalendar/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 
+
 <script src='fullcalendar/jquery-1.9.1.js'></script>
 <script src='fullcalendar/lib/moment.min.js'></script>
 
