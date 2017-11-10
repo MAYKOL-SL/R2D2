@@ -28,9 +28,6 @@ Route::resource('reserva', 'Reservacion\\StateController');
 Route::get('towns/{id}','Reservacion\\StateController@getTowns');
 
 
-Route::get('calendario','CalendarioController@vistaCalendario');
-Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
-
 Route::resource('CrearAmbiente','CrearAmbiente\\CrearAmbienteController');
 Route::get('CrearAmbiente/{id}/destroy',[
 	'uses' => 'CrearAmbiente\\CrearAmbienteController@destroy',
@@ -56,7 +53,14 @@ Route::get('complemento/{id}/destroy',[
 	'as' => 'complemento.destroy'
 ]);
 
-Route::get('calendario','CalendarioController@vistaCalendario');
+
+Route::get('calendario','CalendarioController@getDatosReserva');
+Route::resource('calendario', 'CalendarioController', ['only' => ['getDatosReserva', 'store']]);
+Route::get('get_excel_calendario','CalendarioController@getDatosCalendario');
+Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
+Route::resource('leer_datos_excel', 'CalendarioController@loadCalendar');
+Route::resource('calendario_main', 'CalendarMainController@getDatosReserva');
+
 Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
 
 

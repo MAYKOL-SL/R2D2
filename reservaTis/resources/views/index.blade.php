@@ -51,7 +51,7 @@
             <li class="small-logo"><a href="#header"><img src="img/logotec.jpg" alt="" width="60px"></a></li>
             <li><a href="{{ route('auth.login') }}">Iniciar Secion</a></li>
             <li><a href="#contact">Contactos</a></li>
-						<li><a href="#">Calendario</a></li>
+						<li><a href="{{ url('calendario_main') }}">Calendario</a></li>
         </ul>
         <a class="res-nav_click" href="#"><i class="fa-bars"></i></a>
     </div>
