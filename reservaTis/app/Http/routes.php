@@ -61,6 +61,13 @@ Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
 Route::resource('leer_datos_excel', 'CalendarioController@loadCalendar');
 Route::resource('calendario_main', 'CalendarMainController@getDatosReserva');
 
+
+Route::get('Formulario/form_cargar_calendario_academico', 'CalendarioController@form_cargar_calendario_academico');
+Route::post('Formulario/cargar_calendario_academico', 'CalendarioController@cargar_calendario_academico');
+
+
+
+
 Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
 
 

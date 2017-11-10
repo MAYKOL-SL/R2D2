@@ -16,6 +16,7 @@ use Reserva\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 
+use Storage;
 use DB;
 
 class CalendarioController extends Controller
@@ -187,6 +188,59 @@ class CalendarioController extends Controller
 
             return view("reservas.create",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado, "hora"=>$hora]);
         }
+    }
+
+    //leccion 09
+
+    public function form_cargar_calendario_academico(){
+
+       return view("formulario.form_cargar_calendario_academico");
+
+    }
+
+    public function cargar_calendario_academico(Request $request)
+    {
+
+       $archivo = $request->file('archivo');
+       $nombre_original=$archivo->getClientOriginalName();
+       $extension=$archivo->getClientOriginalExtension();
+       $r1=Storage::disk('archivos')->put($nombre_original,  \File::get($archivo) );
+       $ruta  =  storage_path('archivos') ."/". $nombre_original;
+       
+       if($r1){
+
+            Excel::load($ruta, function($calendario)
+             {
+
+                foreach ($calendario->get() as $value) {
+
+                        if(!empty($value->fecha)){
+                            
+                            //Refrescar la tabla calendarios por hacer..
+                            $last_id = DB::table('calendarios')->max('id');
+
+                             Calendario::create([
+                             'id' => $last_id + 1,
+                             'Fecha' =>$value->fecha,
+                             'Dia' =>$value->dia,
+                             'Actividad' =>$value->actividad,
+                             'created_at' =>$value->creado,
+                             'updated_at' =>$value->actualizado
+                             ]);
+                       }
+
+                    }
+
+             });
+
+            return view("mensajes.msj_correcto")->with("msj"," Calendario Academico Cargado Correctamente");
+        
+       }
+       else
+       {
+            return view("mensajes.msj_rechazado")->with("msj","Error al subir el archivo");
+       }
+
     }
 
     /**
