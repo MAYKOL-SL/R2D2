@@ -64,7 +64,7 @@ class CalendarioController extends Controller
 
     public function vistaCalendario()
     {
-       return view('calendario');      
+       return view('calendario');
     }
 
     public function getDatosReserva(Request $request)
@@ -83,23 +83,23 @@ class CalendarioController extends Controller
                     'title' => $value->Actividad
                 ]);
         }
-        
+
         $data = DB::table('reservas')
             ->join('detalle_reservas', 'reservas.id', '=', 'detalle_reservas.reserva_id')
             ->join('ambientes', 'detalle_reservas.ambiente_id', '=', 'ambientes.id')
             ->join('periodos', 'detalle_reservas.periodo_id', '=', 'periodos.id')
-            ->select('reservas.nombre_reserva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora');
+            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora');
 
         foreach ($data->get() as $value) {
 
                     $salto = chr(13).chr(10);
-                
+
                     $nombre_periodo = "Periodo: ";
                     $valor_periodo = $value->hora;
                     $periodo = $nombre_periodo . $valor_periodo;
 
                     $nombre_reserva = "Reserva: ";
-                    $valor_reserva = $value->nombre_reserva;
+                    $valor_reserva = $value->nombre_reseva;
                     $reserva = $nombre_reserva . $valor_reserva;
 
                     $nombre_aula = "Aula: ";
@@ -116,18 +116,18 @@ class CalendarioController extends Controller
                 Fullcalendarevento::create([
 
                     'start' => $value->start,
-                    'end' => $value->end,  
+                    'end' => $value->end,
                     'title' => $title_event
                 ]);
             }
-        
+
         $hora = Periodo::lists('hora','id');
-        $states = TipoAmbiente::lists('tipo_aula','id');   
+        $states = TipoAmbiente::lists('tipo_aula','id');
         return view('calendario',compact('states', 'hora'));
         add('periodos');
 
         //return Response()->json($data);
-       //return view('calendario');      
+       //return view('calendario');
     }
 
 /**
@@ -158,7 +158,7 @@ class CalendarioController extends Controller
             });
 
         return Calendario::all();
-   
+
     }
 
     /**
@@ -168,7 +168,7 @@ class CalendarioController extends Controller
      */
     public function create(Request $request)
     {
-        
+
         if ($request) {
             $amb_id=$request->get('ambiente_id');
             $fechaActual=Carbon::now();
@@ -201,12 +201,12 @@ class CalendarioController extends Controller
 
             dd($request);
         /**
-         
+
         $salto = chr(13).chr(10);
-                
+
                     $nombre_periodo = "Periodo: ";
                     $valor_periodo = $request->periodos;
-                    
+
 
 
                     //$data_periodo = DB::table('periodos')
@@ -232,8 +232,8 @@ class CalendarioController extends Controller
         $fullcalendarevento = new Fullcalendarevento();
         $fullcalendarevento->start = $request->date_start;
         $fullcalendarevento->end = $request->date_end;
-        $fullcalendarevento->title = $title_event; 
-        $fullcalendarevento->color = $request->color; 
+        $fullcalendarevento->title = $title_event;
+        $fullcalendarevento->color = $request->color;
         $fullcalendarevento->save();
 
         return redirect('calendario');
@@ -246,7 +246,7 @@ class CalendarioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id      
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)

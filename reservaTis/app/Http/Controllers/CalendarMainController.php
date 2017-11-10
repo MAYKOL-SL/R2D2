@@ -44,23 +44,23 @@ class CalendarMainController extends Controller
                     'title' => $value->Actividad
                 ]);
         }
-        
+
         $data = DB::table('reservas')
             ->join('detalle_reservas', 'reservas.id', '=', 'detalle_reservas.reserva_id')
             ->join('ambientes', 'detalle_reservas.ambiente_id', '=', 'ambientes.id')
             ->join('periodos', 'detalle_reservas.periodo_id', '=', 'periodos.id')
-            ->select('reservas.nombre_reserva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora');
+            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora');
 
         foreach ($data->get() as $value) {
 
                     $salto = chr(13).chr(10);
-                
+
                     $nombre_periodo = "Periodo: ";
                     $valor_periodo = $value->hora;
                     $periodo = $nombre_periodo . $valor_periodo;
 
                     $nombre_reserva = "Reserva: ";
-                    $valor_reserva = $value->nombre_reserva;
+                    $valor_reserva = $value->nombre_reseva;
                     $reserva = $nombre_reserva . $valor_reserva;
 
                     $nombre_aula = "Aula: ";
@@ -77,14 +77,14 @@ class CalendarMainController extends Controller
                 Fullcalendarevento::create([
 
                     'start' => $value->start,
-                    'end' => $value->end,  
+                    'end' => $value->end,
                     'title' => $title_event
                 ]);
             }
 
         return view('calendario_main');
         //return Response()->json($data);
-       //return view('calendario');      
+       //return view('calendario');
     }
 
     /**
