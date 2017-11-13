@@ -78,3 +78,6 @@ Route::resource('porCapacidad', 'PorCapacidadController');
 
 Route::get('busquedaFecha', 'BusquedaFechas\\BusqFechasController@find');
 Route::resource('DetalleReserva','DetalleReserva\\DetalleReservaController');
+
+Route::get('Reservas/{id}/destroy',['uses'=>'ReservasController@destroy','as'=>'reservas.destroy']);
+Route::get('Detalles/{id}/destroy',['uses'=>'DetalleReserva\\DetalleReservaController@destroy','as'=>'detalle.destroy']);
