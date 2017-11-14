@@ -4,17 +4,13 @@
 	<div class="input-group">
 
 		<div class="box-header">
-	        <div class="input-group col-md-12">
-	        	<i class="fa fa-safari col-md-1"></i>
-	        	<select type="text" name="periodo_id" class="col-md-4" placeholder="Buscar...">
-	        		@foreach ($periodo as $per)
-	        		<option value="{{$per->id}}" selected="selected">
-	        			{{$per->hora}}
-	        		</option>
-	        		@endforeach
-	        	</select>
-			</div>
-		</div>
+	      {!!Form::label('Hora inicio y final:')!!}
+	      <div class="input-group col-md-8"> 
+	      	{!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
+	      </div>
+ 		</div>
+
+		
 
 		<div class="box-header">
 		{!!Form::label('Capacidad:')!!}
@@ -26,10 +22,11 @@
 		
 
 		<div class="box-header">
+			{!!Form::label('Fecha Inicio y Fin:')!!}
 		<div class="input-group col-md-12">
 			<i class="fa fa-calendar col-md-1"></i>
-        	<input type="date" name="fechaIni" min={{$fechaActual}} class="col-md-5" required="">
-        	<input type="date" name="fechaFin" min={{$fechaActual}} class="col-md-5" required="">
+        	<input type="date" name="fechaIni" min={{$fechaActual}}  value={{$fechaActual}} class="col-md-5" required="">
+        	<input type="date" name="fechaFin" min={{$fechaActual}} value={{$fechaActual}} class="col-md-5" required="">
         </div>
     	</div>
 
