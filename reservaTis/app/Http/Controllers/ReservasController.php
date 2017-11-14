@@ -34,8 +34,6 @@ class ReservasController extends Controller
 
                         //dd($datos);
             return view('reservas.index',["reservas"=>$datos]);
-
-
         
     }
 
@@ -169,9 +167,25 @@ class ReservasController extends Controller
     
     public function destroy($id)
     {
-        $reserva=DetalleReserva::findOrFail($id);
-        $reserva->estado='inactivo';
-        $reserva->update();
+
+       $reserva=Reserva::find($id);
+      
+
+       $detalles=DB:: table('detalle_reservas as dr')
+                    ->where('dr.reserva_id',$id)
+                    ->get();
+       
+        foreach ($detalles as $det ) {
+            $detelleReserva= DetalleReserva::find($det->id);
+            $detelleReserva->delete();
+        }
+        $reserva->delete();
+
+
+        Flash::warning("La Reserva ha sido eliminada");
         return Redirect::to('reservas');
+
+
+
     }
 }

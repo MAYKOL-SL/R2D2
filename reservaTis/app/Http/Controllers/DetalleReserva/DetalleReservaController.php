@@ -13,6 +13,7 @@ use Reserva\Reserva;
 use Reserva\DetalleReserva;
 use DB;
 use Carbon\Carbon;
+use Laracasts\Flash\Flash;
 class DetalleReservaController extends Controller
 {
     /**
@@ -39,7 +40,7 @@ class DetalleReservaController extends Controller
                             ->join('users as us','us.id','=','r.user_id')
                             ->join('calendarios as cal','cal.id','=','dr.calendario_id')
                             ->join('periodos','periodos.id','=','dr.periodo_id')
-                            ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end','cal.Fecha','periodos.hora')
+                            ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end','cal.Fecha','periodos.hora','dr.id as id_detalle')
 
                             ->where('dr.reserva_id','=',$idreserva)
                             //->distinct()
@@ -119,6 +120,42 @@ class DetalleReservaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        $detalle=DetalleReserva::find($id);
+        
+        $idres=DB::table('detalle_reservas')
+                   
+                    ->select('detalle_reservas.reserva_id')
+                    ->where('detalle_reservas.id','=',$id)
+                    ->value('reserva_id');
+
+        $idrescount=DB::table('detalle_reservas')
+                   
+                    ->select('detalle_reservas.reserva_id')
+                    ->where('detalle_reservas.reserva_id','=',$idres)
+                    ->count();
+        
+      
+        if($idrescount==1){
+
+            $reserva=Reserva::find($idres);
+            $detalle->delete();
+            $reserva->delete();
+            Flash::error("Todas las reservas han sido eliminadas");
+            return redirect::to('reservas');
+
+
+        }else{
+
+            $detalle->delete();
+            Flash::warning("La Reserva ha sido eliminada");
+
+            return redirect()->action('DetalleReserva\DetalleReservaController@index',["idr"=>$idres]);
+
+         }
+        
+       
+
+      
     }
 }
