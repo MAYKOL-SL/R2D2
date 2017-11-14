@@ -15,6 +15,7 @@ use DB;
 use Laracasts\Flash\Flash;
 use Carbon\Carbon;
 use Reserva\Periodo;
+use Reserva\TipoFecha;
 
 class ReservasController extends Controller
 {
@@ -69,15 +70,22 @@ class ReservasController extends Controller
     public function store(Request $request)
     {
         
+        //dd($feriados);
+        //dd($request->get('lunes'));
         //datos recogidos
+        $feriados = TipoFecha::lists('nombre_fecha')->ToArray();
         $ambiente=$request->get('ambiente_id');
         $fecha_ini=$request->get('fecha_ini');
         $fecha_fin=$request->get('fecha_fin');
-        $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
-                $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
-        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
-        ->get();
+        //$feriados=DB::table('tipo_fechas')->get('nombre_fecha');
+        
         $periodos=$request->get('periodos');
+        $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
+                $request->get('jueves'),$request->get('viernes'),$request->get('sabado'),$request->get('domingo')];
+        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])
+        ->whereIn('Dia',$dias)->whereNotIn('Fecha',$feriados)
+        ->select('id');
+        
         //reservados
         $reservados=DB::table('detalle_reservas as dr')->where('estado','=','activo')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
@@ -100,7 +108,7 @@ class ReservasController extends Controller
         
         //verificar
         if ($contador > 0) {
-            Flash::success("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
+            Flash::error("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
         }
         else{
             //registro de reserva
@@ -131,8 +139,7 @@ class ReservasController extends Controller
         }
         
 
-        return Redirect::to('reservas');
-    }
+        return Redirect::to('reservas');    }
 
     
    public function show($id)
