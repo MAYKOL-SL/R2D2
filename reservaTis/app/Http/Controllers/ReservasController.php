@@ -56,6 +56,7 @@ class ReservasController extends Controller
     
     public function store(Request $request)
     {
+
         
         //datos recogidos
         $ambiente=$request->get('ambiente_id');
@@ -66,6 +67,43 @@ class ReservasController extends Controller
         $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
         ->get();
         $periodos=$request->get('periodos');
+
+    	//verificar fechas
+    	$fecha_ini=$request->get('fecha_ini');
+        $fecha_fin=$request->get('fecha_fin');
+    	if ($fecha_ini > $fecha_fin) {
+    		Flash::warning("fecha Inicio tiene que ser antes que la fecha Fin");
+    		return Redirect::to('reservas/create');
+    	}
+        //dias
+        $dias;
+        $lunes=$request->get( 'lunes');
+        $martes=$request->get( 'martes');
+        $miercoles=$request->get( 'miercoles');
+        $jueves=$request->get( 'jueves');
+        $viernes=$request->get( 'viernes');
+        $sabado=$request->get( 'sabado');
+        $domingo=$request->get( 'domingo');
+        if ($lunes==null & $martes==null & $miercoles==null & $jueves==null
+        	 & $viernes==null& $sabado==null & $domingo==null) {
+        	$dias=['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
+        }
+        else{
+        	$dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
+                $request->get('jueves'),$request->get('viernes'),$request->get('sabado'),$request->get('domingo')];
+        }
+        //dd($dias);
+        $feriados = TipoFecha::lists('nombre_fecha')->ToArray();
+        $ambiente=$request->get('ambiente_id');
+        
+        $periodos=$request->get('periodos');
+        //fechas a reservar
+        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])
+        ->whereIn('Dia',$dias)->whereNotIn('Fecha',$feriados)
+        ->get();
+        //dd($fechas);
+        
+
         //reservados
         $reservados=DB::table('detalle_reservas as dr')->where('estado','=','activo')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
