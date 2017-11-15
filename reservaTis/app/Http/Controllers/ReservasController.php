@@ -1,12 +1,8 @@
 <?php
-
 namespace Reserva\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
-
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Reserva\Reserva;
@@ -16,7 +12,6 @@ use Laracasts\Flash\Flash;
 use Carbon\Carbon;
 use Reserva\Periodo;
 use Reserva\TipoFecha;
-
 class ReservasController extends Controller
 {
     public function index(Request $request)
@@ -27,18 +22,14 @@ class ReservasController extends Controller
                         ->join('users as us','us.id','=','r.user_id')
                         
                          ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end')
-
                         
                          ->distinct()
                          ->orderBy('r.id')
                         ->get();
-
                         //dd($datos);
             return view('reservas.index',["reservas"=>$datos]);
         
     }
-
-
     
     public function create(Request $request)
     {
@@ -51,8 +42,6 @@ class ReservasController extends Controller
             $jueves=$request->get('jueves');
             $viernes=$request->get('viernes');
             $sabado=$request->get('sabado');
-
-
             $user=DB::table('users')->get();
             $ambiente=DB::table('ambientes')/*->where('id','=',$amb_id)*/->get();
             $periodo=DB::table('periodos')->get();
@@ -60,15 +49,25 @@ class ReservasController extends Controller
             $fechaActual=$fechaActual->addDay(1);
             $fechaIni=$request->get('fecha_ini');
             $fechaFin=$request->get('fecha_fin');
-
             return view("reservas.create",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"fechaActual"=>$fechaActual,"fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado, "hora"=>$hora]);
         }
         
     }
-
     
     public function store(Request $request)
     {
+
+        
+        //datos recogidos
+        $ambiente=$request->get('ambiente_id');
+        $fecha_ini=$request->get('fecha_ini');
+        $fecha_fin=$request->get('fecha_fin');
+        $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
+                $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
+        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
+        ->get();
+        $periodos=$request->get('periodos');
+
     	//verificar fechas
     	$fecha_ini=$request->get('fecha_ini');
         $fecha_fin=$request->get('fecha_fin');
@@ -104,6 +103,7 @@ class ReservasController extends Controller
         ->get();
         //dd($fechas);
         
+
         //reservados
         $reservados=DB::table('detalle_reservas as dr')->where('estado','=','activo')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
@@ -126,7 +126,7 @@ class ReservasController extends Controller
         
         //verificar
         if ($contador > 0) {
-            Flash::error("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
+            Flash::success("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
         }
         else{
             //registro de reserva
@@ -157,16 +157,14 @@ class ReservasController extends Controller
         }
         
 
-        return Redirect::to('reservas');    }
-
-    
+        return Redirect::to('reservas');
+    }
+     
    public function show($id)
     {
       
           return redirect()->action('DetalleReserva\DetalleReservaController@index',["idr"=>$id]);
-
     }
-
     
     public function edit($id)
     {
@@ -177,7 +175,6 @@ class ReservasController extends Controller
         $user=DB::table('users')->get();
         return view("reserva.edit",["reserva"=>$reserva,"calendario"=>$calendario,"dia"=>$dia,"ambiente"=>$ambiente,"user"=>$user]);
     }
-
     
     public function update(Request $request, $id)
     {
@@ -188,14 +185,11 @@ class ReservasController extends Controller
         $reserva->user_id='1';
         $reserva->update();
         return Redirect::to('reserva');    }
-
     
     public function destroy($id)
     {
-
        $reserva=Reserva::find($id);
       
-
        $detalles=DB:: table('detalle_reservas as dr')
                     ->where('dr.reserva_id',$id)
                     ->get();
@@ -205,12 +199,7 @@ class ReservasController extends Controller
             $detelleReserva->delete();
         }
         $reserva->delete();
-
-
         Flash::warning("La Reserva ha sido eliminada");
         return Redirect::to('reservas');
-
-
-
     }
 }
