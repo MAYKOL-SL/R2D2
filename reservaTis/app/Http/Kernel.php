@@ -29,5 +29,10 @@ class Kernel extends HttpKernel
         'auth' => \Reserva\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \Reserva\Http\Middleware\RedirectIfAuthenticated::class,
+
+        'admin' => \Reserva\Http\Middleware\Administrador::class,
+        'docente' => \Reserva\Http\Middleware\Docente::class,
+        'secret' => \Reserva\Http\Middleware\Secretaria::class,
+        'auxi' => \Reserva\Http\Middleware\Auxiliar::class,
     ];
 }
