@@ -7,11 +7,12 @@
 
 @section('main-content')
 <div class="box box-primary">
+  <div class="table-responsive">
   <div class="box-header with-border">
   <label class = "box-title">Ingrese los datos del ambiente: </label>
   </div>
 
-{!!Form::open(['route'=>'CrearAmbiente.store','method'=>'POST'])!!}
+{!!Form::open(['route'=>'CrearAmbiente.store','method'=>'POST', 'files' => true])!!}
 
 <div class="box-header">
     {!! Form::label('Nombre: ') !!}       
@@ -39,7 +40,12 @@
     ,'placeholder'=>'Seleccione','required'=>'required']) !!}
 </div>
 
+<div class="box-header">
+  {!! Form::label('imagen','Imagen de Ubicación: ') !!}
+  {!! Form::file('imagen',['class'=>'form-control input-sm']) !!}
+</div>
 
+ 
 <div class="box-header">
     <td>
 {!! Form::submit('Crear Ambiente ', ['class' => 'btn btn-primary']) !!}
@@ -49,12 +55,15 @@
     {!! Form::close() !!}
 
 </div>
+</div>
+
 
 @endsection
 @section('js')
 <script>
   $('.select-tag').chosen({
-    placeholder_text_multiple:'Seleccione los complementos del ambiente'
+    placeholder_text_multiple:'Seleccione los complementos del ambiente',
+    width: "100%"
   });
 
 </script>
