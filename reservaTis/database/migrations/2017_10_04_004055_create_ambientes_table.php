@@ -16,6 +16,7 @@ class CreateAmbientesTable extends Migration
             $table->increments('id');
             /*title es nombre aula*/
             $table->string('title',50);
+            $table->string('imagen',50);
              $table->integer('capacidad');
               $table->string('ubicacion',50);
             $table->timestamps();

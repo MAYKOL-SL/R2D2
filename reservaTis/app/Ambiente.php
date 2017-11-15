@@ -3,14 +3,22 @@
 namespace Reserva;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class Ambiente extends Model
 {
     protected $table = 'ambientes';
 
     public $timestamps = false;
 
-    protected $fillable=['title','capacidad','ubicacion','tipo_ambiente_id'];
+    protected $fillable=['title','capacidad','ubicacion','imagen','tipo_ambiente_id'];
+
+    public function setImagenAttribute($imagen){
+        if (!empty($imagen)) {
+        $name = Carbon::now()->second.$imagen->getClientOriginalName();
+        $this->attributes['imagen'] = $name;
+        \Storage::disk('local')->put($name, \File::get($imagen));
+       }
+    }
 
     public static function towns($id){
        return Ambiente::where('tipo_ambiente_id','=',$id)

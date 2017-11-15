@@ -7,11 +7,12 @@
 
 @section('main-content')
 <div class="box box-primary">
+  <div class="table-responsive">
   <div class="box-header with-border">
   <label class = "box-title">Editar {{$ambiente->title}} </label>
   </div>
 
-  {!!Form::open(['route'=>['CrearAmbiente.update',$ambiente],'method'=>'PUT'])!!}
+  {!!Form::open(['route'=>['CrearAmbiente.update',$ambiente],'method'=>'PUT', 'files' => true])!!}
 
 
 <div class="box-header">
@@ -40,6 +41,10 @@
     ,'placeholder'=>'Seleccione','required'=>'required']) !!}
 </div>
 
+<div class="box-header">
+  {!! Form::label('imagen','Imagen de Ubicación: ') !!}
+  {!! Form::file('imagen', ['class'=>'form-control input-sm']) !!}
+</div>
 
 <div class="box-header">
     <td>
@@ -50,6 +55,8 @@
     {!! Form::close() !!}
 
 </div>
+</div>
+
 
 @endsection
 @section('js')

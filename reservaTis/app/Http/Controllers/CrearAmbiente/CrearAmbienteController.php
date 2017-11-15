@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Session;
 use Reserva\Role;
 use Reserva\Complemento;
+use Reserva\Imagen;
 use Reserva\TipoAmbiente;
 use Reserva\AmbienteComplemento;
 use Laracasts\Flash\Flash;
@@ -32,16 +33,12 @@ class CrearAmbienteController extends Controller
     public function index(Request $request)
     {
 
-        $ambiente = Ambiente::search($request->name)->orderBy('id','ASC')->paginate(10);
+        $ambiente = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(10);
         $ambiente->each(function($ambiente){
             $ambiente->complementos;
 ;            $ambiente->tipo_ambiente;
         });
         return view('CrearAmbiente.index')->with('ambiente',$ambiente);
-        /*$ambiente = Ambiente::select('title','capacidad','ubicacion','tipo_ambientes.tipo_aula as tipo_aula')
-        ->join('tipo_ambientes','tipo_ambientes.id','=','ambientes.tipo_ambiente_id')
-        ->get();
-        return view('CrearAmbiente.index',compact('ambiente'));*/
     }
 
     /**
@@ -52,7 +49,7 @@ class CrearAmbienteController extends Controller
     public function create()
     {
 
-        $complementos = Complemento::orderBy('nombre_complemento','ASC')->lists('nombre_complemento','id'); 
+        $complementos = Complemento::orderBy('nombre_complemento','ASC')->where('estado','=','Activo')->lists('nombre_complemento','id'); 
         $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->lists('tipo_aula','id');
 
         return view('CrearAmbiente.create', compact('complementos','tipos'));
@@ -67,7 +64,7 @@ class CrearAmbienteController extends Controller
     {
 
        $ambiente = new Ambiente($request->all());
-       $ambiente->save();
+        $ambiente->save();
 
        $ambiente->complementos()->sync($request->complementos);
 
@@ -101,7 +98,7 @@ class CrearAmbienteController extends Controller
     {
         $ambiente = Ambiente::find($id);
         $ambiente->tipo_ambiente;
-        $complementos = Complemento::orderBy('nombre_complemento','ASC')->lists('nombre_complemento','id');
+        $complementos = Complemento::orderBy('nombre_complemento','ASC')->where('estado','=','Activo')->lists('nombre_complemento','id');
         $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->lists('tipo_aula','id');
 
         $my_complementos = $ambiente->complementos->lists('id')->ToArray();
