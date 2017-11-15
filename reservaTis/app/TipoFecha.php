@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 namespace Reserva;
 
@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoFecha extends Model
 {
-    protected $table = 'tipoFechas';
+    protected $table = 'tipo_fechas';
     public $timestamps = false;
+	protected $fillable=['nombre_fecha','motivo_feriado'];
 
     public function calendarios()
     {

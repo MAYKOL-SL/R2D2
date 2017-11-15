@@ -26,7 +26,6 @@
                     <th>capacidad</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
-                    <th>Periodo</th>
                     <th>Opciones</th>
                 </thead>
                 @foreach ($ambientes as $amb)
@@ -36,7 +35,6 @@
                     <td>{{ $amb->capacidad}}</td>
                     <td>{{ $fechaIni}}</td>
                     <td>{{ $fechaFin}}</td>
-                    <td>{{ $periodoBuscado}}</td>
                     <td>
                         <a href=""><button class="btn btn-info">Reservar</button></a>
                     </td>
@@ -49,4 +47,11 @@
 </div>
 
 </div>
+@endsection
+@section('js')
+<script>
+  $('.select-tag').chosen({
+    placeholder_text_multiple:'Seleccione los periodos de busqueda'
+  });
+</script>
 @endsection

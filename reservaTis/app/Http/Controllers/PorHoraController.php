@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Reserva\DetalleReserva;
 use Reserva\Ambiente;
 use Carbon\Carbon;
+use Reserva\Periodo;
 use DB;
 
 class PorHoraController extends Controller
@@ -20,17 +21,22 @@ class PorHoraController extends Controller
     {
         if($request)
         {
-
-            $capacidad=$request->get('capacidad');
+            $capacidad=1;
+            if ($request->get('capacidad') != null) {
+                $capacidad=$request->get('capacidad');
+            }
+            
             $fechaActual=Carbon::now();
             $fechaActual=$fechaActual->addDay(1);
-            $periodo=DB::table('periodos')->get();
+            //$periodo=DB::table('periodos')->get();
+            $hora = Periodo::lists('hora','id');
             $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
                 $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
 
             $fechaIni=$request->get('fechaIni');
             $fechaFin=$request->get('fechaFin');
-            $periodoBuscado=$request->get('periodo_id');
+            $periodoBuscado=$request->get('periodos');
+            //dd($periodoBuscado);
 
             
 
@@ -39,16 +45,17 @@ class PorHoraController extends Controller
             ->join('calendarios as c','c.id','=','dr.calendario_id')->whereBetween('c.Fecha',[$fechaIni,$fechaFin])
             ->whereIn('c.Dia',$dias)
             ->join('periodos as p','p.id','=','dr.periodo_id')
-            ->where('p.id','=',$periodoBuscado)
+            ->whereIn('p.id',$periodoBuscado)
             ->select('a.id');
 
 
             $ambientes=DB::table('ambientes')
-            ->where('capacidad','=',$capacidad)
+            ->where('capacidad','>=',$capacidad)
             ->whereNotIn('id',$reservados)
+            ->orderBy('capacidad')
             ->get();
 
-            return view('porHora.index',["fechaActual"=>$fechaActual,"periodo"=>$periodo,"ambientes"=>$ambientes,"periodoBuscado"=>$periodoBuscado, "fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"capacidad"=>$capacidad]);
+            return view('porHora.index',["fechaActual"=>$fechaActual,"hora"=>$hora,"ambientes"=>$ambientes,"periodoBuscado"=>$periodoBuscado, "fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"capacidad"=>$capacidad]);
         }
 
     }

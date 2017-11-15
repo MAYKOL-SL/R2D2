@@ -15,6 +15,7 @@ use DB;
 use Laracasts\Flash\Flash;
 use Carbon\Carbon;
 use Reserva\Periodo;
+use Reserva\TipoFecha;
 
 class ReservasController extends Controller
 {
@@ -34,8 +35,6 @@ class ReservasController extends Controller
 
                         //dd($datos);
             return view('reservas.index',["reservas"=>$datos]);
-
-
         
     }
 
@@ -70,16 +69,41 @@ class ReservasController extends Controller
     
     public function store(Request $request)
     {
-        
-        //datos recogidos
-        $ambiente=$request->get('ambiente_id');
-        $fecha_ini=$request->get('fecha_ini');
+    	//verificar fechas
+    	$fecha_ini=$request->get('fecha_ini');
         $fecha_fin=$request->get('fecha_fin');
-        $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
-                $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
-        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
-        ->get();
+    	if ($fecha_ini > $fecha_fin) {
+    		Flash::warning("fecha Inicio tiene que ser antes que la fecha Fin");
+    		return Redirect::to('reservas/create');
+    	}
+        //dias
+        $dias;
+        $lunes=$request->get( 'lunes');
+        $martes=$request->get( 'martes');
+        $miercoles=$request->get( 'miercoles');
+        $jueves=$request->get( 'jueves');
+        $viernes=$request->get( 'viernes');
+        $sabado=$request->get( 'sabado');
+        $domingo=$request->get( 'domingo');
+        if ($lunes==null & $martes==null & $miercoles==null & $jueves==null
+        	 & $viernes==null& $sabado==null & $domingo==null) {
+        	$dias=['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
+        }
+        else{
+        	$dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
+                $request->get('jueves'),$request->get('viernes'),$request->get('sabado'),$request->get('domingo')];
+        }
+        //dd($dias);
+        $feriados = TipoFecha::lists('nombre_fecha')->ToArray();
+        $ambiente=$request->get('ambiente_id');
+        
         $periodos=$request->get('periodos');
+        //fechas a reservar
+        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])
+        ->whereIn('Dia',$dias)->whereNotIn('Fecha',$feriados)
+        ->get();
+        //dd($fechas);
+        
         //reservados
         $reservados=DB::table('detalle_reservas as dr')->where('estado','=','activo')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
@@ -102,7 +126,7 @@ class ReservasController extends Controller
         
         //verificar
         if ($contador > 0) {
-            Flash::success("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
+            Flash::error("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
         }
         else{
             //registro de reserva
@@ -133,8 +157,7 @@ class ReservasController extends Controller
         }
         
 
-        return Redirect::to('reservas');
-    }
+        return Redirect::to('reservas');    }
 
     
    public function show($id)
@@ -169,9 +192,25 @@ class ReservasController extends Controller
     
     public function destroy($id)
     {
-        $reserva=DetalleReserva::findOrFail($id);
-        $reserva->estado='inactivo';
-        $reserva->update();
+
+       $reserva=Reserva::find($id);
+      
+
+       $detalles=DB:: table('detalle_reservas as dr')
+                    ->where('dr.reserva_id',$id)
+                    ->get();
+       
+        foreach ($detalles as $det ) {
+            $detelleReserva= DetalleReserva::find($det->id);
+            $detelleReserva->delete();
+        }
+        $reserva->delete();
+
+
+        Flash::warning("La Reserva ha sido eliminada");
         return Redirect::to('reservas');
+
+
+
     }
 }
