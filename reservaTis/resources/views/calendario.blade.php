@@ -57,13 +57,54 @@
                     <div class="modal-body">
 
                         <div class="form-group">
-                            {!! Form::label('actividad', 'Actividad') !!}
-                            {!! Form::text('actividad', old('actividad'), ['class' => 'form-control']) !!}
+                                {!!Form::label('Usuario:')!!}
+                                <div class="input-group col-md-12"> 
+                                      <!--<div class="input-group-addon">-->
+                                          <select name="user_id" class="form-control" required>
+                                                  @foreach ($user as $us)
+                                                  @if($us->id==Auth::user()->id)
+                                                   <option value="{{$us->id}}">
+                                                      {{$us->name}}
+                                                  </option>
+                                                  @else
+                                                   @endif
+                                              @endforeach
+                                          </select>
+                                      <!--</div>-->
+                                 </div>
+                        </div>
+
+                        <div class="form-group">
+                              {!!Form::label('Nombre Reserva:')!!}
+                              <div class="input-group col-md-12" > 
+                                    <div class="form-group">
+                                        <input type="text" name="nombre_reserva" class="form-control" placeholder="Nombre reserva..." required>
+                                    </div>
+                              </div>
                         </div>
     
                         <div class="form-group">
-                            {!! Form::label('descripcion', 'Descripcion') !!}
-                            {!! Form::text('descripcion', old('descripcion'), ['class' => 'form-control']) !!}
+                              {!!Form::label('Descripcion:')!!}
+                              <div class="input-group col-md-12"> 
+                                    <div class="form-group">
+                                        <input type="text" name="description" class="form-control" placeholder="descripcion..." required>
+                                    </div>
+                              </div>
+                        </div>
+
+                        <div class="form-group">
+                              {!!Form::label('Ambiente:')!!}
+                              <div class="input-group col-md-12" > 
+                                    <!--<div class="input-group-addon">-->
+                                        <select name="ambiente_id" class="form-control" required>
+                                            @foreach ($ambiente as $amb)
+                                                <option value="{{$amb->id}}">
+                                                    {{$amb->title}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    <!--</div>-->
+                              </div>
                         </div>
 
                         <div class="form-group">
@@ -76,43 +117,30 @@
                             {!! Form::text('date_end', old('date_end'), ['class' => 'form-control']) !!}
                         </div>
 
-                         <div class="form-group">
-                            {!! Form::label('color', 'Color de Reserva') !!}
-                            <div class="input-group colorpicker">
-                              {!! Form::text('color', old('color'), ['class' => 'form-control']) !!}
-                              <span class="input-group-addon">
-                                <i></i>
-                              </span>
-                            </div>
-                        </div>
-
-                        <div class="box-group">
-
-                                  {!!Form::label('Hora inicio y final:')!!}
-                              
-                              <div class="box-group"> 
-                                 
-                                 {!! Form::select('periodos[]',$hora,null,['class'=>'tamano form-control input-sm select-tag','multiple','required']) !!}
-
-                              </div>
-
+                        <div class="form-group">
+                                  {!!Form::label('Dias:')!!}
+                                  <div class="input-group col-md-5">
+                                          
+                                            <input type="checkbox" name="lunes" value="Lunes">Lunes<br>
+                                          
+                                            <input type="checkbox" name="martes" value="Martes">Martes<br>
+                                          
+                                            <input type="checkbox" name="miercoles" value="Miercoles">Miercoles<br>
+                                          
+                                            <input type="checkbox" name="jueves" value="Jueves">Jueves<br>
+                                          
+                                            <input type="checkbox" name="viernes" value="Viernes">Viernes<br>
+                                          
+                                            <input type="checkbox" name="sabado" value="Sabado">Sabado<br>
+                                          
+                                  </div>
                         </div>
 
                         <div class="form-group">
-                             
-                             <div class="col">
-
-                                  {!!Form::label('Tipo de ambiente')!!}
-                                
-                                  {!! Form::select('state',$states,null,['id'=>'state','class'=>'form-control input-sm'
-                                      ,'placeholder'=>'Seleccione','required'=>'required']) !!}
-                                
-                                  {!!Form::label('Ambiente')!!}
-                                
-                                  {!! Form::select('town',['placeholder'=>'Selecciona'],null,['id'=>'town','class'=>'form-control select-category input-sm'
-                                      ,'required'=>'required']) !!}
-
-                             </div>
+                              {!!Form::label('Hora inicio y final:')!!}
+                              <div class="input-group col-md-12"> 
+                              {!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
+                              </div>
                         </div>
 
                     </div>
@@ -136,6 +164,49 @@
               <!-- THE CALENDAR -->
 
             <div id="calendar"></div>
+                
+
+
+            <div id="modal-event" class="modal fade" tabindex="-1" data-backdrop="static" >
+
+                <div class="modal-dialog" style="background: #ffffff;">
+                    
+                    <div class="modal-body">
+
+                      <h4>Evento</h4>                        
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                              {!! Form::label('_title', 'Titulo') !!}
+                              {!! Form::text('_title', old('_title'), ['class' => 'form-control', 'readonly' => 'true']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::label('_start', 'Fecha Inicio') !!}
+                            {!! Form::text('_start', old('_start'), ['class' => 'form-control', 'readonly' => 'true']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::label('_end', 'Fecha Fin') !!}
+                            {!! Form::text('_end', old('_end'), ['class' => 'form-control', 'readonly' => 'true']) !!}
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                           <a id="delete" data-href="{{ url('calendario') }}" data-id="" class="btn btn-danger" data-dismiss="modal">Eliminar</a>
+
+                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                          
+                    </div>
+
+               </div>
+
+           </div>
+
+
 
               
             </div>
@@ -166,19 +237,70 @@
       selectable:true,
       selectHelper:true,
 
+      eventMouseover: function (data, event, view) {
+
+            tooltip = '<div class="tooltiptopicevent" style="width:auto;height:auto;background:#feb811;position:absolute;z-index:10001;padding:10px 10px 10px 10px ;  line-height: 200%;">' + data.title + '</div>';
+
+
+            $("body").append(tooltip);
+            $(this).mouseover(function (e) {
+                $(this).css('z-index', 10000);
+                $('.tooltiptopicevent').fadeIn('500');
+                $('.tooltiptopicevent').fadeTo('10', 1.9);
+            }).mousemove(function (e) {
+                $('.tooltiptopicevent').css('top', e.pageY + 10);
+                $('.tooltiptopicevent').css('left', e.pageX + 20);
+            });
+
+
+        },
+
+        eventMouseout: function (data, event, view) {
+            $(this).css('z-index', 8);
+
+            $('.tooltiptopicevent').remove();
+
+        },
+        eventResizeStart: function () {
+            tooltip.hide()
+        },
+
+        eventDragStart: function () {
+            tooltip.hide()
+        },
+
+        viewDisplay: function () {
+            tooltip.hide()
+        },
+
       select: function(start){
         start=moment(start.format());
         $('#date_start').val(start.format('YYYY-MM-DD'));
+        $('#date_end').val(start.format('YYYY-MM-DD'));
         $('#responsive-modal').modal('show');
       },
 
-      events: BASEURL_DOS
+      events: BASEURL_DOS,
+
+      eventClick: function(event, jsEvent, view){
+        var date_end = moment(event.end).format('YYYY-MM-DD'); 
+        var date_start = moment(event.start).format('YYYY-MM-DD'); 
+
+        if(date_end == 'Invalid date'){
+
+          date_end = date_start;
+        }
+
+        $('#delete').attr('data-id', event.id);
+        $('#_title').val(event.title);
+        $('#_start').val(date_start);
+        $('#_end').val(date_end);
+        $('#modal-event').modal('show');
+      }
 
     });
     
   });
-
-  $('.colorpicker').colorpicker();
 
 
   $('#date_end').bootstrapMaterialDatePicker({ 
@@ -187,6 +309,27 @@
     time: false,
     format: 'YYYY-MM-DD'
   });
+
+
+  $('#delete').on('click', function(){
+    var x = $(this);
+    var delete_url = x.attr('data-href') + '/' + x.attr('data-id');
+
+    $.ajax({
+
+      url: delete_url,
+      type: 'DELETE',
+
+      success: function(result){
+      },
+
+      error: function(result){
+        
+      }
+
+    });
+  });
+
 </script>
 
 @section('js')

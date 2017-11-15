@@ -4,6 +4,7 @@ namespace Reserva\Http\Controllers;
 
 use Illuminate\Database\Schema\R2D2;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Reserva\Http\Requests;
 use Reserva\Fullcalendarevento;
 use Reserva\Calendario;
@@ -15,6 +16,7 @@ use Reserva\TipoAmbiente;
 use Reserva\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
+use Laracasts\Flash\Flash;
 
 use Storage;
 use DB;
@@ -37,7 +39,7 @@ class CalendarioController extends Controller
 
     public function getDatosFullCalendar()
     {
-        $data = Fullcalendarevento::get(['start', 'end', 'title', 'color']);
+        $data = Fullcalendarevento::get(['start', 'end', 'title', 'color', 'id']);
         return Response()->json($data);
     }
 
@@ -70,7 +72,7 @@ class CalendarioController extends Controller
 
     public function getDatosReserva(Request $request)
     {
-        $borrar = Fullcalendarevento::where('id', '>', 0)->delete();
+        $borrar = Fullcalendarevento::where('id_event', '>', 0)->delete();
 
         $data = DB::table('calendarios')
             ->whereNotNull('Actividad')
@@ -79,7 +81,6 @@ class CalendarioController extends Controller
         foreach ($data->get() as $value) {
 
             Fullcalendarevento::create([
-
                     'start' => $value->Fecha,
                     'title' => $value->Actividad
                 ]);
@@ -89,11 +90,12 @@ class CalendarioController extends Controller
             ->join('detalle_reservas', 'reservas.id', '=', 'detalle_reservas.reserva_id')
             ->join('ambientes', 'detalle_reservas.ambiente_id', '=', 'ambientes.id')
             ->join('periodos', 'detalle_reservas.periodo_id', '=', 'periodos.id')
-            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora');
+            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora', 'detalle_reservas.id');
 
         foreach ($data->get() as $value) {
 
                     $salto = chr(13).chr(10);
+                    $linea = " || ";
 
                     $nombre_periodo = "Periodo: ";
                     $valor_periodo = $value->hora;
@@ -111,22 +113,27 @@ class CalendarioController extends Controller
                     $valor_descripcion = $value->description;
                     $descripcion = $nombre_descripcion. $valor_descripcion;
 
-                    $title_event = $periodo . $salto . $reserva . $salto . $aula . $salto . $descripcion;
+                    $title_event = $linea . $periodo . $salto . $linea . $reserva . $salto . $linea . $aula . $salto .$linea . $descripcion;
 
 
                 Fullcalendarevento::create([
 
+                    'id' => $value->id,
                     'start' => $value->start,
                     'end' => $value->end,
                     'title' => $title_event
                 ]);
             }
+        
+        $user=DB::table('users')->get();
+        $ambiente=DB::table('ambientes')->get();
+
 
         $hora = Periodo::lists('hora','id');
         $states = TipoAmbiente::lists('tipo_aula','id');
-        return view('calendario',compact('states', 'hora'));
+        return view('calendario',compact('states', 'hora', 'user', 'ambiente'));
         add('periodos');
-
+        
         //return Response()->json($data);
        //return view('calendario');
     }
@@ -169,25 +176,7 @@ class CalendarioController extends Controller
      */
     public function create(Request $request)
     {
-
-        if ($request) {
-            $amb_id=$request->get('ambiente_id');
-            $fechaActual=Carbon::now();
-            $lunes=$request->get('lunes');
-            $martes=$request->get('martes');
-            $miercoles=$request->get('miercoles');
-            $jueves=$request->get('jueves');
-            $viernes=$request->get('viernes');
-            $sabado=$request->get('sabado');
-
-
-            $user=DB::table('users')->get();
-            $ambiente=DB::table('ambientes')/*->where('id','=',$amb_id)*/->get();
-            $periodo=DB::table('periodos')->get();
-            $hora = Periodo::lists('hora','id');
-
-            return view("reservas.create",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado, "hora"=>$hora]);
-        }
+        //
     }
 
     //leccion 09
@@ -243,58 +232,72 @@ class CalendarioController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        
+        //datos recogidos
+        $ambiente=$request->get('ambiente_id');
+        $fecha_ini=$request->get('date_start');
+        $fecha_fin=$request->get('date_end');
+        $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
+                $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
+        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
+        ->get();
+        $periodos=$request->get('periodos');
+        //reservados
+        $reservados=DB::table('detalle_reservas as dr')->where('estado','=','activo')
+            ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
+            ->join('calendarios as c','c.id','=','dr.calendario_id')->whereBetween('c.Fecha',[$fecha_ini,$fecha_fin])
+            ->whereIn('c.Dia',$dias)
+            ->join('periodos as p','p.id','=','dr.periodo_id')
+            ->whereIn('p.id',$periodos)
+            ->get();
 
 
-            dd($request);
-        /**
+            $contador = array();
+            foreach ($reservados as $res ) {
+                array_push($contador, $res->id);
+            }
 
-        $salto = chr(13).chr(10);
+            $contador=count($contador);
+            $cantPer=count($periodos);
+            //dd($cantPer);
+            
+        
+        //verificar
+        if ($contador > 0) {
+            Flash::success("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
+        }
+        else{
+            //registro de reserva
+            $reserva=new Reserva;
+            $reserva->nombre_reseva=$request->get('nombre_reserva');
+            $reserva->description=$request->get('description');
+            $reserva->start=$fecha_ini;
+            $reserva->end=$fecha_fin;
+            $reserva->user_id=$request->get('user_id');
+            $reserva->save();
+            //creando la reserva
+            
+        //fin de recoger periodos
+            foreach ($fechas as $fc) {
+                for ($i=0; $i < $cantPer; $i++) { 
+                    $detres=new DetalleReserva;
+                    $detres->estado="Activo";
+                    $detres->reserva_id=$reserva->id;
+                    $detres->calendario_id=$fc->id;
+                    $detres->ambiente_id=$ambiente;
+                    $detres->periodo_id=$periodos[$i];
+                    $detres->save();
+                }
 
-                    $nombre_periodo = "Periodo: ";
-                    $valor_periodo = $request->periodos;
+                
+            }
+            Flash::success("Se ha creado la reserva de forma correcta");
+        }
+        
 
-
-
-                    //$data_periodo = DB::table('periodos')
-                    //         ->where('periodos.id' , '=', $valor_periodo)
-                    //         ->select('periodos.hora')->get();
-                    $periodo = $nombre_periodo . $valor_periodo;
-
-
-                    $nombre_reserva = "Reserva: ";
-                    $valor_reserva = $request->actividad;
-                    $reserva = $nombre_reserva . $valor_reserva;
-
-                    $nombre_aula = "Aula: ";
-                    $valor_aula = $request->town;
-                    $aula = $nombre_aula . $valor_aula;
-
-                    $nombre_descripcion = "Descripcion: ";
-                    $valor_descripcion = $request->descripcion;
-                    $descripcion = $nombre_descripcion. $valor_descripcion;
-
-                    $title_event = $periodo . $salto . $reserva . $salto . $aula . $salto . $descripcion;
-
-        $fullcalendarevento = new Fullcalendarevento();
-        $fullcalendarevento->start = $request->date_start;
-        $fullcalendarevento->end = $request->date_end;
-        $fullcalendarevento->title = $title_event;
-        $fullcalendarevento->color = $request->color;
-        $fullcalendarevento->save();
-
-        return redirect('calendario');
-
-        * [$salto description]
-         * @var [type]
-         */
+        return Redirect::to('calendario');
     }
 
     /**
@@ -339,6 +342,42 @@ class CalendarioController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $detalle=DetalleReserva::find($id);
+        
+        $idres=DB::table('detalle_reservas')
+                   
+                    ->select('detalle_reservas.reserva_id')
+                    ->where('detalle_reservas.id','=',$id)
+                    ->value('reserva_id');
+
+        $idrescount=DB::table('detalle_reservas')
+                   
+                    ->select('detalle_reservas.reserva_id')
+                    ->where('detalle_reservas.reserva_id','=',$idres)
+                    ->count();
+        
+      
+        if($idrescount==1){
+
+            $reserva=Reserva::find($idres);
+            $detalle->delete();
+            $reserva->delete();
+            Flash::error("Todas las reservas han sido eliminadas");
+            return redirect::to('calendario');
+
+
+        }else{
+
+            $detalle->delete();
+            Flash::warning("La Reserva ha sido eliminada");
+
+            return redirect::to('calendario');
+
+         }
+        
+       
+
+      
     }
 }

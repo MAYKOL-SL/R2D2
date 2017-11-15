@@ -55,7 +55,11 @@ Route::get('complemento/{id}/destroy',[
 
 
 Route::get('calendario','CalendarioController@getDatosReserva');
-Route::resource('calendario', 'CalendarioController', ['only' => ['getDatosReserva', 'store']]);
+//Route::post('calendario/{id}', 'CalendarioController@destroy');
+Route::resource('calendario', 'CalendarioController', ['only' => ['store']]);
+Route::any('calendario/{id}',['uses'=>'CalendarioController@destroy']);
+
+
 Route::get('get_excel_calendario','CalendarioController@getDatosCalendario');
 Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
 Route::resource('leer_datos_excel', 'CalendarioController@loadCalendar');

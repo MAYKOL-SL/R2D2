@@ -20,6 +20,7 @@
   <label class = "box-title">Ingrese datos de su reserva </label>
   </div>
 
+
 {!!Form::open(array('url'=>'reservas','autocomplete'=>'off'))!!}
 <div class="box-header">
       {!!Form::label('Usuario:')!!}

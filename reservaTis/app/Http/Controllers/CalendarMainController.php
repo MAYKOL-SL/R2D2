@@ -30,7 +30,7 @@ class CalendarMainController extends Controller
 
     public function getDatosReserva()
     {
-        $borrar = Fullcalendarevento::where('id', '>', 0)->delete();
+        $borrar = Fullcalendarevento::where('id_event', '>', 0)->delete();
 
         $data = DB::table('calendarios')
             ->whereNotNull('Actividad')
@@ -49,11 +49,12 @@ class CalendarMainController extends Controller
             ->join('detalle_reservas', 'reservas.id', '=', 'detalle_reservas.reserva_id')
             ->join('ambientes', 'detalle_reservas.ambiente_id', '=', 'ambientes.id')
             ->join('periodos', 'detalle_reservas.periodo_id', '=', 'periodos.id')
-            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora');
+            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora', 'reservas.id');
 
         foreach ($data->get() as $value) {
 
                     $salto = chr(13).chr(10);
+                    $linea = " || ";
 
                     $nombre_periodo = "Periodo: ";
                     $valor_periodo = $value->hora;
@@ -71,11 +72,12 @@ class CalendarMainController extends Controller
                     $valor_descripcion = $value->description;
                     $descripcion = $nombre_descripcion. $valor_descripcion;
 
-                    $title_event = $periodo . $salto . $reserva . $salto . $aula . $salto . $descripcion;
+                    $title_event = $linea . $periodo . $salto . $linea . $reserva . $salto . $linea . $aula . $salto .$linea . $descripcion;
 
 
                 Fullcalendarevento::create([
 
+                    'id' => $value->id,
                     'start' => $value->start,
                     'end' => $value->end,
                     'title' => $title_event
