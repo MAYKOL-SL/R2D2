@@ -44,7 +44,7 @@
 
                     <td>
                          <a href="{{URL::action('ReservasController@show',$res->id_reserva)}}"><button class="btn btn-primary btn-sm">Ver</button></a>
-                        <a href=""><button class="btn btn-sm btn-info">Editar</button></a>
+                       <a href="{{URL::action('ReservasController@edit',$res->id_reserva)}}"><button class="btn btn-sm btn-info">Editar</button></a>
                         <a href="" data-target="#modal-delete-{{$res->id_reserva}}" data-toggle="modal"><button class="btn btn-sm btn-danger">Eliminar</button></a>
 
                    </td>
