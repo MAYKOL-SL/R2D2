@@ -17,6 +17,7 @@ use Reserva\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Laracasts\Flash\Flash;
+use Session;
 
 use Storage;
 use DB;
@@ -124,7 +125,7 @@ class CalendarioController extends Controller
                     'title' => $title_event
                 ]);
             }
-        
+
         $user=DB::table('users')->get();
         $ambiente=DB::table('ambientes')->get();
 
@@ -133,7 +134,7 @@ class CalendarioController extends Controller
         $states = TipoAmbiente::lists('tipo_aula','id');
         return view('calendario',compact('states', 'hora', 'user', 'ambiente'));
         add('periodos');
-        
+
         //return Response()->json($data);
        //return view('calendario');
     }
@@ -183,7 +184,7 @@ class CalendarioController extends Controller
 
     public function form_cargar_calendario_academico(){
 
-       return view("formulario.form_cargar_calendario_academico");
+       return view('Formulario.form_cargar_calendario_academico');
 
     }
 
@@ -195,7 +196,7 @@ class CalendarioController extends Controller
        $extension=$archivo->getClientOriginalExtension();
        $r1=Storage::disk('archivos')->put($nombre_original,  \File::get($archivo) );
        $ruta  =  storage_path('archivos') ."/". $nombre_original;
-       
+
        if($r1){
 
             Excel::load($ruta, function($calendario)
@@ -204,7 +205,7 @@ class CalendarioController extends Controller
                 foreach ($calendario->get() as $value) {
 
                         if(!empty($value->fecha)){
-                            
+
                             //Refrescar la tabla calendarios por hacer..
                             $last_id = DB::table('calendarios')->max('id');
 
@@ -223,7 +224,7 @@ class CalendarioController extends Controller
              });
 
             return view("mensajes.msj_correcto")->with("msj"," Calendario Academico Cargado Correctamente");
-        
+
        }
        else
        {
@@ -234,7 +235,7 @@ class CalendarioController extends Controller
 
     public function store(Request $request)
     {
-        
+
         //datos recogidos
         $ambiente=$request->get('ambiente_id');
         $fecha_ini=$request->get('date_start');
@@ -262,8 +263,8 @@ class CalendarioController extends Controller
             $contador=count($contador);
             $cantPer=count($periodos);
             //dd($cantPer);
-            
-        
+
+
         //verificar
         if ($contador > 0) {
             Flash::success("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
@@ -278,10 +279,10 @@ class CalendarioController extends Controller
             $reserva->user_id=$request->get('user_id');
             $reserva->save();
             //creando la reserva
-            
+
         //fin de recoger periodos
             foreach ($fechas as $fc) {
-                for ($i=0; $i < $cantPer; $i++) { 
+                for ($i=0; $i < $cantPer; $i++) {
                     $detres=new DetalleReserva;
                     $detres->estado="Activo";
                     $detres->reserva_id=$reserva->id;
@@ -291,11 +292,11 @@ class CalendarioController extends Controller
                     $detres->save();
                 }
 
-                
+
             }
             Flash::success("Se ha creado la reserva de forma correcta");
         }
-        
+
 
         return Redirect::to('calendario');
     }
@@ -344,20 +345,20 @@ class CalendarioController extends Controller
     {
 
         $detalle=DetalleReserva::find($id);
-        
+
         $idres=DB::table('detalle_reservas')
-                   
+
                     ->select('detalle_reservas.reserva_id')
                     ->where('detalle_reservas.id','=',$id)
                     ->value('reserva_id');
 
         $idrescount=DB::table('detalle_reservas')
-                   
+
                     ->select('detalle_reservas.reserva_id')
                     ->where('detalle_reservas.reserva_id','=',$idres)
                     ->count();
-        
-      
+
+
         if($idrescount==1){
 
             $reserva=Reserva::find($idres);
@@ -375,9 +376,9 @@ class CalendarioController extends Controller
             return redirect::to('calendario');
 
          }
-        
-       
 
-      
+
+
+
     }
 }

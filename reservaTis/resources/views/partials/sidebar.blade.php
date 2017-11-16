@@ -49,7 +49,7 @@
             <li><a href="{{ url('reservas') }}"><i class='fa fa-pencil-square-o'></i> <span>Reserva</span></a></li>
             @endif
             @if(Auth::check() && Auth::user()->hasRole('Administrador'))
-            <li><a href="{{ url('Formulario/form_cargar_calendario_academico') }}"><i class='fa fa-pencil'></i> <span>Cargar Calendario Academico</span></a></li>
+            <li><a href="{{ url('Formulario/form_cargar_calendario_academico') }}"><i class='fa fa-pencil'></i> <span>Cargar Calendario</span></a></li>
             @endif
             @if(Auth::check() && Auth::user()->hasRole('Administrador')|| Auth::user()->hasRole('Docente')|| Auth::user()->hasRole('Secretaria'))
             <li class="treeview">
