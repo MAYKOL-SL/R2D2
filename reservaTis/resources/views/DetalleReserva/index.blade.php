@@ -25,7 +25,7 @@
                     <th>Ambiente</th>
                     <th>Fecha</th>
                     <th>periodo</th>
-                    <th>iddetalle</th>
+                   {{--  <th>iddetalle</th> --}}
                     <th>Opciones</th>
                 </thead>
                 @foreach ($reservas as $res)
@@ -36,9 +36,9 @@
                     <td>{{ $res->nombre_aula}}</td>
                     <td>{{ $res->Fecha}}</td>
                     <td>{{ $res->hora}}</td>
-                    <td>{{$res->id_detalle}}</td>
+                   {{--  <td>{{$res->id_detalle}}</td> --}}
                     <td>
-                        <a href=""><button class="btn btn-info">Editar</button></a>
+                       {{--  <a href=""><button class="btn btn-info">Editar</button></a> --}}
                         <a href="" data-target="#modal-delete-{{$res->id_detalle}}" data-toggle="modal"><button class="btn btn-sm btn-danger">Eliminar</button></a>
                     </td>
                     @include('DetalleReserva.modal')
