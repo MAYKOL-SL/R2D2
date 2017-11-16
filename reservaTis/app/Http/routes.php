@@ -72,9 +72,9 @@ Route::group(['middleware' => ['auth','admin']], function (){
 			Route::get('get_excel_calendario','CalendarioController@getDatosCalendario');
 			Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
 			Route::resource('leer_datos_excel', 'CalendarioController@loadCalendar');
-			
+
 			Route::get('Formulario/form_cargar_calendario_academico', 'CalendarioController@form_cargar_calendario_academico');
-			Route::post('cargar_calendario_academico', 'CalendarioController@cargar_calendario_academico');
+			Route::post('Formulario/cargar_calendario_academico', 'CalendarioController@cargar_calendario_academico');
 
 
   		Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
