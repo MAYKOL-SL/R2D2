@@ -20,7 +20,7 @@ class ReservasController extends Controller
                         ->join('detalle_reservas as dr','dr.reserva_id','=','r.id')
                         ->join('ambientes as amb','amb.id','=','dr.ambiente_id')
                         ->join('users as us','us.id','=','r.user_id')
-                        
+                        ->where('r.estado','activo')
                          ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end')
                         
                          ->distinct()
@@ -64,8 +64,7 @@ class ReservasController extends Controller
         $fecha_fin=$request->get('fecha_fin');
         $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
                 $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
-        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
-        ->get();
+        
         $periodos=$request->get('periodos');
 
     	//verificar fechas
@@ -103,34 +102,83 @@ class ReservasController extends Controller
         ->get();
         //dd($fechas);
         
-
+        $listaFechasDisp=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])
+        ->whereIn('Dia',$dias)->whereNotIn('Fecha',$feriados)
+        ->lists('calendarios.Fecha');
         //reservados
-        $reservados=DB::table('detalle_reservas as dr')->where('estado','=','activo')
+        $conflictos=DB::table('detalle_reservas as dr')->where('estado','=','activo')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
             ->join('calendarios as c','c.id','=','dr.calendario_id')->whereBetween('c.Fecha',[$fecha_ini,$fecha_fin])
             ->whereIn('c.Dia',$dias)
             ->join('periodos as p','p.id','=','dr.periodo_id')
             ->whereIn('p.id',$periodos)
+            ->select('dr.reserva_id as conflicto_id','dr.id as dconflicto_id','dr.periodo_id as pconflicto_id','c.Fecha as Fconflicto')
             ->get();
 
 
+
+        $listaFechasConflic=DB::table('detalle_reservas as dr')->where('estado','=','activo')
+            ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
+            ->join('calendarios as c','c.id','=','dr.calendario_id')->whereBetween('c.Fecha',[$fecha_ini,$fecha_fin])
+            ->whereIn('c.Dia',$dias)
+            ->join('periodos as p','p.id','=','dr.periodo_id')
+            ->whereIn('p.id',$periodos)
+            ->lists('c.Fecha')
+            ;
+        
+
             $contador = array();
-            foreach ($reservados as $res ) {
-                array_push($contador, $res->id);
+            foreach ($conflictos as $res ) {
+                array_push($contador, $res->dconflicto_id);
             }
 
             $contador=count($contador);
             $cantPer=count($periodos);
             //dd($cantPer);
             
-        
+       
         //verificar
         if ($contador > 0) {
-            Flash::success("No se ha creado la reserva:  " . $contador . " fechas estan reservadas!! ");
+        ////////si existen conflictos se hace la reserva como inactivo///////////
+            $reserva=new Reserva;
+            $reserva->estado="inactivo";
+            $reserva->nombre_reseva=$request->get('nombre_reserva');
+            $reserva->description=$request->get('description');
+            $reserva->start=$fecha_ini;
+            $reserva->end=$fecha_fin;
+            $reserva->user_id=$request->get('user_id');
+            $reserva->save();
+        /////fin creacion reserva como inactivo///
+            foreach ($fechas as $fd) {
+                ////si no existe la fechadisponible en la lista de fechas con conflicio entonces se crea la reserva como inactivo
+                if(!in_array($fd->Fecha, $listaFechasConflic)){
+
+                    for ($i=0; $i < $cantPer; $i++) { 
+                        $detres=new DetalleReserva;
+                        $detres->estado="inactivo";
+                        $detres->reserva_id=$reserva->id;
+                        $detres->calendario_id=$fd->id;
+                        $detres->ambiente_id=$ambiente;
+                        $detres->periodo_id=$periodos[$i];
+                        $detres->save();
+                    }
+                }
+               
+
+                
+            }
+            $idr=$reserva->id;
+
+            Flash::warning("Su reserva tiene conflictos con otras reservas");
+
+            return  redirect()->action('ConfirmarReserva\ConfirmarReservaController@index',compact('idr','ambiente','fecha_ini','fecha_fin','dias','periodos'));;
+           
         }
+        ///SI NO EXISTEN CONFLICTOS SE CREA LA RESERVA NORMAL COMO ACTIVO////
         else{
             //registro de reserva
             $reserva=new Reserva;
+            $reserva->estado="activo";
             $reserva->nombre_reseva=$request->get('nombre_reserva');
             $reserva->description=$request->get('description');
             $reserva->start=$fecha_ini;
@@ -143,7 +191,7 @@ class ReservasController extends Controller
             foreach ($fechas as $fc) {
                 for ($i=0; $i < $cantPer; $i++) { 
                     $detres=new DetalleReserva;
-                    $detres->estado="Activo";
+                    $detres->estado="activo";
                     $detres->reserva_id=$reserva->id;
                     $detres->calendario_id=$fc->id;
                     $detres->ambiente_id=$ambiente;
@@ -154,10 +202,11 @@ class ReservasController extends Controller
                 
             }
             Flash::success("Se ha creado la reserva de forma correcta");
+            return Redirect::to('reservas');
         }
         
 
-        return Redirect::to('reservas');
+        
     }
      
    public function show($id)
@@ -213,8 +262,14 @@ class ReservasController extends Controller
         $fecha_fin=$request->get('fecha_fin');
         $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
                 $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
-        $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])->whereIn('Dia',$dias)
-        ->get();
+
+        $feriados = TipoFecha::lists('nombre_fecha')->ToArray();
+        $fechas=DB::table('calendarios')
+                        ->whereBetween('Fecha',[$fecha_ini,$fecha_fin])
+                        ->whereIn('Dia',$dias)
+                        ->whereNotIn('Fecha',$feriados)
+                        ->get();
+        
         $periodos=$request->get('periodos');
         $cantPer=count($periodos);
         //reservados
@@ -226,6 +281,15 @@ class ReservasController extends Controller
             ->whereIn('p.id',$periodos)
            
             ->lists('dr.id');
+
+        $listaFechasConflic=DB::table('detalle_reservas as dr')->where('estado','=','activo')
+            ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
+            ->join('calendarios as c','c.id','=','dr.calendario_id')->whereBetween('c.Fecha',[$fecha_ini,$fecha_fin])
+            ->whereIn('c.Dia',$dias)
+            ->join('periodos as p','p.id','=','dr.periodo_id')
+            ->whereIn('p.id',$periodos)
+            ->lists('c.Fecha')
+            ;
 
 
         $mireserva=DB::table('reservas as r')
@@ -246,7 +310,49 @@ class ReservasController extends Controller
         }
         if($contador>0){
 
-            Flash::error("No se pudo crear la reserva,porque existen ". $contador ." conflicos con otras reservas ");
+        //     $reservaUpdate=Reserva::find($id);
+            
+        //     $reservaUpdate->nombre_reseva=$request->get('nombre_reserva');
+        //     $reservaUpdate->description=$request->get('description');
+        //     $reservaUpdate->start=$fecha_ini;
+        //     $reservaUpdate->end=$fecha_fin;
+        //     $reservaUpdate->save();
+
+        //     $detalles=DB:: table('detalle_reservas as dr')
+        //             ->where('dr.reserva_id',$id)
+        //             ->get();
+       
+        //     foreach ($detalles as $det ) {
+        //         $detelleReserva= DetalleReserva::find($det->id);
+        //         $detelleReserva->delete();
+        //     }
+
+        // /////fin creacion reserva como inactivo///
+        //     foreach ($fechas as $fd) {
+        //         ////si no existe la fechadisponible en la lista de fechas con conflicio entonces se crea la reserva como inactivo
+        //         if(!in_array($fd->Fecha, $listaFechasConflic)){
+
+        //             for ($i=0; $i < $cantPer; $i++) { 
+        //                 $detres=new DetalleReserva;
+        //                 $detres->estado="activo";
+        //                 $detres->reserva_id=$reserva->id;
+        //                 $detres->calendario_id=$fd->id;
+        //                 $detres->ambiente_id=$ambiente;
+        //                 $detres->periodo_id=$periodos[$i];
+        //                 $detres->save();
+        //             }
+        //         }
+               
+
+                
+        //     }
+        //     $idr=$reservaUpdate->id;
+            Flash::error("la reserva tiene  ". $contador ." conflicos con otras reservas ");
+            //return  redirect()->action('ConfirmarReserva\ConfirmarReservaController@index',compact('idr','ambiente','fecha_ini','fecha_fin','dias','periodos'));;
+           
+
+
+            
                 return back();
         }else{
 
@@ -270,7 +376,7 @@ class ReservasController extends Controller
             foreach ($fechas as $fc) {
                 for ($i=0; $i < $cantPer; $i++) { 
                     $detres=new DetalleReserva;
-                    $detres->estado="Activo";
+                    $detres->estado="activo";
                     $detres->reserva_id=$reservaUpdate->id;
                     $detres->calendario_id=$fc->id;
                     $detres->ambiente_id=$ambiente;
