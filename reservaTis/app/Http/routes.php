@@ -89,6 +89,11 @@ Route::group(['middleware' => ['auth','admin']], function (){
 			Route::get('Reservas/{id}/destroy',['uses'=>'ReservasController@destroy','as'=>'reservas.destroy']);
 			Route::get('Detalles/{id}/destroy',['uses'=>'DetalleReserva\\DetalleReservaController@destroy','as'=>'detalle.destroy']);
 
+
+			Route::resource('Confirm','ConfirmarReserva\\ConfirmarReservaController');
+			Route::get('Confirm/{id}/destroy',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@destroy' ,'as'=>'Confirm.destroy']);
+			Route::get('Confirm/{id}/store',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@store' ,'as'=>'Confirm.store']);
+
 });
 
 //Docente
