@@ -151,24 +151,43 @@ class ReservasController extends Controller
         /////fin creacion reserva como inactivo///
             foreach ($fechas as $fd) {
                 ////si no existe la fechadisponible en la lista de fechas con conflicio entonces se crea la reserva como inactivo
-                if(!in_array($fd->Fecha, $listaFechasConflic)){
+
+
+
+                
 
                     for ($i=0; $i < $cantPer; $i++) { 
-                        $detres=new DetalleReserva;
-                        $detres->estado="inactivo";
-                        $detres->reserva_id=$reserva->id;
-                        $detres->calendario_id=$fd->id;
-                        $detres->ambiente_id=$ambiente;
-                        $detres->periodo_id=$periodos[$i];
-                        $detres->save();
+                        $periodoConflic=DB::table('detalle_reservas as dr')->where('estado','=','activo')
+                                    ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
+                                    ->join('calendarios as c','c.id','=','dr.calendario_id')->where('c.Fecha',$fd->Fecha)
+                                    ->whereIn('c.Dia',$dias)
+                                    ->join('periodos as p','p.id','=','dr.periodo_id')
+                                    ->where('p.id',$periodos[$i])
+                                    ->lists('p.hora')
+                                    ;
+                        
+
+                        if(empty($periodoConflic)){
+
+                            $detres=new DetalleReserva;
+                            $detres->estado="inactivo";
+                            $detres->reserva_id=$reserva->id;
+                            $detres->calendario_id=$fd->id;
+                            $detres->ambiente_id=$ambiente;
+                            $detres->periodo_id=$periodos[$i];
+                            $detres->save();
+                        }
+
+                       
                     }
-                }
+              
                
 
                 
             }
             $idr=$reserva->id;
 
+            //dd($fechas,$listaFechasConflic);
             Flash::warning("Su reserva tiene conflictos con otras reservas");
 
             return  redirect()->action('ConfirmarReserva\ConfirmarReservaController@index',compact('idr','ambiente','fecha_ini','fecha_fin','dias','periodos'));;
