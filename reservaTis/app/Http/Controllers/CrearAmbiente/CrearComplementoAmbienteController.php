@@ -2,11 +2,12 @@
 
 namespace Reserva\Http\Controllers\CrearAmbiente;
 
+use Illuminate\Http\Request;
+
 use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
 
 use Reserva\Ambiente;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
 use Session;
@@ -17,74 +18,54 @@ use Reserva\TipoAmbiente;
 use Reserva\AmbienteComplemento;
 use Laracasts\Flash\Flash;
 use DB;
-
-
-class CrearAmbienteController extends Controller
+class CrearComplementoAmbienteController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-
-    
-   
-    public function index(Request $request)
+    public function index()
     {
-       
-        $ambiente = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(10);
-        $ambiente->each(function($ambiente){
-            $ambiente->complementos->lists('nombre_complemento')->ToArray();
-            $ambiente->tipo_ambiente;
-            
-        });
-        return view('CrearAmbiente.index')
-        ->with('ambiente',$ambiente);
+        //
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-
     public function create()
     {
+        $complementos = Complemento::orderBy('nombre_complemento','ASC')->lists('nombre_complemento','id'); 
+        $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->where('tipo_aula','=','activo')->orwhere('tipo_aula','=','inactivo')->lists('tipo_aula','id');
 
-        $complementos = Complemento::orderBy('nombre_complemento','ASC')->where('estado','=','Activo')->lists('nombre_complemento','id'); 
-        $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->lists('tipo_aula','id')->ToArray();
-        $tipos = array_diff($tipos, array('activo','inactivo'));
-
-        return view('CrearAmbiente.create', compact('complementos','tipos'));
+        return view('CrearComplementoAmbiente.create',compact('complementos','tipos'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-
-       $ambiente = new Ambiente($request->all());
+        $ambiente = new Ambiente($request->all());
         $ambiente->save();
 
        $ambiente->complementos()->sync($request->complementos);
 
-       Flash::success("Se a creado el " . $ambiente->title . " correctamente!! ");
+       Flash::success("Se a creado el complemento " . $ambiente->title . " correctamente!! ");
 
         return redirect()->route('CrearAmbiente.index');
-
-   }
-
+    }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -95,43 +76,40 @@ class CrearAmbienteController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $ambiente = Ambiente::find($id);
+         $ambiente = Ambiente::find($id);
         $ambiente->tipo_ambiente;
-        $complementos = Complemento::orderBy('nombre_complemento','ASC')->where('estado','=','Activo')->lists('nombre_complemento','id');
-        $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->lists('tipo_aula','id');
+        $complementos = Complemento::orderBy('nombre_complemento','ASC')->lists('nombre_complemento','id');
+        $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->where('tipo_aula','=','activo')->orwhere('tipo_aula','=','inactivo')->lists('tipo_aula','id');
 
         $my_complementos = $ambiente->complementos->lists('id')->ToArray();
 
-        return view('CrearAmbiente.edit')
+        return view('CrearComplementoAmbiente.edit')
         ->with('complementos',$complementos)
         ->with('ambiente',$ambiente)
         ->with('tipos',$tipos)
         ->with('my_complementos', $my_complementos);
-
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
-    
-        $ambiente = Ambiente::find($id);
+         $ambiente = Ambiente::find($id);
         $ambiente->fill($request->all());
         $ambiente->save();
 
         $ambiente->complementos()->sync($request->complementos);
 
-        Flash::warning("El ambiente " . $ambiente->title . " ha sido editado con exito!");
+        Flash::warning("El complemento " . $ambiente->title . " ha sido editado con exito!");
         return redirect()->route('CrearAmbiente.index');
     }
 
@@ -139,17 +117,14 @@ class CrearAmbienteController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $ambiente = Ambiente::find($id);
         $ambiente->delete();
 
-        Flash::error('El ambiente '. $ambiente->title . ' ha sido eliminado con exito!');
+        Flash::error('El complemento '. $ambiente->title . ' ha sido eliminado con exito!');
         return redirect()->route('CrearAmbiente.index');
     }
-
-    
 }

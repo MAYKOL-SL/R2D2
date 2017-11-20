@@ -11,18 +11,15 @@
   </div>
 
   <div class="box-header">
-                <a href="{{ url('CrearAmbiente/create') }}" class="btn btn-info">Crear nuevo ambiente</a>
-            
+                <a href="{{ route('CrearAmbiente.create') }}" class="btn btn-info">Crear nuevo ambiente</a>
+            <a href="{{ route('CrearComplementoAmbiente.create') }}" class="btn btn-info">Crear Complemento Para llevar</a>
 </div>
-             <!-- Buscador de ambiente-->
-  {!! Form::open(['route'=>'CrearAmbiente.index','method'=>'GET', 'class'=>'navbar-form pull-right']) !!}
-  <div class="input-group col-md-6 pull-right">
-  <span class="input-group-addon"><i class="fa fa-search"></i></span>
-          {!! Form::text('name',null,['class'=>'form-control','placelhoder'=>'Buscar ambiente...','aria-describebdy'=>'search']) !!}
- </div>
-  {!! Form::close() !!}
-<!--Fin de buscador -->
-
+<div class="box-header">
+<div class="input-group"> <span class="input-group-addon">Buscar</span>
+        <input id="filtrar" type="text" class="form-control" placeholder="Ingresa datos del aula que desa buscar....">
+      </div>
+</div>
+ 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table table-striped table-bordered table-condensed table-hover">
@@ -31,10 +28,11 @@
     <th>Imagen Ubicación</th>
     <th>Ubicación</th>
     <th>Capacidad</th>
-    <th>Tipo Ambiente</th>
+    <th>Tipo</th>
+    <th>Complemento</th>
     <th>Acciones</th>
   </thead>
-  <tbody>
+  <tbody class="buscar">
     @foreach($ambiente as $ambientes)
 
       <tr>
@@ -47,9 +45,20 @@
             <td>{{$ambientes->capacidad}}</td>
         <td>{{$ambientes->tipo_ambiente->tipo_aula}}</td>
         <td>
-          <a href="{{ route('CrearAmbiente.edit', $ambientes->id) }}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
+          @foreach($ambientes->complementos as $comp)
+          -{{$comp->nombre_complemento}}
+          @endforeach
+          </td>
+        <td>
+        @if($ambientes->tipo_ambiente->tipo_aula=="activo" ||
+        $ambientes->tipo_ambiente->tipo_aula=="inactivo")
+        <a href="{{ route('CrearComplementoAmbiente.edit', $ambientes->id) }}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
           <a href="{{ route('CrearAmbiente.destroy', $ambientes->id) }}" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-        </td>
+          @else
+         <a href="{{ route('CrearAmbiente.edit', $ambientes->id) }}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
+          <a href="{{ route('CrearAmbiente.destroy', $ambientes->id) }}" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+        @endif
+      </td>
       </tr>
 
     @endforeach
@@ -64,3 +73,19 @@
 </div>
 <div class="col-md-2"></div>
  @endsection
+
+ @section('js')
+<script>
+$(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+</script>
+@endsection

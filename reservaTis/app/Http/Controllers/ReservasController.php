@@ -6,16 +6,28 @@ use Reserva\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Reserva\Reserva;
+
+use Reserva\Ambiente;
+use Session;
+use Reserva\Role;
+use Reserva\Complemento;
+use Reserva\Imagen;
+use Reserva\TipoAmbiente;
+use Reserva\AmbienteComplemento;
+
 use Reserva\DetalleReserva;
-use DB;
 use Laracasts\Flash\Flash;
 use Carbon\Carbon;
 use Reserva\Periodo;
 use Reserva\TipoFecha;
+
+use DB;
+
 class ReservasController extends Controller
 {
     public function index(Request $request)
     {
+            
             $datos=DB::table('reservas as r')
                         ->join('detalle_reservas as dr','dr.reserva_id','=','r.id')
                         ->join('ambientes as amb','amb.id','=','dr.ambiente_id')
@@ -34,6 +46,11 @@ class ReservasController extends Controller
     public function create(Request $request)
     {
         if ($request) {
+            $ambis = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(10);
+            $ambis->each(function($ambis){
+            $ambis->complementos->lists('nombre_complemento')->ToArray();
+            $ambis->tipo_ambiente;
+        });
             $amb_id=$request->get('ambiente_id');
             $fechaActual=Carbon::now();
             $lunes=$request->get('lunes');
@@ -49,11 +66,11 @@ class ReservasController extends Controller
             $fechaActual=$fechaActual->addDay(1);
             $fechaIni=$request->get('fecha_ini');
             $fechaFin=$request->get('fecha_fin');
-            return view("reservas.create",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"fechaActual"=>$fechaActual,"fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado, "hora"=>$hora]);
+            return view("reservas.create",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"fechaActual"=>$fechaActual,"fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado, "hora"=>$hora,"ambis"=>$ambis]);
         }
         
     }
-    
+
     public function store(Request $request)
     {
 

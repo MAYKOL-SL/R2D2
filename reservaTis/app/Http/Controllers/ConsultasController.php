@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
 use Reserva\Ambiente;
+use Laracasts\Flash\Flash;
+use Illuminate\Support\Facades\Redirect;
+use Reserva\TipoFecha;
+
+use DB;
 
 class ConsultasController extends Controller
 {
@@ -45,7 +50,16 @@ class ConsultasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $last_id = DB::table('tipo_fechas')->max('id');
+
+        TipoFecha::create([
+            'id' => $last_id + 1,
+            'nombre_fecha' => $request->date_end,
+            'motivo_feriado' => $request->description
+        ]);
+
+        Flash::success("La Fecha fue ingresada correcatamente.");
+        return Redirect::to('consulta');
     }
 
     /**

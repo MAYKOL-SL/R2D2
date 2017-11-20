@@ -9,7 +9,7 @@
 <div class="box box-primary">
   <div class="table-responsive">
   <div class="box-header with-border">
-  <label class = "box-title">Ingrese los datos del ambiente: </label>
+  <label class = "box-title">Ingrese los datos del complemento: </label>
   </div>
 
 {!!Form::open(['route'=>'CrearAmbiente.store','method'=>'POST', 'files' => true])!!}
@@ -20,7 +20,7 @@
 </div>
 
 <div class="box-header">  
-{!! Form::label('Capacidad: ') !!}
+{!! Form::label('Numero de serie: ') !!}
 {!! Form::number('capacidad', null, ['class' => 'form-control', 'required' => 'required']) !!}
 </div>
 
@@ -30,16 +30,14 @@
 </div>
 
 <div class="box-header">         
-{!! Form::label('Complementos: ') !!} 
-{!! Form::select('complementos[]',$complementos,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
+{!! Form::label('Tipo de complemento: ') !!} 
+{!! Form::select('complementos[]',$complementos,null,['class'=>'form-control input-sm','placeholder'=>'Seleccione','required']) !!}
 </div>
 
 <div class="box-header"> 
-{!! Form::label('Tipo ambiente: ') !!}
-@if($tipos!="activo" || $tipos!="inactivo")
-    {!! Form::select('tipo_ambiente_id',$tipos,null,['id'=>'state','class'=>'form-control input-sm'
+{!! Form::label('Estado: ') !!}
+{!! Form::select('tipo_ambiente_id',$tipos,null,['id'=>'state','class'=>'form-control input-sm'
     ,'placeholder'=>'Seleccione','required'=>'required']) !!}
-@endif
 </div>
 
 <div class="box-header">
@@ -50,7 +48,7 @@
  
 <div class="box-header">
     <td>
-{!! Form::submit('Crear Ambiente ', ['class' => 'btn btn-primary']) !!}
+{!! Form::submit('Crear Complemento de Ambiente ', ['class' => 'btn btn-primary']) !!}
     </td>
 </div>
 
@@ -60,13 +58,4 @@
 </div>
 
 
-@endsection
-@section('js')
-<script>
-  $('.select-tag').chosen({
-    placeholder_text_multiple:'Seleccione los complementos del ambiente',
-    width: "100%"
-  });
-
-</script>
 @endsection

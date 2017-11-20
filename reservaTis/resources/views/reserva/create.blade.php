@@ -117,6 +117,9 @@
   $('.select-tag').chosen({
     placeholder_text_multiple:'Seleccione los periodos de reserva'
   });
-
+   function capturar()
+    {
+  var porId=document.getElementById("seleccion").value;
+    }
 </script>
 @endsection
