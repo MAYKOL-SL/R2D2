@@ -67,11 +67,11 @@ class ConfirmarReservaController extends Controller
 
 
 
-
+            //dd($conflictos,$datosListado,$datosDetalle,$idreserva);
             
-            // dd($conflictos,$datosListado);   
+           
 
-            return view('ConfirmarReserva.index',["reservas"=>$datosListado,"conflictos"=>$conflictos]);
+            return view('ConfirmarReserva.index',["reservas"=>$datosListado,"conflictos"=>$conflictos,"id_reserva"=>$idreserva]);
 
         }
     }
