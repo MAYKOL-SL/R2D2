@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Reserva\Reserva;
 use Reserva\DetalleReserva;
-use DB;
 use Laracasts\Flash\Flash;
 use Carbon\Carbon;
 use Reserva\Periodo;
 use Reserva\TipoFecha;
+
+use DB;
+
 class ReservasController extends Controller
 {
     public function index(Request $request)
