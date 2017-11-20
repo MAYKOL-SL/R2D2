@@ -77,8 +77,10 @@ Route::group(['middleware' => ['auth','admin']], function (){
 			Route::post('Formulario/cargar_calendario_academico', 'CalendarioController@cargar_calendario_academico');
 
 
-  		Route::get('consulta', 'ConsultasController@consultaPorCapacidad');
-			Route::resource('reservas', 'ReservasController');
+  		//para insertar Fechas Conmemorativas ----
+  		Route::get('consulta', 'ConsultasController@index');
+		Route::resource('consulta', 'ConsultasController', ['only' => ['store']]);
+			//------
 
 			Route::resource('porHora', 'PorHoraController');
 			Route::resource('porCapacidad', 'PorCapacidadController');
