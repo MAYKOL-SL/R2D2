@@ -28,8 +28,14 @@ class AmbienteController extends Controller
      */
     public function index(Request $request)
     {
-        $ambiente = Ambiente::search($request->name)->orderBy('id','ASC')->paginate(10);
-        return view('porAmbiente.index')->with('ambiente',$ambiente);
+        $ambiente = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(10);
+        $ambiente->each(function($ambiente){
+            $ambiente->complementos->lists('nombre_complemento')->ToArray();
+            $ambiente->tipo_ambiente;
+            
+        });
+        return view('porAmbiente.index')
+        ->with('ambiente',$ambiente);
     }
 
     /**

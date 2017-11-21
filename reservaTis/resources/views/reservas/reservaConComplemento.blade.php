@@ -54,8 +54,19 @@
             <div class="form-group">
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar complementos de aula</button>
             </div>
+
             <div class="form-group">
-              <a href="{{ url('reservas/reservaConComplemento') }}" class="btn btn-info">Añadir complemento</a>
+              {!!Form::label('Complemento:')!!}
+              <select name="ambiente_id" id="ambiente_id" class="form-control select-complemento" required>
+                    @foreach ($ambis as $ambi)
+                        <option value="{{$ambi->id}}">
+                          @if($ambi->tipo_ambiente->tipo_aula=="activo" ||
+                               $ambi->tipo_ambiente->tipo_aula=="inactivo")
+                            {{$ambi->title}}
+                          @endif
+                        </option>
+                    @endforeach
+                </select>
             </div>
 </div>
 
@@ -95,6 +106,8 @@
   </div>
 </div>
 </div>
+
+
 <div class="box-header">
       {!!Form::label('Nombre Reserva:')!!}
             <div class="form-group">
@@ -180,6 +193,11 @@
 
   $('.select-category').chosen({
     placeholder_text_single:'Seleccione el ambiente',
+    width: '100%'
+  });
+
+   $('.select-complemento').chosen({
+    placeholder_text_single:'Seleccione el complemento',
     width: '100%'
   });
 

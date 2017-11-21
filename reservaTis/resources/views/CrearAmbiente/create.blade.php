@@ -7,7 +7,7 @@
 
 @section('main-content')
 <div class="box box-primary">
-  <div class="table-responsive">
+  <div class="responsive">
   <div class="box-header with-border">
   <label class = "box-title">Ingrese los datos del ambiente: </label>
   </div>
@@ -36,10 +36,9 @@
 
 <div class="box-header"> 
 {!! Form::label('Tipo ambiente: ') !!}
-@if($tipos!="activo" || $tipos!="inactivo")
     {!! Form::select('tipo_ambiente_id',$tipos,null,['id'=>'state','class'=>'form-control input-sm'
     ,'placeholder'=>'Seleccione','required'=>'required']) !!}
-@endif
+
 </div>
 
 <div class="box-header">
