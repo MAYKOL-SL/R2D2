@@ -32,7 +32,7 @@ class AmbienteController extends Controller
         $ambiente->each(function($ambiente){
             $ambiente->complementos->lists('nombre_complemento')->ToArray();
             $ambiente->tipo_ambiente;
-            
+
         });
         return view('porAmbiente.index')
         ->with('ambiente',$ambiente);
@@ -45,7 +45,7 @@ class AmbienteController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -62,7 +62,7 @@ class AmbienteController extends Controller
         $fecha_fin=$request->get('fecha_fin');
         $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
                 $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
-        
+
         $periodos=$request->get('periodos');
 
         //verificar fechas
@@ -92,14 +92,14 @@ class AmbienteController extends Controller
         //dd($dias);
         $feriados = TipoFecha::lists('nombre_fecha')->ToArray();
         $ambiente=$request->get('ambiente_id');
-        
+
         $periodos=$request->get('periodos');
         //fechas a reservar
         $fechas=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])
         ->whereIn('Dia',$dias)->whereNotIn('Fecha',$feriados)
         ->get();
         //dd($fechas);
-        
+
         $listaFechasDisp=DB::table('calendarios')->whereBetween('Fecha',[$fecha_ini,$fecha_fin])
         ->whereIn('Dia',$dias)->whereNotIn('Fecha',$feriados)
         ->lists('calendarios.Fecha');
@@ -123,7 +123,7 @@ class AmbienteController extends Controller
             ->whereIn('p.id',$periodos)
             ->lists('c.Fecha')
             ;
-        
+
 
             $contador = array();
             foreach ($conflictos as $res ) {
@@ -133,8 +133,8 @@ class AmbienteController extends Controller
             $contador=count($contador);
             $cantPer=count($periodos);
             //dd($cantPer);
-            
-       
+
+
         //verificar
         if ($contador > 0) {
         ////////si existen conflictos se hace la reserva como inactivo///////////
@@ -152,9 +152,9 @@ class AmbienteController extends Controller
 
 
 
-                
 
-                    for ($i=0; $i < $cantPer; $i++) { 
+
+                    for ($i=0; $i < $cantPer; $i++) {
                         $periodoConflic=DB::table('detalle_reservas as dr')->where('estado','=','activo')
                                     ->join('ambientes as a','a.id','=','dr.ambiente_id')->where('a.id','=',$ambiente)
                                     ->join('calendarios as c','c.id','=','dr.calendario_id')->where('c.Fecha',$fd->Fecha)
@@ -163,7 +163,7 @@ class AmbienteController extends Controller
                                     ->where('p.id',$periodos[$i])
                                     ->lists('p.hora')
                                     ;
-                        
+
 
                         if(empty($periodoConflic)){
 
@@ -176,12 +176,12 @@ class AmbienteController extends Controller
                             $detres->save();
                         }
 
-                       
-                    }
-              
-               
 
-                
+                    }
+
+
+
+
             }
             $idr=$reserva->id;
 
@@ -189,7 +189,7 @@ class AmbienteController extends Controller
             Flash::warning("Su reserva tiene conflictos con otras reservas");
 
             return  redirect()->action('ConfirmarReserva\ConfirmarReservaController@index',compact('idr','ambiente','fecha_ini','fecha_fin','dias','periodos'));;
-           
+
         }
         ///SI NO EXISTEN CONFLICTOS SE CREA LA RESERVA NORMAL COMO ACTIVO////
         else{
@@ -203,10 +203,10 @@ class AmbienteController extends Controller
             $reserva->user_id=$request->get('user_id');
             $reserva->save();
             //creando la reserva
-            
+
         //fin de recoger periodos
             foreach ($fechas as $fc) {
-                for ($i=0; $i < $cantPer; $i++) { 
+                for ($i=0; $i < $cantPer; $i++) {
                     $detres=new DetalleReserva;
                     $detres->estado="activo";
                     $detres->reserva_id=$reserva->id;
@@ -216,12 +216,12 @@ class AmbienteController extends Controller
                     $detres->save();
                 }
 
-                
+
             }
             Flash::success("Se ha creado la reserva de forma correcta");
             return Redirect::to('reservas');
         }
-        
+
     }
 
     /**
@@ -232,7 +232,7 @@ class AmbienteController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
     /**
@@ -259,6 +259,7 @@ class AmbienteController extends Controller
             "id_amb"=>$id_amb]);
         //return view('porAmbiente.create')->with('idambiente',$idambiente);
     }
+
 
     /**
      * Update the specified resource in storage.

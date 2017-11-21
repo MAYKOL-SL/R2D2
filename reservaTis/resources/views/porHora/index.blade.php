@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('htmlheader_title')
-   Busqueda por Hora 
+   Busqueda por Hora
 
 @endsection
 
