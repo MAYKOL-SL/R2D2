@@ -468,6 +468,8 @@ class ReservasController extends Controller
     
     public function destroy($id)
     {
+
+
        $reserva=Reserva::find($id);
       
        $detalles=DB:: table('detalle_reservas as dr')
