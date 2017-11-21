@@ -1,4 +1,5 @@
 <?php
+
 namespace Reserva\Http\Controllers\CrearAmbiente;
 
 use Reserva\Http\Requests;

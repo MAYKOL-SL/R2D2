@@ -103,9 +103,16 @@
                         <input type="checkbox" name="jueves" value="Jueves" checked="checked">Jueves<br>
                       
                         <input type="checkbox" name="viernes" value="Viernes" checked="checked">Viernes<br>
-                      
                         <input type="checkbox" name="sabado" value="Sabado" checked="checked">Sábado<br>
+                        <input type="checkbox" name="sabado" value="Domingo" checked="checked">Domingo<br>
                       
+              </div>
+        </div>
+
+        <div class="box-header">
+              {!!Form::label('Hora inicio y final:')!!}
+              <div class="input-group col-md-3"> 
+              {!! Form::select('periodos[]',$hora,$horas,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
               </div>
         </div>
 

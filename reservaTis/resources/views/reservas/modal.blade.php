@@ -15,6 +15,7 @@ role="dialog" tabindex="-1" id="modal-delete-{{$res->id_reserva}}">
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
 				<a href="{{ route('reservas.destroy', $res->id_reserva) }}" onclick="return true" class="btn btn-danger">Eliminar</a>
 
 				
