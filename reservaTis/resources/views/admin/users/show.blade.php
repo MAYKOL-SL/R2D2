@@ -44,11 +44,8 @@
                   <th> {{ trans('Email :') }} </th>
                   <td> {{ $user->email }} </td>
                 </tr>
-                <tr>
-                  <th> {{ trans('Password :') }} </th>
-                  <td> {{ $user->password }} </td>
-                </tr>
-                
+
+
             </tbody>
             <tfoot>
                 <tr>

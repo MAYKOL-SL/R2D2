@@ -49,7 +49,7 @@
             <li><a href="#service">Servicios</a></li>
             <li><a href="#Portfolio">Ambientes</a></li>
             <li class="small-logo"><a href="#header"><img src="img/logotec.jpg" alt="" width="60px"></a></li>
-            <li><a href="{{ route('auth.login') }}">Iniciar Sesion</a></li>
+            <li><a href="{{ route('auth.login') }}">Iniciar Sesi&Oacute;n</a></li>
             <li><a href="#contact">Contactos</a></li>
 						<li><a href="{{ url('calendario_main') }}">Calendario</a></li>
         </ul>
@@ -62,7 +62,7 @@
 <section class="main-section" id="service"><!--main-section-start-->
 	<div class="container">
     	<h2>Servicios</h2>
-    	<h6>Tenemos los siguientes servicios a disposicion</h6>
+    	<h6>Tenemos los siguientes servicios a disposici&oacute;n</h6>
         <div class="row">
         	<div class="col-lg-4 col-sm-6 wow fadeInLeft delay-05s">
             	<div class="service-list">
@@ -80,7 +80,7 @@
                     </div>
                 	<div class="service-list-col2">
                         <h3>Aulas</h3>
-                        <p>Pude realizar reserva de aulas y auditrios en el sistema.</p>
+                        <p>Pude realizar reserva de aulas y auditorios en el sistema.</p>
                     </div>
                 </div>
                 <div class="service-list">
@@ -130,7 +130,7 @@
             	<div class=" Portfolio-box printdesign">
                 	<a href="#"><img src="img/data.jpg" alt=""></a>
                 	<h3>Epson</h3>
-                    <p>Data Displey</p>
+                    <p>Data Display</p>
                 </div>
                 <div class="Portfolio-box webdesign">
                 	<a href="#"><img src="img/aula2.jpg" alt=""></a>
@@ -182,7 +182,7 @@
                 </div>
             	<div class="contact-info-box hours clearfix">
                 	<h3><i class="fa-clock-o"></i>Horas:</h3>
-                	<span><strong>Lunes - Viernes :</strong> 6:45am - 10pm<br><strong>Sabado :</strong> 6:45 - 14pm<br><strong>Domingo :</strong> Sin atencion</span>
+                	<span><strong>Lunes - Viernes :</strong> 6:45am - 10pm<br><strong>S&aacute;bado :</strong> 6:45 - 14pm<br><strong>Domingo :</strong> Sin atencion</span>
                 </div>
                 <ul class="social-link">
                 	<li class="twitter"><a href="#"><i class="fa-twitter"></i></a></li>
