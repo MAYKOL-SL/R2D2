@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('htmlheader_title')
-   Busqueda por Hora 
+   Busqueda por Hora
 
 @endsection
 
@@ -28,6 +28,7 @@
                     <th>Fecha Fin</th>
                     <th>Periodo</th>
                     <th>Opciones</th>
+                    <th>Complemento</th>
                 </thead>
                 @foreach ($ambientes as $amb)
                 <tr>
@@ -37,6 +38,7 @@
                     <td>{{ $fechaIni}}</td>
                     <td>{{ $fechaFin}}</td>
                     <td>{{ $periodoBuscado}}</td>
+                    <td>{{ $amb->nombre_complemento}}</td>
                     <td>
                         <a href=""><button class="btn btn-info">Reservar</button></a>
                     </td>
