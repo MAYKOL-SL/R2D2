@@ -11,9 +11,10 @@
   <div class="box-header with-border">
   <label class = "box-title">LISTA DE RESERVAS </label>
   </div>
-<div class="box-header">
-                <h1 class="box-title">Añadir nueva reserva<a href="{{ url('reservas/create') }}" class="btn btn-primary btn-xs" title="Registrar reseva"><span class="glyphicon glyphicon-plus" aria-hidden="true"/></a></h1>
-            </div>
+
+ <div class="box-header">
+                <a href="{{ url('reservas/create') }}" class="btn btn-info">Añadir nueva reserva</a>
+</div>
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
