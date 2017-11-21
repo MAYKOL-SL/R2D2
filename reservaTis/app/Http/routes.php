@@ -34,6 +34,8 @@ Route::group(['middleware' => ['auth','admin']], function (){
 				'uses' => 'CrearAmbiente\\CrearAmbienteController@destroy',
 				'as' => 'CrearAmbiente.destroy'
 			]);
+			
+			Route::resource('CrearComplementoAmbiente','CrearAmbiente\\CrearComplementoAmbienteController');
 
 			Route::resource('tiposambiente', 'tipoDeAmbiente\\tipoDeAmbienteController');
 			Route::get('tiposambiente/{id}/destroy',[
@@ -47,7 +49,6 @@ Route::group(['middleware' => ['auth','admin']], function (){
 			Route::get('towns/{id}','tipoDeReserva\\tipoDeReservaController@getTowns');
 
 			Route::resource('ambiente','AmbienteController');
-			Route::resource('porAmbiente.create','AmbienteController.create');
 			Route::resource('complemento','Complementos\\ComplementoController');
 			Route::get('complemento/{id}/destroy',[
 				'uses' => 'Complementos\\ComplementoController@destroy',
