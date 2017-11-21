@@ -48,7 +48,7 @@
  
 <div class="box-header">
     <td>
-{!! Form::submit('Crear Ambiente ', ['class' => 'btn btn-primary']) !!}
+{!! Form::submit('Crear Complemento de Ambiente ', ['class' => 'btn btn-primary']) !!}
     </td>
 </div>
 

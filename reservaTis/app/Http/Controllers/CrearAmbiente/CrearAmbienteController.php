@@ -32,13 +32,15 @@ class CrearAmbienteController extends Controller
    
     public function index(Request $request)
     {
-
+       
         $ambiente = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(10);
         $ambiente->each(function($ambiente){
-            $ambiente->complementos;
-;            $ambiente->tipo_ambiente;
+            $ambiente->complementos->lists('nombre_complemento')->ToArray();
+            $ambiente->tipo_ambiente;
+            
         });
-        return view('CrearAmbiente.index')->with('ambiente',$ambiente);
+        return view('CrearAmbiente.index')
+        ->with('ambiente',$ambiente);
     }
 
     /**
@@ -51,7 +53,8 @@ class CrearAmbienteController extends Controller
     {
 
         $complementos = Complemento::orderBy('nombre_complemento','ASC')->where('estado','=','Activo')->lists('nombre_complemento','id'); 
-        $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->lists('tipo_aula','id');
+        $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->lists('tipo_aula','id')->ToArray();
+        $tipos = array_diff($tipos, array('activo','inactivo'));
 
         return view('CrearAmbiente.create', compact('complementos','tipos'));
     }

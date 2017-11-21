@@ -36,8 +36,10 @@
 
 <div class="box-header"> 
 {!! Form::label('Tipo ambiente: ') !!}
-{!! Form::select('tipo_ambiente_id',$tipos,null,['id'=>'state','class'=>'form-control input-sm'
+@if($tipos!="activo" || $tipos!="inactivo")
+    {!! Form::select('tipo_ambiente_id',$tipos,null,['id'=>'state','class'=>'form-control input-sm'
     ,'placeholder'=>'Seleccione','required'=>'required']) !!}
+@endif
 </div>
 
 <div class="box-header">
