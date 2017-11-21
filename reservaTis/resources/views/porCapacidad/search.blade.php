@@ -24,7 +24,19 @@
 			</div>
 		</div>
 
-				
+		<div class="box-header">
+				 <div class="input-group col-md-12">
+					 <i class="fa fa-safari col-md-1"></i>
+					 <select type="text" name="complementos_id" class="col-md-4" placeholder="Buscar...">
+						 @foreach ($complementos as $complem)
+						 <option value="{{$complem->id}}" selected="selected">
+							 {{$complem->nombre_complemento}}
+						 </option>
+						 @endforeach
+					 </select>
+		 </div>
+	 </div>
+
 
 		<div class="box-header">
 		<div class="input-group col-md-12">
@@ -38,21 +50,21 @@
       {!!Form::label('Dias:')!!}
       <div class="input-group col-md-5">
                 <input type="checkbox" name="lunes" value="lunes">Lunes<br>
-              
+
                 <input type="checkbox" name="martes" value="martes">Martes<br>
-              
+
                 <input type="checkbox" name="miercoles" value="miercoles">Miercoles<br>
-              
+
                 <input type="checkbox" name="jueves" value="jueves">Jueves<br>
-              
+
                 <input type="checkbox" name="viernes" value="viernes">Viernes<br>
-              
+
                 <input type="checkbox" name="sabado" value="sabado">Sabado<br>
-              
+
       </div>
 		</div>
 
-        
+
 		<div class="box-header">
 			<span class="input-group-btn">
 				<button type="submit" class="btn btn-primary">Buscar</button>
@@ -60,4 +72,3 @@
 		</div>
 	</div>
 </div>
-
