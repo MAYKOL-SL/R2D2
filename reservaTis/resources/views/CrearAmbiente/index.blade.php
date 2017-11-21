@@ -14,11 +14,14 @@
                 <a href="{{ route('CrearAmbiente.create') }}" class="btn btn-info">Crear nuevo ambiente</a>
             <a href="{{ route('CrearComplementoAmbiente.create') }}" class="btn btn-info">Crear Complemento Para llevar</a>
 </div>
-<div class="box-header">
-<div class="input-group"> <span class="input-group-addon">Buscar</span>
-        <input id="filtrar" type="text" class="form-control" placeholder="Ingresa datos del aula que desa buscar....">
-      </div>
-</div>
+             <!-- Buscador de ambiente-->
+  {!! Form::open(['route'=>'CrearAmbiente.index','method'=>'GET', 'class'=>'navbar-form pull-right']) !!}
+  <div class="input-group col-md-6 pull-right">
+  <span class="input-group-addon"><i class="fa fa-search"></i></span>
+          {!! Form::text('name',null,['class'=>'form-control','placelhoder'=>'Buscar ambiente...','aria-describebdy'=>'search']) !!}
+ </div>
+  {!! Form::close() !!}
+<!--Fin de buscador -->
  
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -28,11 +31,11 @@
     <th>Imagen Ubicación</th>
     <th>Ubicación</th>
     <th>Capacidad</th>
-    <th>Tipo</th>
-    <th>Complemento</th>
+    <th>Típo</th>
+    <th>Complementos</th>
     <th>Acciones</th>
   </thead>
-  <tbody class="buscar">
+  <tbody>
     @foreach($ambiente as $ambientes)
 
       <tr>
@@ -45,8 +48,8 @@
             <td>{{$ambientes->capacidad}}</td>
         <td>{{$ambientes->tipo_ambiente->tipo_aula}}</td>
         <td>
-          @foreach($ambientes->complementos as $comp)
-          -{{$comp->nombre_complemento}}
+          @foreach($ambientes->complementos as $comple)
+          -{{$comple->nombre_complemento}}
           @endforeach
           </td>
         <td>
@@ -63,7 +66,7 @@
 
     @endforeach
   </tbody>
-</table>
+  </table>
 <div class="text-center">
 {!! $ambiente->render() !!}
 </div>
@@ -73,19 +76,3 @@
 </div>
 <div class="col-md-2"></div>
  @endsection
-
- @section('js')
-<script>
-$(document).ready(function () {
-            (function ($) {
-                $('#filtrar').keyup(function () {
-                    var rex = new RegExp($(this).val(), 'i');
-                    $('.buscar tr').hide();
-                    $('.buscar tr').filter(function () {
-                        return rex.test($(this).text());
-                    }).show();
-                })
-            }(jQuery));
-        });
-</script>
-@endsection

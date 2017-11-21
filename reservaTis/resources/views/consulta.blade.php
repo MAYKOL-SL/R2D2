@@ -36,23 +36,24 @@
 				
 			<label class = "box-title">Insertar Fechas</label>
 
-			<div class="table-responsive">
+			<div class="box-header">
+			<div class="responsive">
 
 				{!! Form::open(['route' => 'consulta.store', 'method' => 'post', 'role' => 'form']) !!}
 
 
 				<div class="form-group col-md-4">
-		               	{!!Form::label('Descripcion')!!}
+		               	{!!Form::label('Descripción')!!}
 		                    	<div class="input-group col-md-12"> 
 		                                <div class="form-group">
-		                                <input type="text" name="description" class="form-control" placeholder="descripcion..." required>
+		                                <input type="text" name="description" class="form-control" placeholder="descripción..." required>
 		                        </div>
 		                </div>
 		        </div>
 
 
 				<div class="form-group col-md-4">
-		                {!! Form::label('date_end', 'Fecha Fin') !!}
+		                {!! Form::label('date_end', 'Fecha') !!}
 		                {!! Form::text('date_end', old('date_end'), ['class' => 'form-control']) !!}
 				</div>
 
@@ -65,6 +66,7 @@
 				{!! Form::close() !!}
 
 			</div>
+		</div>
 		</div>
 		
 	</div>

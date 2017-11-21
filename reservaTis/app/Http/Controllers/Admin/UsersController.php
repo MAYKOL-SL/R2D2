@@ -64,7 +64,7 @@ class UsersController extends Controller
        $user->save();
        $user->attachRoles($request->input('role_id'));
 
-        Session::flash('flash_message1', 'Usuario  '.$user->id.' Añadido!');
+        Session::flash('flash_message1', 'Usuario  '.$user->name.' Añadido!');
 
 
         return redirect('admin/users');
@@ -135,7 +135,7 @@ class UsersController extends Controller
 
        $user->save();
 
-        Session::flash('flash_message2', 'Usuario  '.$user->id.' Actualizado!');
+        Session::flash('flash_message2', 'Usuario  '.$user->name.' Actualizado!');
 
         return redirect('admin/users');
     }
@@ -149,9 +149,10 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
+        $user = User::findOrFail($id);
         User::destroy($id);
 
-        Session::flash('flash_message3', 'Usuario  '.$id.' Eliminado!');
+        Session::flash('flash_message3', 'Usuario  '.$user->name.' Eliminado!');
 
         return redirect('admin/users');
     }

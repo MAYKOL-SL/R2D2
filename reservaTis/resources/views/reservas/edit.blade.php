@@ -31,21 +31,7 @@
 
         </div>
 
-        <div class="box-header">
-
-            {!!Form::label('Nombre Reserva')!!}
-            {!!Form::text('nombre_reserva',$reserva->nombre_reseva,['class'=>'form-control','required'=>'required'])!!}
-
-        </div>
-
-        <div class="box-header">
-            {!!Form::label('Descripcion Reserva')!!}
-            {!!Form::text('description',$reserva->description,['class'=>'form-control','required'=>'required',])!!}
-
-            
-        </div>
-
-        <div class="box-header">
+              <div class="box-header">
             {!!Form::label('Ambiente:')!!}
             <div class="input-group">
                 <select name="ambiente_id" class="form-control select-category" required>
@@ -70,6 +56,20 @@
         </div>
 
         <div class="box-header">
+
+            {!!Form::label('Nombre Reserva')!!}
+            {!!Form::text('nombre_reserva',$reserva->nombre_reseva,['class'=>'form-control','required'=>'required'])!!}
+
+        </div>
+
+        <div class="box-header">
+            {!!Form::label('Descripcion Reserva')!!}
+            {!!Form::text('description',$reserva->description,['class'=>'form-control','required'=>'required',])!!}
+
+            
+        </div>
+
+        <div class="box-header">
             {!!Form::label('Fecha inicio y final:')!!}
             <div class="input-group col-md-5">
                         
@@ -84,6 +84,13 @@
         
 
         <div class="box-header">
+              {!!Form::label('Hora inicio y final:')!!}
+              <div class="input-group col-md-3"> 
+              {!! Form::select('periodos[]',$hora,$horas,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
+              </div>
+        </div>
+
+                <div class="box-header">
               {!!Form::label('Dias:')!!}
               <div class="input-group col-md-5">
                       
@@ -97,15 +104,8 @@
                       
                         <input type="checkbox" name="viernes" value="Viernes" checked="checked">Viernes<br>
                       
-                        <input type="checkbox" name="sabado" value="Sabado" checked="checked">Sabado<br>
+                        <input type="checkbox" name="sabado" value="Sabado" checked="checked">Sábado<br>
                       
-              </div>
-        </div>
-
-        <div class="box-header">
-              {!!Form::label('Hora inicio y final:')!!}
-              <div class="input-group col-md-3"> 
-              {!! Form::select('periodos[]',$hora,$horas,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
               </div>
         </div>
 

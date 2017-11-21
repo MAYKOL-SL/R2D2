@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Session;
 
-use Reserva\Permission;
+
 
 
 class RolesController extends Controller
@@ -56,7 +56,7 @@ class RolesController extends Controller
          $roles->save();
 
 
-        Session::flash('flash_message1', 'Role  '.$roles->id.' Añadido!');
+        Session::flash('flash_message1', 'Role  '.$roles->name.' Añadido!');
 
         return redirect('admin/roles');
     }
@@ -117,7 +117,7 @@ class RolesController extends Controller
 
         //$role->attachPermissions($request->input('permission_id'));
 
-        Session::flash('flash_message2', 'Role  '.$role->id.' Actualizado!');
+        Session::flash('flash_message2', 'Role  '.$role->name.' Actualizado!');
 
         return redirect('admin/roles');
 
@@ -138,9 +138,10 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
+        $role = Role::findOrFail($id);
         Role::destroy($id);
 
-        Session::flash('flash_message3', 'Role  '.$id.' Eliminado!');
+        Session::flash('flash_message3', 'Role  '.$role->name.' Eliminado!');
 
         return redirect('admin/roles');
     }
