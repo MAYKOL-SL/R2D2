@@ -15,11 +15,11 @@
     </div>
     @endif
 
+
 <div class="box box-primary">
   <div class="box-header with-border">
   <label class = "box-title">Ingrese datos de su reserva </label>
   </div>
-
 
 {!!Form::open(array('url'=>'reservas','autocomplete'=>'off'))!!}
 <div class="box-header">
@@ -37,6 +37,7 @@
                     @endforeach
                 </select>
             <!--</div>-->
+
       </div>
 </div>
 
@@ -67,7 +68,7 @@
       {!!Form::label('Ambiente:')!!}
       <div class="input-group col-md-4" > 
             <!--<div class="input-group-addon">-->
-                <select name="ambiente_id" class="form-control select-category" required>
+                <select name="ambiente_id" id="ambiente_id" class="form-control select-category" required>
                     @foreach ($ambiente as $amb)
                         <option value="{{$amb->id}}">
                             {{$amb->title}}
@@ -76,7 +77,43 @@
                 </select>
             <!--</div>-->
       </div>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar complementos de aula</button>
+    </div>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+      <div class="input-group"> <span class="input-group-addon">Buscar</span>
+        <input id="filtrar" type="text" class="form-control" placeholder="Ingresa datos del aula que desa buscar....">
+      </div>
 </div>
+<div class="modal-body">
+      <table class="table table-striped table-bordered table-condensed table-hover">
+      <thead>
+    <th>Nombre Ambiente</th>
+    <th>Complemento</th>
+  </thead>
+  <tbody class="buscar">
+    @foreach($ambis as $ambi)
+      <tr>
+        <td>{{$ambi->title}}</td>
+      <td>
+          @foreach($ambi->complementos as $comp)
+          -{{$comp->nombre_complemento}}
+          @endforeach
+          </td>
+      </tr>  
+    @endforeach  
+  </tbody>
+      </table>
+    </div>
+     <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+</div>
+</div>
+
 
 <div class="box-header">
       {!!Form::label('Fecha inicio y final:')!!}
@@ -140,7 +177,6 @@
 
         
 </div>
-
 @endsection
 
 @section('js')
@@ -153,5 +189,16 @@
     placeholder_text_single:'Seleccione el ambiente'
   });
 
+  $(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
 </script>
 @endsection
