@@ -98,6 +98,7 @@
                         <input type="checkbox" name="viernes" value="Viernes" checked="checked">Viernes<br>
                       
                         <input type="checkbox" name="sabado" value="Sabado" checked="checked">Sabado<br>
+                        <input type="checkbox" name="sabado" value="Sabado" checked="checked">Domingo<br>
                       
               </div>
         </div>
