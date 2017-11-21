@@ -20,6 +20,21 @@
   <label class = "box-title">Ingrese datos de su reserva </label>
   </div>
 
+      <div class="box-header">
+        {!!Form::label('Usuario:')!!}
+        <div class="input-group col-md-3"> 
+              <select name="user_id" class="form-control" required>
+                    @foreach ($user as $us)
+                        @if($us->id==Auth::user()->id)
+                          <option value="{{$us->id}}">
+                              {{$us->name}}
+                          </option>
+                        @else
+                        @endif
+                    @endforeach
+              </select>
+        </div>
+      </div>
 
         <div class="box-header">
             <div class="col-md-3">
@@ -32,6 +47,14 @@
         </div>
 
 
+<div class="box-header">
+      {!!Form::label('Fecha inicio y final:')!!}
+      <div class="input-group">
+          <i class="fa fa-calendar col-md-1"></i>
+          <input type="date" name="fecha_ini" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
+         <input type="date" name="fecha_fin" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
+      </div>
+</div>
 
 
 <div class="box-header">

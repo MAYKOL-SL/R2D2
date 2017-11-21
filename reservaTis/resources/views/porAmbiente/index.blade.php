@@ -33,7 +33,7 @@
         <td>{{$ambientes->ubicacion}}</td>
         <td>{{$ambientes->tipo_ambiente->tipo_aula}}</td>
         <td>
-          <a href="{{ route('ambiente.edit', $ambientes->id)}}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
+          <a href="{{ route('ambiente.edit', $ambientes->id)}}" class="btn btn-success"><span aria-hidden="true"></span>Reservar</a>
         </td>
       </tr>
 

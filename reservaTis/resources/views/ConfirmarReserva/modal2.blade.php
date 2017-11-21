@@ -1,5 +1,5 @@
 <div class="modal fade modal-slide-in-right" aria-hidden="true"
-role="dialog" tabindex="-1" id="modal-delete-{{reset($reservas)->id_reserva}}">
+role="dialog" tabindex="-1" id="modal-delete-{{$id_reserva}}">
 
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -15,7 +15,7 @@ role="dialog" tabindex="-1" id="modal-delete-{{reset($reservas)->id_reserva}}">
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-				<a href="{{ route('Confirm.destroy', reset($reservas)->id_reserva) }}" onclick="return true" class="btn btn-danger">cancelar </a>
+				<a href="{{ route('Confirm.destroy', $id_reserva) }}" onclick="return true" class="btn btn-danger">cancelar </a>
 
 				
 			</div>

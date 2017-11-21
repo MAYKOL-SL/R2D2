@@ -8,7 +8,7 @@ class Ambiente extends Model
 {
     protected $table = 'ambientes';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable=['title','capacidad','ubicacion','imagen','tipo_ambiente_id'];
 

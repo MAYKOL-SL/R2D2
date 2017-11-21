@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TipoAmbiente extends Model
 {
     protected $table = 'tipo_ambientes';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable=['tipo_aula','id'];
 
     public function ambientes()

@@ -69,13 +69,18 @@
 </div>
 
 <div class="box-footer">
-     <a href="" data-target="#modal-delete-{{reset($reservas)->id_reserva}}" data-toggle="modal"><button class="btn btn-danger">Cancelar</button></a>
-    <a href="{{ route('Confirm.store', reset($reservas)->id_reserva) }}" ><button class="btn btn-primary"> Reservar de todas formas</button></a>
-     
+
+
+     <a href="" data-target="#modal-delete-{{$id_reserva}}" data-toggle="modal"><button class="btn btn-danger">Cancelar</button></a>
+
+     @if(!empty($reservas))
+        <a href="{{ route('Confirm.store', $id_reserva) }}" ><button class="btn btn-primary"> Reservar de todas formas</button></a>
+    @endif
+
 
 </div>
-
-@include('ConfirmarReserva.modal2') 
+ @include('ConfirmarReserva.modal2') 
+ 
 
 </div>
 @endsection

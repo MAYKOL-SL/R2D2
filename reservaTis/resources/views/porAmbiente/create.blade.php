@@ -6,91 +6,155 @@
 @section('main-content')
 @if(count($errors)>0)
     <div class="alert alert-danger alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <ul>
-      @foreach($errors->all() as $error)
-      <li>{!!$error!!}</li>
-      @endforeach 
-    </ul>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <ul>
+        @foreach($errors->all() as $error)
+        <li>{!!$error!!}</li>
+        @endforeach 
+        </ul>
     </div>
     @endif
 
 <div class="box box-primary">
   <div class="box-header with-border">
   <label class = "box-title">Ingrese datos de su reserva </label>
-  </div>
+</div>
+
+
+{!!Form::open(array('url'=>'ambiente','autocomplete'=>'off'))!!}
+<div class="box-header">
+      {!!Form::label('Usuario:')!!}
+      <div class="input-group col-md-4"> 
+            <!--<div class="input-group-addon">-->
+                <select name="user_id" class="form-control" required>
+                        @foreach ($user as $us)
+                        @if($us->id==Auth::user()->id)
+                        <option value="{{$us->id}}">
+                            {{$us->name}}
+                        </option>
+                        @else
+                        @endif
+                    @endforeach
+                </select>
+            <!--</div>-->
+      </div>
+</div>
+
+
+<div class="box-header">
+      {!!Form::label('Nombre Reserva:')!!}
+      <div class="input-group col-md-4" > 
+            <div class="form-group">
+                <input type="text" name="nombre_reserva" class="form-control" placeholder="Nombre reserva..." required>
+            </div>
+      </div>
+</div>
 
 
 
 <div class="box-header">
-            <div class="form-group" {{ $errors->has('name') ? 'has-error' : ''}}>
-                 {!!Form::label('Marque los días:')!!}
-                 <div class="form-check form-check-inline">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="lunes" value="option1"> Lunes
-  </label>
+      {!!Form::label('Descripcion:')!!}
+      <div class="input-group col-md-4"> 
+            <div class="form-group">
+                <input type="text" name="description" class="form-control" placeholder="descripcion..." required>
+            </div>
+      </div>
 </div>
-<div class="form-check form-check-inline">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="martes" value="option2"> Martes
-  </label>
+
+
+
+<div class="box-header">
+            {!!Form::label('Ambiente:')!!}
+        <div class="input-group">
+              <select name="ambiente_id" class="form-control select-category" required>
+                  @foreach($ambiente as $amb)
+
+                           @if($amb->id==$id_amb->id)
+                              <option value="{{$amb->id}}" selected="selected">
+                                    {{$amb->title}}
+                              </option>
+                           @else
+                          <option value="{{$amb->id}} ">
+                              {{$amb->title}}
+                          </option>
+                          @endif
+                  @endforeach
+              </select>
+        </div>
 </div>
-<div class="form-check form-check-inline disabled">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="miercoles" value="option3">Miercoles
-  </label>
+
+<div class="box-header">
+      {!!Form::label('Fecha inicio y final:')!!}
+      <div class="input-group col-md-5">
+            
+                    <i class="fa fa-calendar col-md-1"></i>
+                    <input type="date" name="fecha_ini" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
+                    
+                    <input type="date" name="fecha_fin" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
+       </div>
 </div>
-<div class="form-check form-check-inline">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="jueves" value="option1">Jueves
-  </label>
-</div>
-<div class="form-check form-check-inline">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="viernes" value="option2">Viernes
-  </label>
-</div>
-<div class="form-check form-check-inline disabled">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="sabado" value="option3"> Sábado
-  </label>
-</div>
-<div class="form-check form-check-inline disabled">
-  <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" id="domingo" value="option3">Domingo
-  </label>
-</div>
-  
-</div>
+
+<div class="box-header">
+      {!!Form::label('Dias:')!!}
+
+      <div class="input-group col-md-5">
+              
+                <input type="checkbox" name="lunes" value="Lunes">Lunes<br>
+              
+                <input type="checkbox" name="martes" value="Martes">Martes<br>
+              
+                <input type="checkbox" name="miercoles" value="Miercoles">Miercoles<br>
+              
+                <input type="checkbox" name="jueves" value="Jueves">Jueves<br>
+              
+                <input type="checkbox" name="viernes" value="Viernes">Viernes<br>
+              
+                <input type="checkbox" name="sabado" value="Sabado">Sabado<br>
+
+                <input type="checkbox" name="domingo" value="Domingo">Domingo<br>
+              
+      </div>
 </div>
 
 <div class="box-header">
       {!!Form::label('Hora inicio y final:')!!}
-      <div class="input-group">
-      <div class="input-group-addon">
-                    <i class="fa fa-safari"></i>
-                  </div>
-      {!!Form::time('fechaInicio')!!}  
-      {!!Form::time('fechaFin')!!}
+      <div class="input-group col-md-3"> 
+      {!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
       </div>
-      </div>
+ </div>
+
 
 <div class="box-header">
-      {!!Form::label('Fecha inicio y final:')!!}
-      <div class="input-group">
-      <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </div>
-      {!!Form::date('fechaInicio', \Carbon\Carbon::now())!!}  
-      {!!Form::date('fechaFin', \Carbon\Carbon::now())!!}
+      <div class="input-group col-md-5">
+            
+                    
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Guardar</button>
+                <button class="btn btn-danger" type="reset">Cancelar</button>
+            </div>
+        
       </div>
-      </div>
+</div>
+
+{!!Form::close()!!}
+
+
 
         
-<div class="box-header">
-<td>
-          {!!Form::submit('Crear Reserva',['class'=>'btn btn-primary'])!!}
-        </td>
-    </div>
+</div>
 
 @endsection
+
+@section('js')
+<script>
+  $('.select-tag').chosen({
+    placeholder_text_multiple:'Seleccione los periodos de reserva'
+  });
+
+  $('.select-category').chosen({
+    placeholder_text_single:'Seleccione el ambiente'
+  });
+
+</script>
+@endsection
+
