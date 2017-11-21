@@ -16,16 +16,7 @@
             </div>
         </div>
 
-        <!-- search form (Optional) -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search..."/>
-              <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-        </form>
-        <!-- /.search form -->
+
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
@@ -46,7 +37,7 @@
             <li><a href="{{ url('calendario') }}"><i class='fa fa-calendar'></i> <span>Calendario</span></a></li>
             @endif
             @if(Auth::check() && Auth::user()->hasRole('Administrador'))
-            <li><a href="{{ url('consulta') }}"><i class='fa fa-calendar-plus-o''></i> <span>Introducir Fechas</span></a></li>
+            <li><a href="{{ url('consulta') }}"><i class='fa fa-calendar-plus-o'></i> <span>Introducir Fechas</span></a></li>
             @endif
             @if(Auth::check() && Auth::user()->hasRole('Administrador')|| Auth::user()->hasRole('Docente')|| Auth::user()->hasRole('Secretaria')|| Auth::user()->hasRole('Auxiliar'))
             <li><a href="{{ url('reservas') }}"><i class='fa fa-pencil-square-o'></i> <span>Reserva</span></a></li>
