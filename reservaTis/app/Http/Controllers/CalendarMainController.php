@@ -13,7 +13,7 @@ use Reserva\Ambiente;
 use Reserva\DetalleReserva;
 use Reserva\TipoAmbiente;
 use Reserva\Http\Controllers\Controller;
-
+use Session;
 use DB;
 
 class CalendarMainController extends Controller
