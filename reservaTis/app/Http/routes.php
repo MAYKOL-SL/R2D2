@@ -96,7 +96,7 @@ Route::group(['middleware' => ['auth','admin']], function (){
 			Route::get('Reservas/{id}/destroy',['uses'=>'ReservasController@destroy','as'=>'reservas.destroy']);
 			Route::get('Detalles/{id}/destroy',['uses'=>'DetalleReserva\\DetalleReservaController@destroy','as'=>'detalle.destroy']);
 
-			Route::get('reservas/reservaConComplemento','ReservasController@verReservaConComplemento');
+			Route::get('reser/resConComplemento','ReservasController@verReservaConComplemento');
 
 
 
@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth','docente']], function (){
 	Route::resource('porHora', 'PorHoraController');
 	Route::resource('porCapacidad', 'PorCapacidadController');
 
-	
+
 });
 
 //Secretaria
@@ -126,7 +126,7 @@ Route::group(['middleware' => ['auth','secret']], function (){
 		Route::resource('porHora', 'PorHoraController');
 		Route::resource('porCapacidad', 'PorCapacidadController');
 
-		
+
 
 });
 
@@ -135,5 +135,5 @@ Route::group(['middleware' => ['auth','auxi']], function (){
 	  Route::resource('DetalleReserva','DetalleReserva\\DetalleReservaController');
     Route::resource('reservas', 'ReservasController');
 
-   
+
 });
