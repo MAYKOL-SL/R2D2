@@ -25,10 +25,10 @@
                     <th>Usuario</th>
                     <th>Ambiente</th>
                     <th>Nombre Reserva</th>
-                    <th>Descripcion</th>
-                    <th>start</th>
-                    <th>end</th>
-                    <th>Opciones</th>
+                    <th>Descripción</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Acciones</th>
                 </thead>
                 @foreach ($reservas as $res)
                 <tr>

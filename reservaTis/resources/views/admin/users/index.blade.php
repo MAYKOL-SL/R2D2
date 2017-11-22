@@ -41,8 +41,8 @@
                     <th>S.No</th>
                     <th> {{ trans('Nombre') }} </th>
                     <th> {{ trans('Apellido') }} </th>
-                    <th> {{ trans('Telefono') }} </th>
-                    <th> {{ trans('Direccion') }} </th>
+                    <th> {{ trans('Teléfono') }} </th>
+                    <th> {{ trans('Dirección') }} </th>
                     <th> {{ trans('Email') }} </th>
                     <th>Acciones</th>
                 </tr>

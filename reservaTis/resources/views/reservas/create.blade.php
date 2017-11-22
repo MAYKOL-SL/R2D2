@@ -105,9 +105,9 @@
 
 
 <div class="box-header">
-      {!!Form::label('Descripcion:')!!}
+      {!!Form::label('Descripción:')!!}
             <div class="form-group">
-                <input type="text" name="description" class="form-control" placeholder="descripcion..." required>
+                <input type="text" name="description" class="form-control" placeholder="descripción..." required>
             </div>
 </div>
 
@@ -123,6 +123,11 @@
 </div>
 
 <div class="box-header">
+      {!!Form::label('Hora inicio y final:')!!}
+      {!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
+ </div>
+
+ <div class="box-header">
       {!!Form::label('Dias:')!!}
       <div class="input-group col-md-5">
               
@@ -136,7 +141,7 @@
               
                 <input type="checkbox" name="viernes" value="Viernes">Viernes<br>
               
-                <input type="checkbox" name="sabado" value="Sabado">Sabado<br>
+                <input type="checkbox" name="sabado" value="Sabado">Sábado<br>
 
                 <input type="checkbox" name="domingo" value="Domingo">Domingo<br>
               

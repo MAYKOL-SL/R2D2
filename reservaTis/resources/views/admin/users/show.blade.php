@@ -33,11 +33,11 @@
                   <td> {{ $user->apellido }} </td>
                 </tr>
                 <tr>
-                  <th> {{ trans('Telefono :') }} </th>
+                  <th> {{ trans('Teléfono :') }} </th>
                   <td> {{ $user->telefono }} </td>
                 </tr>
                 <tr>
-                  <th> {{ trans('Direccion :') }} </th>
+                  <th> {{ trans('Dirección :') }} </th>
                   <td> {{ $user->direccion }} </td>
                 </tr>
                 <tr>
