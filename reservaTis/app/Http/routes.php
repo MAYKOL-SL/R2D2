@@ -99,7 +99,7 @@ Route::group(['middleware' => ['auth','admin']], function (){
 			Route::get('reservas/reservaConComplemento','ReservasController@verReservaConComplemento');
 
 
-
+			Route::resource('ConfirmarReserva', 'ConfirmarReserva\\ConfirmarReservaController');
 			Route::resource('Confirm','ConfirmarReserva\\ConfirmarReservaController');
 			Route::get('Confirm/{id}/destroy',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@destroy' ,'as'=>'Confirm.destroy']);
 			Route::get('Confirm/{id}/store',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@store' ,'as'=>'Confirm.store']);
