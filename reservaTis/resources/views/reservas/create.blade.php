@@ -44,10 +44,12 @@
       {!!Form::label('Ambiente:')!!}
             <div class="form-group">
               <select name="ambiente_id" id="ambiente_id" class="form-control select-category" required>
-                    @foreach ($ambiente as $amb)
+                    @foreach ($ambis as $amb)
+                       @if($amb->tipo_ambiente->tipo_aula<>"activo" && $amb->tipo_ambiente->tipo_aula<>"inactivo")
                         <option value="{{$amb->id}}">
                             {{$amb->title}}
                         </option>
+                        @endif
                     @endforeach
                 </select>
             </div>
@@ -76,6 +78,7 @@
   </thead>
   <tbody class="buscar">
     @foreach($ambis as $ambi)
+     @if($ambi->tipo_ambiente->tipo_aula<>"activo" && $ambi->tipo_ambiente->tipo_aula<>"inactivo")
       <tr>
         <td>{{$ambi->title}}</td>
         <td>{{$ambi->capacidad}}</td>
@@ -85,6 +88,7 @@
           @endforeach
           </td>
       </tr>
+      @endif
     @endforeach
   </tbody>
       </table>
