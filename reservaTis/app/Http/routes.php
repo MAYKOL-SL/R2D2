@@ -116,6 +116,23 @@ Route::group(['middleware' => ['auth','docente']], function (){
 	Route::resource('porCapacidad', 'PorCapacidadController');
 
 
+
+
+			Route::get('busquedaFecha', 'BusquedaFechas\\BusqFechasController@find');
+			Route::resource('DetalleReserva','DetalleReserva\\DetalleReservaController');
+			Route::resource('reservas', 'ReservasController');
+			Route::get('Reservas/{id}/destroy',['uses'=>'ReservasController@destroy','as'=>'reservas.destroy']);
+			Route::get('Detalles/{id}/destroy',['uses'=>'DetalleReserva\\DetalleReservaController@destroy','as'=>'detalle.destroy']);
+			Route::get('reser/resConComplemento','ReservasController@verReservaConComplemento');
+			Route::resource('Confirm','ConfirmarReserva\\ConfirmarReservaController');
+			Route::get('Confirm/{id}/destroy',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@destroy' ,'as'=>'Confirm.destroy']);
+			Route::get('Confirm/{id}/store',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@store' ,'as'=>'Confirm.store']);
+
+			Route::resource('CrearComplementoAmbiente','CrearAmbiente\\CrearComplementoAmbienteController');
+
+
+
+
 });
 
 //Secretaria
@@ -128,12 +145,43 @@ Route::group(['middleware' => ['auth','secret']], function (){
 
 
 
+			Route::get('busquedaFecha', 'BusquedaFechas\\BusqFechasController@find');
+			Route::resource('DetalleReserva','DetalleReserva\\DetalleReservaController');
+			Route::resource('reservas', 'ReservasController');
+			Route::get('Reservas/{id}/destroy',['uses'=>'ReservasController@destroy','as'=>'reservas.destroy']);
+			Route::get('Detalles/{id}/destroy',['uses'=>'DetalleReserva\\DetalleReservaController@destroy','as'=>'detalle.destroy']);
+			Route::get('reser/resConComplemento','ReservasController@verReservaConComplemento');
+			Route::resource('Confirm','ConfirmarReserva\\ConfirmarReservaController');
+			Route::get('Confirm/{id}/destroy',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@destroy' ,'as'=>'Confirm.destroy']);
+			Route::get('Confirm/{id}/store',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@store' ,'as'=>'Confirm.store']);
+
+			Route::resource('CrearComplementoAmbiente','CrearAmbiente\\CrearComplementoAmbienteController');
+
+
+
+
+
 });
 
 //Auxiliar
 Route::group(['middleware' => ['auth','auxi']], function (){
 	  Route::resource('DetalleReserva','DetalleReserva\\DetalleReservaController');
     Route::resource('reservas', 'ReservasController');
+
+
+
+			Route::get('busquedaFecha', 'BusquedaFechas\\BusqFechasController@find');
+			Route::resource('DetalleReserva','DetalleReserva\\DetalleReservaController');
+			Route::resource('reservas', 'ReservasController');
+			Route::get('Reservas/{id}/destroy',['uses'=>'ReservasController@destroy','as'=>'reservas.destroy']);
+			Route::get('Detalles/{id}/destroy',['uses'=>'DetalleReserva\\DetalleReservaController@destroy','as'=>'detalle.destroy']);
+			Route::get('reser/resConComplemento','ReservasController@verReservaConComplemento');
+			Route::resource('Confirm','ConfirmarReserva\\ConfirmarReservaController');
+			Route::get('Confirm/{id}/destroy',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@destroy' ,'as'=>'Confirm.destroy']);
+			Route::get('Confirm/{id}/store',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@store' ,'as'=>'Confirm.store']);
+
+			Route::resource('CrearComplementoAmbiente','CrearAmbiente\\CrearComplementoAmbienteController');
+
 
 
 });
