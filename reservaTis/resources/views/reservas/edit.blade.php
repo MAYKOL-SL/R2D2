@@ -109,12 +109,12 @@
               </div>
         </div>
 
-        <div class="box-header">
+       {{--  <div class="box-header">
               {!!Form::label('Hora inicio y final:')!!}
               <div class="input-group col-md-3">
               {!! Form::select('periodos[]',$hora,$horas,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
               </div>
-        </div>
+        </div> --}}
 
         <div class="box-header">
 

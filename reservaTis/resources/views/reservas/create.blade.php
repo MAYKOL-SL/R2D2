@@ -56,9 +56,9 @@
             <div class="form-group">
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar complementos de aula</button>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
               <a href="{{ url('reser/resConComplemento') }}" class="btn btn-info">Añadir complemento</a>
-            </div>
+            </div> --}}
 </div>
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

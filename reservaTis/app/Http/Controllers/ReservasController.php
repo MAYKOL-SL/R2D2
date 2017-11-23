@@ -32,9 +32,11 @@ class ReservasController extends Controller
                         ->join('detalle_reservas as dr','dr.reserva_id','=','r.id')
                         ->where('dr.estado','activo')
                         ->join('ambientes as amb','amb.id','=','dr.ambiente_id')
+
+                         ->join('tipo_ambientes as tamb','tamb.id','=','amb.tipo_ambiente_id')
                         ->join('users as us','us.id','=','r.user_id')
                         ->where('r.estado','activo')
-                         ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end')
+                         ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end','tamb.tipo_aula as tipodeaula')
 
                          ->distinct()
                          ->orderBy('r.id')
@@ -173,7 +175,7 @@ class ReservasController extends Controller
             ->lists('c.Fecha');
         
 
-            ->lists('c.Fecha')
+            // ->lists('c.Fecha')
             ;
 
 
@@ -218,7 +220,7 @@ class ReservasController extends Controller
                                     ->lists('p.hora');
                         
 
-                                    ->lists('p.hora')
+                                    // ->lists('p.hora')
                                     ;
 
 
