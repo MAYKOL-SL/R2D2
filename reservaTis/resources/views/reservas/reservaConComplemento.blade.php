@@ -19,7 +19,7 @@
 <div class="box box-primary">
   <div class="responsive">
   <div class="box-header with-border">
-  <label class = "box-title">Ingrese datos de su reserva </label>
+  <label class = "box-title">Ingrese datos de su reserva para complemento </label>
   </div>
 
 
@@ -41,22 +41,9 @@
 </div>
 
 <div class="box-header">
-      {!!Form::label('Ambiente:')!!}
-            <div class="form-group">
-              <select name="ambiente_id" id="ambiente_id" class="form-control select-category" required>
-                    @foreach ($ambis as $amb)
-                     @if($amb->tipo_ambiente->tipo_aula<>"activo" && $amb->tipo_ambiente->tipo_aula<>"inactivo")
-                        <option value="{{$amb->id}}">
-                            {{$amb->title}}
-                        </option>
-                    @endif
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar complementos de aula</button>
-            </div>
-
+     
+           
+           
             <div class="form-group">
               {!!Form::label('Complemento:')!!}
               <select name="ambiente_id" id="ambiente_id" class="form-control select-complemento" required>
@@ -72,49 +59,7 @@
             </div>
 </div>
 
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-      <div class="input-group"> <span class="input-group-addon">Buscar</span>
-        <input id="filtrar" type="text" class="form-control" placeholder="Ingresa datos del aula que desa buscar....">
-      </div>
-</div>
-<div class="modal-body">
-      <table class="table table-striped table-bordered table-condensed table-hover">
-      <thead>
-    <th>Nombre Ambiente</th>
-    <th>Capacidad</th>
-    <th>Complemento</th>
-  </thead>
-  <tbody class="buscar">
-
-    @foreach($ambis as $ambi)
-    @if($ambi->tipo_ambiente->tipo_aula<>"activo" && $ambi->tipo_ambiente->tipo_aula<>"inactivo")
-      <tr>
-        <td>{{$ambi->title}}</td>
-        <td>{{$ambi->capacidad}}</td>
-      <td>
-          @foreach($ambi->complementos as $comp)
-          -{{$comp->nombre_complemento}}
-          @endforeach
-          </td>
-      </tr>
-      @endif
-    @endforeach
-  </tbody>
-
-      </table>
-    </div>
-     <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
-  </div>
-
-</div>
-</div>
-
-
+   
 <div class="box-header">
       {!!Form::label('Nombre Reserva:')!!}
             <div class="form-group">
@@ -143,6 +88,11 @@
 </div>
 
 <div class="box-header">
+      {!!Form::label('Hora inicio y final:')!!}
+      {!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
+ </div>
+
+<div class="box-header">
       {!!Form::label('Dias:')!!}
       <div class="input-group col-md-5">
 
@@ -163,10 +113,7 @@
       </div>
 </div>
 
-<div class="box-header">
-      {!!Form::label('Hora inicio y final:')!!}
-      {!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
- </div>
+
 
 
 <div class="box-header">

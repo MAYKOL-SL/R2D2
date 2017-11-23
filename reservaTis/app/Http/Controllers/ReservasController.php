@@ -32,9 +32,11 @@ class ReservasController extends Controller
                         ->join('detalle_reservas as dr','dr.reserva_id','=','r.id')
                         ->where('dr.estado','activo')
                         ->join('ambientes as amb','amb.id','=','dr.ambiente_id')
+
+                         ->join('tipo_ambientes as tamb','tamb.id','=','amb.tipo_ambiente_id')
                         ->join('users as us','us.id','=','r.user_id')
                         ->where('r.estado','activo')
-                         ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end')
+                         ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end','tamb.tipo_aula as tipodeaula')
 
                          ->distinct()
                          ->orderBy('r.id')
@@ -170,7 +172,8 @@ class ReservasController extends Controller
             ->join('periodos as p','p.id','=','dr.periodo_id')
             ->whereIn('p.id',$periodos)
             ->lists('c.Fecha');
-
+                  
+            
             $contador = array();
             foreach ($conflictos as $res ) {
                 array_push($contador, $res->dconflicto_id);
@@ -207,7 +210,6 @@ class ReservasController extends Controller
                                     ->whereIn('c.Dia',$dias)
                                     ->join('periodos as p','p.id','=','dr.periodo_id')
                                     ->where('p.id',$periodos[$i])
-
                                     ->lists('p.hora');
 
                         if(empty($periodoConflic)){
