@@ -169,14 +169,7 @@ class ReservasController extends Controller
             ->whereIn('c.Dia',$dias)
             ->join('periodos as p','p.id','=','dr.periodo_id')
             ->whereIn('p.id',$periodos)
-
             ->lists('c.Fecha');
-        
-
-            ->lists('c.Fecha')
-            ;
-
-
 
             $contador = array();
             foreach ($conflictos as $res ) {
@@ -216,12 +209,6 @@ class ReservasController extends Controller
                                     ->where('p.id',$periodos[$i])
 
                                     ->lists('p.hora');
-                        
-
-                                    ->lists('p.hora')
-                                    ;
-
-
 
                         if(empty($periodoConflic)){
 
