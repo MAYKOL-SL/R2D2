@@ -38,12 +38,6 @@
                         <td>{{ $res->Fecha}}</td>
                         <td>{{ $res->hora}}</td>
                         <td><i class="fa fa-thumbs-up " aria-hidden="true" ></i></td>
-                        {{-- <td>
-                          
-                            <a href="" data-target="#modal-delete-{{$res->id_detalle}}" data-toggle="modal"><button class="btn btn-sm btn-danger">Eliminar</button></a>
-                        </td> --}}
-                       
-
                     </tr>
                    
                 @endforeach
@@ -57,8 +51,9 @@
                         <td>{{$con->title}}</td>
                         <td>{{$con->Fconflicto}}</td>
                         <td>{{$con->horaconflicto}}</td>
-                        <td><i class="fa fa-times" aria-hidden="true"></i></td>
-                        
+                        <td><i class="fa fa-times" aria-hidden="true"></i>
+                        <a href="{{URL::action('ConfirmarReserva\\ConfirmarReservaController@edit',$con->dconflicto_id)}}"><button class="btn btn-sm btn-info">Editar</button></a>
+                        </td>
                     </tr>
                 @endforeach
 

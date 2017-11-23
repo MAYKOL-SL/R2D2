@@ -30,6 +30,7 @@ class ReservasController extends Controller
 
             $datos=DB::table('reservas as r')
                         ->join('detalle_reservas as dr','dr.reserva_id','=','r.id')
+                        ->where('dr.estado','activo')
                         ->join('ambientes as amb','amb.id','=','dr.ambiente_id')
                         ->join('users as us','us.id','=','r.user_id')
                         ->where('r.estado','activo')
@@ -120,7 +121,7 @@ class ReservasController extends Controller
     		return Redirect::to('reservas/create');
     	}
         //dias
-        $dias;
+        //$dias;
         $lunes=$request->get( 'lunes');
         $martes=$request->get( 'martes');
         $miercoles=$request->get( 'miercoles');
@@ -168,8 +169,13 @@ class ReservasController extends Controller
             ->whereIn('c.Dia',$dias)
             ->join('periodos as p','p.id','=','dr.periodo_id')
             ->whereIn('p.id',$periodos)
+
+            ->lists('c.Fecha');
+        
+
             ->lists('c.Fecha')
             ;
+
 
 
             $contador = array();
@@ -208,12 +214,26 @@ class ReservasController extends Controller
                                     ->whereIn('c.Dia',$dias)
                                     ->join('periodos as p','p.id','=','dr.periodo_id')
                                     ->where('p.id',$periodos[$i])
+
+                                    ->lists('p.hora');
+                        
+
                                     ->lists('p.hora')
                                     ;
 
 
+
                         if(empty($periodoConflic)){
 
+                            $detres=new DetalleReserva;
+                            $detres->estado="activo";
+                            $detres->reserva_id=$reserva->id;
+                            $detres->calendario_id=$fd->id;
+                            $detres->ambiente_id=$ambiente;
+                            $detres->periodo_id=$periodos[$i];
+                            $detres->save();
+                        }
+                        else{
                             $detres=new DetalleReserva;
                             $detres->estado="inactivo";
                             $detres->reserva_id=$reserva->id;
@@ -294,8 +314,7 @@ class ReservasController extends Controller
                             ->where('r.id',$id)
                             ->select('p.id')
                             ->distinct()
-                            ->lists('p.id')
-                            ;
+                            ->lists('p.id');
 
         // dd($horas);
 

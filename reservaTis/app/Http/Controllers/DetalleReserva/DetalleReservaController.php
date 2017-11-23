@@ -36,6 +36,7 @@ class DetalleReservaController extends Controller
 
             $datosListado=DB::table('reservas as r')
                             ->join('detalle_reservas as dr','dr.reserva_id','=','r.id')
+                            ->where('dr.estado','activo')
                             ->join('ambientes as amb','amb.id','=','dr.ambiente_id')
                             ->join('users as us','us.id','=','r.user_id')
                             ->join('calendarios as cal','cal.id','=','dr.calendario_id')
