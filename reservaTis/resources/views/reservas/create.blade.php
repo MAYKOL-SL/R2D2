@@ -10,7 +10,7 @@
         <ul>
         @foreach($errors->all() as $error)
         <li>{!!$error!!}</li>
-        @endforeach 
+        @endforeach
         </ul>
     </div>
     @endif
@@ -44,10 +44,12 @@
       {!!Form::label('Ambiente:')!!}
             <div class="form-group">
               <select name="ambiente_id" id="ambiente_id" class="form-control select-category" required>
-                    @foreach ($ambiente as $amb)
+                    @foreach ($ambis as $amb)
+                       @if($amb->tipo_ambiente->tipo_aula<>"activo" && $amb->tipo_ambiente->tipo_aula<>"inactivo")
                         <option value="{{$amb->id}}">
                             {{$amb->title}}
                         </option>
+                        @endif
                     @endforeach
                 </select>
             </div>
@@ -55,7 +57,7 @@
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar complementos de aula</button>
             </div>
             <div class="form-group">
-              <a href="{{ url('reservas/reservaConComplemento') }}" class="btn btn-info">Añadir complemento</a>
+              <a href="{{ url('reser/resConComplemento') }}" class="btn btn-info">Añadir complemento</a>
             </div>
 </div>
 
@@ -76,6 +78,7 @@
   </thead>
   <tbody class="buscar">
     @foreach($ambis as $ambi)
+     @if($ambi->tipo_ambiente->tipo_aula<>"activo" && $ambi->tipo_ambiente->tipo_aula<>"inactivo")
       <tr>
         <td>{{$ambi->title}}</td>
         <td>{{$ambi->capacidad}}</td>
@@ -84,8 +87,9 @@
           -{{$comp->nombre_complemento}}
           @endforeach
           </td>
-      </tr>  
-    @endforeach  
+      </tr>
+      @endif
+    @endforeach
   </tbody>
       </table>
     </div>
@@ -117,7 +121,7 @@
             <div class="input-group">
                     <i class="fa fa-calendar col-md-1"></i>
                     <input type="date" name="fecha_ini" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
-                    
+
                     <input type="date" name="fecha_fin" min={{$fechaActual}} class="col-md-5" value={{$fechaActual}} required>
 </div>
 </div>
@@ -130,39 +134,39 @@
  <div class="box-header">
       {!!Form::label('Dias:')!!}
       <div class="input-group col-md-5">
-              
+
                 <input type="checkbox" name="lunes" value="Lunes">Lunes<br>
-              
+
                 <input type="checkbox" name="martes" value="Martes">Martes<br>
-              
+
                 <input type="checkbox" name="miercoles" value="Miercoles">Miercoles<br>
-              
+
                 <input type="checkbox" name="jueves" value="Jueves">Jueves<br>
-              
+
                 <input type="checkbox" name="viernes" value="Viernes">Viernes<br>
-              
+
                 <input type="checkbox" name="sabado" value="Sabado">Sábado<br>
 
                 <input type="checkbox" name="domingo" value="Domingo">Domingo<br>
-              
+
       </div>
 </div>
 
-<div class="box-header">
+{{-- <div class="box-header">
       {!!Form::label('Hora inicio y final:')!!}
       {!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
- </div>
+ </div> --}}
 
 
 <div class="box-header">
       <div class="input-group">
-            
-                    
+
+
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">Guardar</button>
                 <button class="btn btn-danger" type="reset">Cancelar</button>
             </div>
-        
+
       </div>
 </div>
 
@@ -170,7 +174,7 @@
 
 
 
-        
+
 </div>
 </div>
 

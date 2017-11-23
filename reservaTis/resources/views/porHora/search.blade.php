@@ -5,12 +5,12 @@
 
 		<div class="box-header">
 	      {!!Form::label('Hora inicio y final:')!!}
-	      <div class="input-group col-md-8"> 
+	      <div class="input-group col-md-8">
 	      	{!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
 	      </div>
  		</div>
 
-		
+
 
 		<div class="box-header">
 		{!!Form::label('Capacidad:')!!}
@@ -19,7 +19,7 @@
 		</div>
 		</div>
 
-		
+
 
 		<div class="box-header">
 			{!!Form::label('Fecha Inicio y Fin:')!!}
@@ -34,17 +34,17 @@
       {!!Form::label('Dias:')!!}
       <div class="input-group col-md-5">
                 <input type="checkbox" name="lunes" value="lunes">Lunes<br>
-              
+
                 <input type="checkbox" name="martes" value="martes">Martes<br>
-              
+
                 <input type="checkbox" name="miercoles" value="miercoles">Miercoles<br>
-              
+
                 <input type="checkbox" name="jueves" value="jueves">Jueves<br>
-              
+
                 <input type="checkbox" name="viernes" value="viernes">Viernes<br>
-              
+
                 <input type="checkbox" name="sabado" value="sabado">Sabado<br>
-              
+
       </div>
 		</div>
 
@@ -56,4 +56,3 @@
 		</div>
 	</div>
 </div>
-

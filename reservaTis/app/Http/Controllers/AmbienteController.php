@@ -10,6 +10,8 @@ use Reserva\TipoAmbiente;
 use Carbon\Carbon;
 use Reserva\Periodo;
 use Reserva\Ambiente;
+use Reserva\Complemento;
+use Reserva\AmbienteComplemento;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 use Reserva\Reserva;
@@ -247,16 +249,26 @@ class AmbienteController extends Controller
         $calendario=DB::table('calendarios')->get();
        // $dia=DB::table('dias')->get();
         $ambiente=DB::table('ambientes')->get();
+
+        /*aumentado para areglar ambiente*/
+        $ambis=DB::table('ambientes as a')
+        ->join('tipo_ambientes as ta','ta.id','=','a.tipo_ambiente_id')
+        ->where('ta.tipo_aula','<>','activo')
+        ->where('ta.tipo_aula','<>','inactivo')
+        ->get();
+
+
         $id_amb = Ambiente::find($id);
         $user=DB::table('users')->get();
         $hora = Periodo::lists('hora','id');
         return view("porAmbiente.create",[
             "calendario"=>$calendario,
-            "ambiente"=>$ambiente,
+            "ambiente"=>$ambis,
             "fechaActual"=>$fechaActual,
             "hora"=>$hora,
             "user"=>$user,
-            "id_amb"=>$id_amb]);
+            "id_amb"=>$id_amb,
+             "ambis"=>$ambiente]);
         //return view('porAmbiente.create')->with('idambiente',$idambiente);
     }
 

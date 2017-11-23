@@ -36,7 +36,7 @@
                     <td>{{ $fechaIni}}</td>
                     <td>{{ $fechaFin}}</td>
                     <td>
-                        <a href=""><button class="btn btn-info">Reservar</button></a>
+                        <a href="{{ url('reservas/create') }}" class="btn btn-info">Reservar</a>
                     </td>
                 </tr>
                 @endforeach
