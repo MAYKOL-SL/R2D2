@@ -49,7 +49,8 @@ class CalendarMainController extends Controller
             ->join('detalle_reservas', 'reservas.id', '=', 'detalle_reservas.reserva_id')
             ->join('ambientes', 'detalle_reservas.ambiente_id', '=', 'ambientes.id')
             ->join('periodos', 'detalle_reservas.periodo_id', '=', 'periodos.id')
-            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora', 'reservas.id');
+            ->join('calendarios', 'detalle_reservas.calendario_id', '=', 'calendarios.id')
+            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora', 'detalle_reservas.id', 'calendarios.Fecha');
 
         foreach ($data->get() as $value) {
 
@@ -78,8 +79,8 @@ class CalendarMainController extends Controller
                 Fullcalendarevento::create([
 
                     'id' => $value->id,
-                    'start' => $value->start,
-                    'end' => $value->end,
+                    'start' => $value->Fecha,
+                    'end' => $value->Fecha,
                     'title' => $title_event
                 ]);
             }
