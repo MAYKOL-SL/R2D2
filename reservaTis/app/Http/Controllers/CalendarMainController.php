@@ -51,7 +51,7 @@ class CalendarMainController extends Controller
             ->join('periodos', 'detalle_reservas.periodo_id', '=', 'periodos.id')
             ->join('calendarios', 'detalle_reservas.calendario_id', '=', 'calendarios.id')
             ->where('detalle_reservas.estado', '=', 'activo')
-            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora', 'detalle_reservas.id', 'calendarios.Fecha');
+            ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora', 'detalle_reservas.id', 'calendarios.Fecha', 'reservas.user_id');
 
         foreach ($data->get() as $value) {
 
@@ -74,7 +74,20 @@ class CalendarMainController extends Controller
                     $valor_descripcion = $value->description;
                     $descripcion = $nombre_descripcion. $valor_descripcion;
 
-                    $title_event = $linea . $periodo . $salto . $linea . $reserva . $salto . $linea . $aula . $salto .$linea . $descripcion;
+                    $nombre_usuario = "Usuario: ";
+                    $valor_usuario_nombre = $value->user_id;
+                    $data_usuario = DB::table('users')
+                            ->where('id', '=', $valor_usuario_nombre)
+                            ->select('users.name', 'users.apellido');
+                    $usuario = "";
+
+                            foreach ($data_usuario->get() as $values) {
+                                $espacio = " ";
+                                $usuario = $nombre_usuario . $values->name . $espacio . $values->apellido;
+                            }
+
+
+                    $title_event = $linea . $periodo . $salto . $linea . $reserva . $salto . $linea . $aula . $salto . $linea . $descripcion . $salto . $linea . $usuario;
 
 
                 Fullcalendarevento::create([
