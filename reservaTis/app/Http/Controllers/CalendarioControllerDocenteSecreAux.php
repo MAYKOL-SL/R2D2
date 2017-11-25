@@ -25,7 +25,7 @@ use Storage;
 use DB;
 use Auth;
 
-class CalendarioController extends Controller
+class CalendarioControllerDocenteSecreAux extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -71,7 +71,7 @@ class CalendarioController extends Controller
 
     public function vistaCalendario()
     {
-       return view('calendario');
+       return view('calendario_docente_secre_aux');
     }
 
     public function getDatosReserva(Request $request)
@@ -96,6 +96,7 @@ class CalendarioController extends Controller
             ->join('periodos', 'detalle_reservas.periodo_id', '=', 'periodos.id')
             ->join('calendarios', 'detalle_reservas.calendario_id', '=', 'calendarios.id')
             ->where('detalle_reservas.estado', '=', 'activo')
+            ->where('reservas.user_id', '=', Auth::id())
             ->select('reservas.nombre_reseva', 'reservas.start', 'reservas.end', 'reservas.description', 'ambientes.title', 'periodos.hora', 'detalle_reservas.id', 'calendarios.Fecha', 'reservas.user_id');
 
         foreach ($data->get() as $value) {
@@ -151,7 +152,7 @@ class CalendarioController extends Controller
 
         $hora = Periodo::lists('hora','id');
         $states = TipoAmbiente::lists('tipo_aula','id');
-        return view('calendario',compact('states', 'hora', 'user', 'ambiente'));
+        return view('calendario_docente_secre_aux',compact('states', 'hora', 'user', 'ambiente'));
         add('periodos');
 
         //return Response()->json($data);
@@ -254,7 +255,6 @@ class CalendarioController extends Controller
 
     public function store(Request $request)
     {
-
 
 //datos recogidos
         $ambiente=$request->get('ambiente_id');
@@ -430,8 +430,6 @@ class CalendarioController extends Controller
 
 
 /**
-
-
                 //datos recogidos
         $ambiente=$request->get('ambiente_id');
         $fecha_ini=$request->get('date_start');
@@ -598,6 +596,8 @@ class CalendarioController extends Controller
             return Redirect::to('reservas');
         }
         
+
+
 
 
 
@@ -847,7 +847,7 @@ class CalendarioController extends Controller
             $detalle->delete();
             $reserva->delete();
             Flash::error("Todas las reservas han sido eliminadas");
-            return redirect::to('calendario');
+            return redirect::to('calendario_docente_secre_aux');
 
 
         }else{
@@ -855,7 +855,7 @@ class CalendarioController extends Controller
             $detalle->delete();
             Flash::warning("La Reserva ha sido eliminada");
 
-            return redirect::to('calendario');
+            return redirect::to('calendario_docente_secre_aux');
 
          }
             

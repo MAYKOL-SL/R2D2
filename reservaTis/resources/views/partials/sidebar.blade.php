@@ -36,6 +36,9 @@
             @if(Auth::check() && Auth::user()->hasRole('Administrador'))
             <li><a href="{{ url('calendario') }}"><i class='fa fa-calendar'></i> <span>Calendario</span></a></li>
             @endif
+            @if(Auth::check() && Auth::user()->hasRole('Docente')|| Auth::user()->hasRole('Secretaria')|| Auth::user()->hasRole('Auxiliar'))
+            <li><a href="{{ url('calendario_docente_secre_aux') }}"><i class='fa fa-calendar'></i> <span>Calendario</span></a></li>
+            @endif
             @if(Auth::check() && Auth::user()->hasRole('Administrador'))
             <li><a href="{{ url('consulta') }}"><i class='fa fa-calendar-plus-o'></i> <span>Introducir Fechas</span></a></li>
             @endif

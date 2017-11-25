@@ -58,6 +58,8 @@ Route::group(['middleware' => ['auth','admin']], function (){
 				'as' => 'complemento.destroy'
 			]);
 
+// Calendario Administrador
+
 			Route::get('calendario','CalendarioController@getDatosReserva');
 			Route::resource('calendario', 'CalendarioController', ['only' => ['getDatosReserva', 'store']]);
 			Route::get('get_excel_calendario','CalendarioController@getDatosCalendario');
@@ -76,6 +78,9 @@ Route::group(['middleware' => ['auth','admin']], function (){
 			Route::get('get_excel_calendario','CalendarioController@getDatosCalendario');
 			//Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
 			Route::resource('leer_datos_excel', 'CalendarioController@loadCalendar');
+//---------------------------------------------------------------------------------------------
+
+
 
 			Route::get('Formulario/form_cargar_calendario_academico', 'CalendarioController@form_cargar_calendario_academico');
 			Route::post('Formulario/cargar_calendario_academico', 'CalendarioController@cargar_calendario_academico');
@@ -131,6 +136,26 @@ Route::group(['middleware' => ['auth','docente']], function (){
 			Route::resource('CrearComplementoAmbiente','CrearAmbiente\\CrearComplementoAmbienteController');
 
 
+//Calendario para Docente, Secretaria Y Auxiliar
+Route::get('calendario_docente_secre_aux','CalendarioControllerDocenteSecreAux@getDatosReserva');
+			Route::resource('calendario_docente_secre_aux', 'CalendarioControllerDocenteSecreAux', ['only' => ['getDatosReserva', 'store']]);
+			Route::get('get_excel_calendario','CalendarioControllerDocenteSecreAux@getDatosCalendario');
+			//Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
+			Route::resource('leer_datos_excel', 'CalendarioControllerDocenteSecreAux@loadCalendar');
+
+
+
+
+			Route::get('calendario_docente_secre_aux','CalendarioControllerDocenteSecreAux@getDatosReserva');
+			//Route::post('calendario/{id}', 'CalendarioController@destroy');
+			Route::resource('calendario_docente_secre_aux', 'CalendarioControllerDocenteSecreAux', ['only' => ['store']]);
+			Route::any('calendario_docente_secre_aux/{id}',['uses'=>'CalendarioControllerDocenteSecreAux@destroy']);
+
+
+			Route::get('get_excel_calendario','CalendarioControllerDocenteSecreAux@getDatosCalendario');
+			//Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
+			Route::resource('leer_datos_excel', 'CalendarioControllerDocenteSecreAux@loadCalendar');
+//---------------------------------------------------------------------------------------------
 
 
 });
@@ -159,6 +184,26 @@ Route::group(['middleware' => ['auth','secret']], function (){
 
 
 
+//Calendario para Docente, Secretaria Y Auxiliar
+Route::get('calendario_docente_secre_aux','CalendarioControllerDocenteSecreAux@getDatosReserva');
+			Route::resource('calendario_docente_secre_aux', 'CalendarioControllerDocenteSecreAux', ['only' => ['getDatosReserva', 'store']]);
+			Route::get('get_excel_calendario','CalendarioControllerDocenteSecreAux@getDatosCalendario');
+			//Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
+			Route::resource('leer_datos_excel', 'CalendarioControllerDocenteSecreAux@loadCalendar');
+
+
+
+
+			Route::get('calendario_docente_secre_aux','CalendarioControllerDocenteSecreAux@getDatosReserva');
+			//Route::post('calendario/{id}', 'CalendarioController@destroy');
+			Route::resource('calendario_docente_secre_aux', 'CalendarioControllerDocenteSecreAux', ['only' => ['store']]);
+			Route::any('calendario_docente_secre_aux/{id}',['uses'=>'CalendarioControllerDocenteSecreAux@destroy']);
+
+
+			Route::get('get_excel_calendario','CalendarioControllerDocenteSecreAux@getDatosCalendario');
+			//Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
+			Route::resource('leer_datos_excel', 'CalendarioControllerDocenteSecreAux@loadCalendar');
+//---------------------------------------------------------------------------------------------
 
 
 });
@@ -181,6 +226,29 @@ Route::group(['middleware' => ['auth','auxi']], function (){
 			Route::get('Confirm/{id}/store',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@store' ,'as'=>'Confirm.store']);
 
 			Route::resource('CrearComplementoAmbiente','CrearAmbiente\\CrearComplementoAmbienteController');
+
+
+//Calendario para Docente, Secretaria Y Auxiliar
+Route::get('calendario_docente_secre_aux','CalendarioControllerDocenteSecreAux@getDatosReserva');
+			Route::resource('calendario_docente_secre_aux', 'CalendarioControllerDocenteSecreAux', ['only' => ['getDatosReserva', 'store']]);
+			Route::get('get_excel_calendario','CalendarioControllerDocenteSecreAux@getDatosCalendario');
+			//Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
+			Route::resource('leer_datos_excel', 'CalendarioControllerDocenteSecreAux@loadCalendar');
+
+
+
+
+			Route::get('calendario_docente_secre_aux','CalendarioControllerDocenteSecreAux@getDatosReserva');
+			//Route::post('calendario/{id}', 'CalendarioController@destroy');
+			Route::resource('calendario_docente_secre_aux', 'CalendarioControllerDocenteSecreAux', ['only' => ['store']]);
+			Route::any('calendario_docente_secre_aux/{id}',['uses'=>'CalendarioControllerDocenteSecreAux@destroy']);
+
+
+			Route::get('get_excel_calendario','CalendarioControllerDocenteSecreAux@getDatosCalendario');
+			//Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
+			Route::resource('leer_datos_excel', 'CalendarioControllerDocenteSecreAux@loadCalendar');
+//---------------------------------------------------------------------------------------------
+
 
 
 
