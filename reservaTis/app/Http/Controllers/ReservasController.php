@@ -215,7 +215,7 @@ class ReservasController extends Controller
                         if(empty($periodoConflic)){
 
                             $detres=new DetalleReserva;
-                            $detres->estado="activo";
+                            $detres->estado="libre";
                             $detres->reserva_id=$reserva->id;
                             $detres->calendario_id=$fd->id;
                             $detres->ambiente_id=$ambiente;
@@ -224,7 +224,7 @@ class ReservasController extends Controller
                         }
                         else{
                             $detres=new DetalleReserva;
-                            $detres->estado="inactivo";
+                            $detres->estado="ocupado";
                             $detres->reserva_id=$reserva->id;
                             $detres->calendario_id=$fd->id;
                             $detres->ambiente_id=$ambiente;

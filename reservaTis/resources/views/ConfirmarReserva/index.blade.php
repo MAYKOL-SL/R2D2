@@ -21,30 +21,50 @@
             <table class="table {{-- table-striped --}} table-bordered table-condensed table-hover" >
                 <thead>
                     <th>Id</th>
-                    <th>Usuario</th>
+                   {{--  <th>Usuario</th> --}}
                     <th>Ambiente</th>
                     <th>Fecha</th>
+                    <th>Dia</th>
                     <th>periodo</th>
                     <th>Libre</th>
                    {{--  <th>Opciones</th> --}}
                 </thead>
                 <tbody>
                 @foreach ($reservas as $res)
-                    <tr class="success">
-                       
-                        <td>{{ $res->id_reserva}}</td>
-                        <td>{{ $res->usuario}}</td>
-                        <td>{{ $res->nombre_aula}}</td>
-                        <td>{{ $res->Fecha}}</td>
-                        <td>{{ $res->hora}}</td>
-                        <td><i class="fa fa-thumbs-up " aria-hidden="true" ></i></td>
-                    </tr>
+                    @if($res->estado=="libre")
+                        <tr class="success">
+                           
+                            <td>{{ $res->id_reserva}}</td>
+                           {{--  <td>{{ $res->usuario}}</td> --}}
+                            <td>{{ $res->nombre_aula}}</td>
+                            <td>{{ $res->Fecha}}</td>
+                            <td>{{$res->Dia}}</td>
+                            <td>{{ $res->hora}}</td>
+                            <td><i class="fa fa-thumbs-up " aria-hidden="true" ></i></td>
+                        </tr>
+                    @elseif($res->estado=="ocupado")
+                        <tr class="danger">
+                            <td>{{$res->id_reserva}}</td>
+                           {{--  <td>{{$res->usuario}}</td> --}}
+                            <td>{{$res->nombre_aula}}</td>
+                            <td>{{$res->Fecha}}</td>
+                            <td>{{$res->Dia}}</td>
+                            <td>{{$res->hora}}</td>
+                            <td><i class="fa fa-times" aria-hidden="true"></i>
+                        <a href="{{URL::action('ConfirmarReserva\\ConfirmarReservaController@edit',$res->id_detalle)}}"><button class="btn btn-sm btn-info">Editar</button></a>
+                        </td>
+
+                        </tr>
+
+
+
+                    @endif
                    
                 @endforeach
-                    <tr>
+                    
 
 
-                @foreach($conflictos as $con)
+               {{--  @foreach($conflictos as $con)
                     <tr class="danger">
                         <td>{{$con->conflicto_id}}</td>
                         <td>{{$con->name}}</td>
@@ -55,7 +75,7 @@
                         <a href="{{URL::action('ConfirmarReserva\\ConfirmarReservaController@edit',$con->dconflicto_id)}}"><button class="btn btn-sm btn-info">Editar</button></a>
                         </td>
                     </tr>
-                @endforeach
+                @endforeach --}}
 
                 </tbody>
             </table>
