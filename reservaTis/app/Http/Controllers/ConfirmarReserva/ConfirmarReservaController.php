@@ -42,10 +42,11 @@ class ConfirmarReservaController extends Controller
                             ->join('users as us','us.id','=','r.user_id')
                             ->join('calendarios as cal','cal.id','=','dr.calendario_id')
                             ->join('periodos','periodos.id','=','dr.periodo_id')
-                            ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end','cal.Fecha','periodos.hora','dr.id as id_detalle')
+                            ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end','cal.Fecha','periodos.hora','dr.id as id_detalle','dr.estado','cal.Dia')
 
                             ->where('dr.reserva_id','=',$idreserva)
-                            ->where('dr.estado','=','activo')
+                            ->orderBy('dr.id')
+                           /////// ->where('dr.estado','=','activo')///////
                             //->distinct()
                             ->get();
 
@@ -57,17 +58,18 @@ class ConfirmarReservaController extends Controller
             $dias=$request->get('dias');
             $periodos=$request->get('periodos');
             
-
-                            $conflictos=DB::table('detalle_reservas as dr')
-                            ->join('reservas as r','r.id','=','dr.reserva_id')
-                            ->where('r.id',$idreserva)
-                            ->join('users as u','u.id','=','r.user_id')
-                            ->join('ambientes as a','a.id','=','dr.ambiente_id')
-                            ->join('calendarios as c','c.id','=','dr.calendario_id')
-                            ->join('periodos as p','p.id','=','dr.periodo_id')
-                            ->where('dr.estado','=','inactivo')
-                            ->select('dr.reserva_id as conflicto_id','dr.id as dconflicto_id','u.name','a.title','p.hora as horaconflicto','c.Fecha as Fconflicto')
-                            ->get();
+///////////////////////////////////////////////////////////
+                            // $conflictos=DB::table('detalle_reservas as dr')
+                            // ->join('reservas as r','r.id','=','dr.reserva_id')
+                            // ->where('r.id',$idreserva)
+                            // ->join('users as u','u.id','=','r.user_id')
+                            // ->join('ambientes as a','a.id','=','dr.ambiente_id')
+                            // ->join('calendarios as c','c.id','=','dr.calendario_id')
+                            // ->join('periodos as p','p.id','=','dr.periodo_id')
+                            // ->where('dr.estado','=','inactivo')
+                            // ->select('dr.reserva_id as conflicto_id','dr.id as dconflicto_id','u.name','a.title','p.hora as horaconflicto','c.Fecha as Fconflicto')
+                            // ->get();
+            //////////////////////////////////////////////////////////////
 /*
                             $conflictos=DB::table('detalle_reservas as dr')
                             ->join('reservas as r','r.id','=','dr.reserva_id')
@@ -88,7 +90,8 @@ class ConfirmarReservaController extends Controller
             
            
 
-            return view('ConfirmarReserva.index',["reservas"=>$datosListado,"conflictos"=>$conflictos,"id_reserva"=>$idreserva]);
+           // return view('ConfirmarReserva.index',["reservas"=>$datosListado,"conflictos"=>$conflictos,"id_reserva"=>$idreserva]);
+            return view('ConfirmarReserva.index',["reservas"=>$datosListado,"id_reserva"=>$idreserva]);
 
         }
     }
@@ -119,11 +122,12 @@ class ConfirmarReservaController extends Controller
                     ->where('dr.reserva_id',$id)
                     ->get();
        
-        /*foreach ($detalles as $det ) {
+        foreach ($detalles as $det ) {
             $detalleReserva= DetalleReserva::find($det->id);
             $detalleReserva->estado='activo';
             $detalleReserva->save();
-        }*/
+        }
+        
         $reserva->estado='activo';
         $reserva->save();
         Flash::success("La Reserva se creo con exito");
@@ -150,8 +154,10 @@ class ConfirmarReservaController extends Controller
      */
     public function edit($id)
     {
-        //dd($id);
+        // dd($id);
        $dreserva=DetalleReserva::find($id);
+
+       // dd($dreserva);
        /* 
        $dreserva=DB::table('detalle_reservas as dr')
                             ->join('reservas as r','r.id','=','dr.reserva_id')
@@ -230,7 +236,7 @@ class ConfirmarReservaController extends Controller
             else{
                 foreach ($fechares as $fc) {
                 $detalle=DetalleReserva::find($id);
-                $detalle->estado='activo';
+                $detalle->estado='libre';
                 $detalle->reserva_id=$detalle->reserva_id;
                 $detalle->calendario_id=$fc->id;
                 $detalle->periodo_id=$request->get('periodos');
