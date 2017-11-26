@@ -11,31 +11,20 @@
 		</div>
 		</div>
 
-		<div class="box-header">
-	        <div class="input-group col-md-12">
-	        	<i class="fa fa-safari col-md-1"></i>
-	        	<select type="text" name="periodo_id" class="col-md-4" placeholder="Buscar...">
-	        		@foreach ($periodo as $per)
-	        		<option value="{{$per->id}}" selected="selected">
-	        			{{$per->hora}}
-	        		</option>
-	        		@endforeach
-	        	</select>
-			</div>
-		</div>
+
 
 		<div class="box-header">
-				 <div class="input-group col-md-12">
-					 <i class="fa fa-safari col-md-1"></i>
-					 <select type="text" name="complementos_id" class="col-md-4" placeholder="Buscar...">
-						 @foreach ($complementos as $complem)
-						 <option value="{{$complem->id}}" selected="selected">
-							 {{$complem->nombre_complemento}}
-						 </option>
-						 @endforeach
-					 </select>
+		      {!!Form::label('Hora :')!!}
+		      {!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
 		 </div>
-	 </div>
+
+		 <div class="box-header">
+ 		      {!!Form::label('Complemento :')!!}
+ 		      {!! Form::select('complement[]',$complement,null,['class'=>'form-control input-sm select-category','multiple','required']) !!}
+ 		 </div>
+
+
+		
 
 
 		<div class="box-header">
@@ -72,3 +61,28 @@
 		</div>
 	</div>
 </div>
+@section('js')
+<script>
+  $('.select-tag').chosen({
+    placeholder_text_multiple:'Seleccione los periodos de reserva',
+    width: '100%'
+  });
+
+  $('.select-category').chosen({
+    placeholder_text_multiple:'Seleccione los complemento',
+    width: '100%'
+  });
+
+  $(document).ready(function () {
+            (function ($) {
+                $('#filtrar').keyup(function () {
+                    var rex = new RegExp($(this).val(), 'i');
+                    $('.buscar tr').hide();
+                    $('.buscar tr').filter(function () {
+                        return rex.test($(this).text());
+                    }).show();
+                })
+            }(jQuery));
+        });
+</script>
+@endsection

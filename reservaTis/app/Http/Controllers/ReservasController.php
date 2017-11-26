@@ -105,7 +105,7 @@ class ReservasController extends Controller
     public function store(Request $request)
     {
 
-
+         //dd($request->all());
         //datos recogidos
         $ambiente=$request->get('ambiente_id');
         $fecha_ini=$request->get('fecha_ini');
@@ -172,8 +172,8 @@ class ReservasController extends Controller
             ->join('periodos as p','p.id','=','dr.periodo_id')
             ->whereIn('p.id',$periodos)
             ->lists('c.Fecha');
-                  
-            
+
+
             $contador = array();
             foreach ($conflictos as $res ) {
                 array_push($contador, $res->dconflicto_id);
@@ -459,7 +459,7 @@ class ReservasController extends Controller
 
             }
 
-            Flash::success("La reserva se edito con exito");
+            Flash::success("Reserva Actualizada ");
 
             return Redirect::to('reservas');
 
@@ -489,7 +489,7 @@ class ReservasController extends Controller
             $detelleReserva->delete();
         }
         $reserva->delete();
-        Flash::warning("La Reserva ha sido eliminada");
+        Flash::warning("Reserva Eliminada");
         return Redirect::to('reservas');
     }
 }

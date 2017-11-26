@@ -28,23 +28,23 @@ class CrearAmbienteController extends Controller
      * @return Response
      */
 
-    
-   
+
+
     public function index(Request $request)
     {
-       
+
         $ambiente = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(4);
         $comp = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(2);
         $ambiente->each(function($ambiente){
             $ambiente->complementos->lists('nombre_complemento')->ToArray();
             $ambiente->tipo_ambiente;
-            
+
         });
 
         $comp->each(function($comp){
             $comp->complementos->lists('nombre_complemento')->ToArray();
             $comp->tipo_ambiente;
-            
+
         });
         return view('CrearAmbiente.index' )
         ->with('ambiente',$ambiente)
@@ -60,7 +60,7 @@ class CrearAmbienteController extends Controller
     public function create()
     {
 
-        $complementos = Complemento::orderBy('nombre_complemento','ASC')->where('estado','=','Activo')->lists('nombre_complemento','id'); 
+        $complementos = Complemento::orderBy('nombre_complemento','ASC')->where('estado','=','Activo')->lists('nombre_complemento','id');
         $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->lists('tipo_aula','id')->ToArray();
         $tipos = array_diff($tipos, array('activo','inactivo'));
 
@@ -80,7 +80,7 @@ class CrearAmbienteController extends Controller
 
        $ambiente->complementos()->sync($request->complementos);
 
-       Flash::success("Se a creado el " . $ambiente->title . " correctamente!! ");
+       Flash::success("Ambiente " . $ambiente->title . " Añadido!! ");
 
         return redirect()->route('CrearAmbiente.index');
 
@@ -96,7 +96,7 @@ class CrearAmbienteController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
     /**
@@ -132,14 +132,14 @@ class CrearAmbienteController extends Controller
      */
     public function update($id, Request $request)
     {
-    
+
         $ambiente = Ambiente::find($id);
         $ambiente->fill($request->all());
         $ambiente->save();
 
         $ambiente->complementos()->sync($request->complementos);
 
-        Flash::warning("El ambiente " . $ambiente->title . " ha sido editado con exito!");
+        Flash::warning("Ambiente " . $ambiente->title . " Actualizado!");
         return redirect()->route('CrearAmbiente.index');
     }
 
@@ -155,9 +155,9 @@ class CrearAmbienteController extends Controller
         $ambiente = Ambiente::find($id);
         $ambiente->delete();
 
-        Flash::error('El ambiente '. $ambiente->title . ' ha sido eliminado con exito!');
+        Flash::error('Ambiente '. $ambiente->title . 'Eliminado!');
         return redirect()->route('CrearAmbiente.index');
     }
 
-    
+
 }

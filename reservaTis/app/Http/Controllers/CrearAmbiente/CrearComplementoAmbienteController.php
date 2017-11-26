@@ -37,7 +37,7 @@ class CrearComplementoAmbienteController extends Controller
      */
     public function create()
     {
-        $complementos = Complemento::orderBy('nombre_complemento','ASC')->lists('nombre_complemento','id'); 
+        $complementos = Complemento::orderBy('nombre_complemento','ASC')->lists('nombre_complemento','id');
         $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->where('tipo_aula','=','activo')->orwhere('tipo_aula','=','inactivo')->lists('tipo_aula','id');
 
         return view('CrearComplementoAmbiente.create',compact('complementos','tipos'));
@@ -56,7 +56,7 @@ class CrearComplementoAmbienteController extends Controller
 
        $ambiente->complementos()->sync($request->complementos);
 
-       Flash::success("Se a creado el complemento " . $ambiente->title . " correctamente!! ");
+       Flash::success("Complemento " . $ambiente->title . " Añadido! ");
 
         return redirect()->route('CrearAmbiente.index');
     }
@@ -69,7 +69,7 @@ class CrearComplementoAmbienteController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
     /**
@@ -109,7 +109,7 @@ class CrearComplementoAmbienteController extends Controller
 
         $ambiente->complementos()->sync($request->complementos);
 
-        Flash::warning("El complemento " . $ambiente->title . " ha sido editado con exito!");
+        Flash::warning("Complemento " . $ambiente->title . " Actualizado!");
         return redirect()->route('CrearAmbiente.index');
     }
 
@@ -124,7 +124,7 @@ class CrearComplementoAmbienteController extends Controller
         $ambiente = Ambiente::find($id);
         $ambiente->delete();
 
-        Flash::error('El complemento '. $ambiente->title . ' ha sido eliminado con exito!');
+        Flash::error('Complemento '. $ambiente->title . ' Eliminado!');
         return redirect()->route('CrearAmbiente.index');
     }
 }

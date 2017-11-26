@@ -45,19 +45,19 @@ class ConfirmarReservaController extends Controller
                             ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end','cal.Fecha','periodos.hora','dr.id as id_detalle','dr.estado','cal.Dia')
 
                             ->where('dr.reserva_id','=',$idreserva)
-                            ->orderBy('dr.id')
+                            ->orderBy('cal.Fecha')
                            /////// ->where('dr.estado','=','activo')///////
                             //->distinct()
                             ->get();
 
 
             $ambiente=$request->get('ambiente');
-            
+
             $fecha_ini=$request->get('fecha_ini');
             $fecha_fin=$request->get('fecha_fin');
             $dias=$request->get('dias');
             $periodos=$request->get('periodos');
-            
+
 ///////////////////////////////////////////////////////////
                             // $conflictos=DB::table('detalle_reservas as dr')
                             // ->join('reservas as r','r.id','=','dr.reserva_id')
@@ -87,8 +87,8 @@ class ConfirmarReservaController extends Controller
 
 
             //dd($conflictos,$datosListado,$datosDetalle,$idreserva);
-            
-           
+
+
 
            // return view('ConfirmarReserva.index',["reservas"=>$datosListado,"conflictos"=>$conflictos,"id_reserva"=>$idreserva]);
             return view('ConfirmarReserva.index',["reservas"=>$datosListado,"id_reserva"=>$idreserva]);
@@ -117,20 +117,20 @@ class ConfirmarReservaController extends Controller
         //
 
         $reserva=Reserva::find($id);
-      
+
         $detalles=DB:: table('detalle_reservas as dr')
                     ->where('dr.reserva_id',$id)
                     ->get();
-       
+
         foreach ($detalles as $det ) {
             $detalleReserva= DetalleReserva::find($det->id);
             $detalleReserva->estado='activo';
             $detalleReserva->save();
         }
-        
+
         $reserva->estado='activo';
         $reserva->save();
-        Flash::success("La Reserva se creo con exito");
+        Flash::success("Reserva Añadido!");
         return Redirect::to('reservas');
 
     }
@@ -158,7 +158,7 @@ class ConfirmarReservaController extends Controller
        $dreserva=DetalleReserva::find($id);
 
        // dd($dreserva);
-       /* 
+       /*
        $dreserva=DB::table('detalle_reservas as dr')
                             ->join('reservas as r','r.id','=','dr.reserva_id')
                             ->where('r.id',$id)
@@ -171,7 +171,7 @@ class ConfirmarReservaController extends Controller
                             ->select('p.id')
                             ->distinct()
                             ->lists('p.id');
-         //dd($detalle->calendario_id);                   
+         //dd($detalle->calendario_id);
         $fechaSel=Calendario::findOrFail($dreserva->calendario_id);
         //dd($fechaSel->Fecha);
         //por defecto
@@ -199,13 +199,13 @@ class ConfirmarReservaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         //dd($dreserva->reserva_id);
         $fechares=DB::table('calendarios')->where('Fecha',$request->get('fecha'))->get();
         //dd($fechares);
         $fecha=$request->get('fecha');
         $dreserva=DetalleReserva::find($id);
-        
+
         $hora=$request->get('periodos');
         //dd($fecha);
 
@@ -243,11 +243,11 @@ class ConfirmarReservaController extends Controller
                 $detalle->ambiente_id=$request->get('ambiente_id');
                 $detalle->save();
                 }
-                Flash::success("La Reserva fue Aceptada");
+                Flash::success("Reserva  Actualizada");
                 return  redirect()->action('ConfirmarReserva\ConfirmarReservaController@index',compact('idr','ambiente','fecha_ini','fecha_fin','dias','periodos'));
             }
-        
-        
+
+
     }
 
     /**
@@ -258,23 +258,23 @@ class ConfirmarReservaController extends Controller
      */
     public function destroy($id)
     {
-        
-        
+
+
         //dd($id);
 
         $reserva=Reserva::find($id);
-      
+
        $detalles=DB:: table('detalle_reservas as dr')
                     ->where('dr.reserva_id',$id)
                     ->get();
-       
+
         foreach ($detalles as $det ) {
             $detalleReserva= DetalleReserva::find($det->id);
             $detalleReserva->delete();
         }
         $reserva->delete();
-        Flash::warning("La Reserva se cancelo");
+        Flash::warning("Reserva Eliminada");
         return Redirect::to('reservas');
-      
+
     }
 }
