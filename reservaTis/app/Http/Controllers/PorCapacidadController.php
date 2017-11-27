@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Redirect;
 use Reserva\DetalleReserva;
 use Reserva\Complemento;
 use Reserva\Ambiente;
+use Reserva\Periodo;
+use Reserva\TipoAmbiente;
 use Carbon\Carbon;
 use DB;
 
@@ -26,7 +28,7 @@ class PorCapacidadController extends Controller
             $capacidad=$request->get('capacidad');
             $fechaActual=Carbon::now();
             $fechaActual=$fechaActual->addDay(1);
-            $periodo=DB::table('periodos')->get();
+            //$periodo=DB::table('periodos')->get();
             $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
                 $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
 
@@ -35,36 +37,59 @@ class PorCapacidadController extends Controller
             $periodoBuscado=$request->get('periodo_id');
 
             $ComplementoBuscado=$request->get('complementos_id');
+            $hora = Periodo::lists('hora','id');
+            /*obtenemos el periodo*/
+            $periodos=$request->get('periodos');
             $complementos = Complemento::select('*')->get();
+            $listComplemento = $request->get('complement');
+            /*pruebacompelemto*/
+            $complement = Complemento::lists('nombre_complemento','id');
+            /*$reservados=DB::table('detalle_reservas as dr')
+            ->join('ambientes as a','a.id','=','dr.ambiente_id')
+            ->join('calendarios as c','c.id','=','dr.calendario_id')->whereIn('c.Fecha',[$fechaIni,$fechaFin])
+            ->whereIn('c.Dia',$dias)
+            ->join('periodos as p','p.id','=','dr.periodo_id')
+            ->where('p.id','=',$periodoBuscado)
+            ->select('a.id');*/
 
             $reservados=DB::table('detalle_reservas as dr')
             ->join('ambientes as a','a.id','=','dr.ambiente_id')
             ->join('calendarios as c','c.id','=','dr.calendario_id')->whereIn('c.Fecha',[$fechaIni,$fechaFin])
             ->whereIn('c.Dia',$dias)
             ->join('periodos as p','p.id','=','dr.periodo_id')
-            ->where('p.id','=',$periodoBuscado)
+            ->whereIn('p.id',$periodos)
             ->select('a.id');
 
 
-            $ambi=DB::table('ambientes')
-            ->where('capacidad','=',$capacidad)
+            /*$ambi=DB::table('ambientes')
+            ->where('capacidad','>=',$capacidad)
             ->whereNotIn('id',$reservados)
-            ->get();
+            ->get();*/
+           if ($capacidad == null) {
+             $ambientes=DB::table('ambientes as amb')
+             ->where('capacidad','=',$capacidad)
+             ->whereNotIn('id',$reservados)
+             ->select('amb.id');
+           }else {
+             $ambientes=DB::table('ambientes as amb')
+             ->where('capacidad','>=',$capacidad)
+             ->whereNotIn('id',$reservados)
+             ->select('amb.id');
 
-            $ambientes=DB::table('ambientes as amb')
-            ->where('capacidad','=',$capacidad)
-            ->whereNotIn('id',$reservados)
-            ->select('amb.id');
+           }
 
             $ambientesResCom=DB::table('ambientes as am')
             ->join('ambiente_complemento AS ac','ac.ambiente_id','=','am.id')
             ->join('complementos AS com','com.id','=','ac.complemento_id')
-            ->where('com.id','=',$ComplementoBuscado)
+            //->where('com.id','=',$ComplementoBuscado)
+            ->whereIn('com.id',$listComplemento)
             ->whereIn('am.id',$ambientes)
+            ->join('tipo_ambientes AS tm','tm.id','=','am.tipo_ambiente_id')
+            ->distinct('am.id')
             ->get();
-             
+
             /*return view('porCapacidad.index',["fechaActual"=>$fechaActual,"periodo"=>$periodo,"ambientes"=>$ambientes,"periodoBuscado"=>$periodoBuscado, "fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"capacidad"=>$capacidad,"complementos"=>$complementos]);*/
-             return view('porCapacidad.index',["fechaActual"=>$fechaActual,"periodo"=>$periodo,"ambientes"=>$ambientesResCom,"periodoBuscado"=>$periodoBuscado, "fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"capacidad"=>$capacidad,"complementos"=>$complementos]);
+             return view('porCapacidad.index',["fechaActual"=>$fechaActual,"ambientes"=>$ambientesResCom,"periodoBuscado"=>$periodoBuscado, "fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"capacidad"=>$capacidad,"complementos"=>$complementos,"hora"=>$hora,"complement"=>$complement]);
             /*return ["fechaActual"=>$fechaActual,"periodo"=>$periodo,"ambientes"=>$ambi,"periodoBuscado"=>$periodoBuscado, "fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"capacidad"=>$capacidad,"complementos"=>$complementos,'amc'=>$ambientesResCom];*/
         }
     }
@@ -243,7 +268,8 @@ class PorCapacidadController extends Controller
 
 
             }
-            Flash::success("Se ha creado la reserva de forma correcta");
+            Flash::success("Reserva Añadido!");
+            
             return Redirect::to('reservas');
         }
 

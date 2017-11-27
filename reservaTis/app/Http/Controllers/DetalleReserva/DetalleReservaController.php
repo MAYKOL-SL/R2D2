@@ -121,42 +121,42 @@ class DetalleReservaController extends Controller
      */
     public function destroy($id)
     {
-        
+
         $detalle=DetalleReserva::find($id);
-        
+
         $idres=DB::table('detalle_reservas')
-                   
+
                     ->select('detalle_reservas.reserva_id')
                     ->where('detalle_reservas.id','=',$id)
                     ->value('reserva_id');
 
         $idrescount=DB::table('detalle_reservas')
-                   
+
                     ->select('detalle_reservas.reserva_id')
                     ->where('detalle_reservas.reserva_id','=',$idres)
                     ->count();
-        
-      
+
+
         if($idrescount==1){
 
             $reserva=Reserva::find($idres);
             $detalle->delete();
             $reserva->delete();
-            Flash::error("Todas las reservas han sido eliminadas");
+            Flash::error("Reservas  Eliminadas");
             return redirect::to('reservas');
 
 
         }else{
 
             $detalle->delete();
-            Flash::warning("La Reserva ha sido eliminada");
+            Flash::warning("La Reserva  Eliminada");
 
             return redirect()->action('DetalleReserva\DetalleReservaController@index',["idr"=>$idres]);
 
          }
-        
-       
 
-      
+
+
+
     }
 }

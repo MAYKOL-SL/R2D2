@@ -44,7 +44,7 @@ class tipoDeAmbienteController extends Controller
     {
         $tipoambiente = new TipoAmbiente($request -> all());
         $tipoambiente->save();
-        Flash::success("Se ha creado el tipo de ambiente: " . $tipoambiente->tipo_aula . " de forma correcta");
+        Flash::success("Tipo de ambiente: " . $tipoambiente->tipo_aula . " Añadido!");
         return redirect()->route('tiposambiente.index');
     }
 
@@ -85,7 +85,7 @@ class tipoDeAmbienteController extends Controller
         $tipoambiente->fill($request->all());
         $tipoambiente->save();
 
-        Flash::warning("El tipo de aula: " . $tipoambiente->tipo_aula . " ha sido editado con exito!");
+        Flash::warning("Tipo Ambiente: " . $tipoambiente->tipo_aula . " Editado!");
         return redirect()->route('tiposambiente.index');
     }
 
@@ -100,7 +100,7 @@ class tipoDeAmbienteController extends Controller
         $tipoambiente = TipoAmbiente::find($id);
         $tipoambiente->delete();
 
-        Flash::error('El tipo de aula: '. $tipoambiente->tipo_aula . ' ha sido eliminado con exito!');
+        Flash::error('Tipo de Ambiente: '. $tipoambiente->tipo_aula . ' Eliminado!');
         return redirect()->route('tiposambiente.index');
     }
 }

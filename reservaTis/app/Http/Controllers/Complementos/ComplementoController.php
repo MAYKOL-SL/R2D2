@@ -45,7 +45,7 @@ class ComplementoController extends Controller
     {
         $complemento = new Complemento($request -> all());
         $complemento->save();
-        Flash::success("Se ha creado el complemento " . $complemento->nombre_complemento . " de forma correcta");
+        Flash::success("Complemento " . $complemento->nombre_complemento . " Añadido!");
         return redirect()->route('complemento.index');
     }
 
@@ -86,7 +86,7 @@ class ComplementoController extends Controller
         $complemento->fill($request->all());
         $complemento->save();
 
-        Flash::warning("El complemento " . $complemento->nombre_complemento . " ha sido editado con exito!");
+        Flash::warning("Complemento " . $complemento->nombre_complemento . " Actualizado!");
         return redirect()->route('complemento.index');
     }
 
@@ -101,7 +101,7 @@ class ComplementoController extends Controller
         $complemento = Complemento::find($id);
         $complemento->delete();
 
-        Flash::error('El complemento '. $complemento->nombre_complemento . ' ha sido eliminado con exito!');
+        Flash::error('Complemento '. $complemento->nombre_complemento . ' eliminado!');
         return redirect()->route('complemento.index');
     }
 }

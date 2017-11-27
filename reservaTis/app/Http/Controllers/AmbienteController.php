@@ -220,7 +220,7 @@ class AmbienteController extends Controller
 
 
             }
-            Flash::success("Se ha creado la reserva de forma correcta");
+            Flash::success("Reserva Añadido!");
             return Redirect::to('reservas');
         }
 
