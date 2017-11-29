@@ -10,7 +10,7 @@
 
 <div class="box box-primary">
   <div class="box-header with-border">
-  <label class = "box-title">BUSQUEDA POR HORA Y FECHA</label>
+  <label class = "box-title">BUSQUEDA HORAS LIBRES</label>
   </div>
 
 @include('porHora.search')
@@ -21,25 +21,26 @@
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-condensed table-hover">
                 <thead>
-                    <th>Id</th>
                     <th>Ambiente</th>
-                    <th>capacidad</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Fin</th>
+                    <th>Capacidad</th>
+                    <th>Calendario</th>
+                    <th>periodo</th>
                     <th>Opciones</th>
                 </thead>
-                @foreach ($ambientes as $amb)
+                @foreach ($libres as $libres)
+                
                 <tr>
-                    <td>{{ $amb->id}}</td>
-                    <td>{{ $amb->title}}</td>
-                    <td>{{ $amb->capacidad}}</td>
-                    <td>{{ $fechaIni}}</td>
-                    <td>{{ $fechaFin}}</td>
+                    <td>{{ $libres->title}}</td>
+                    <td>{{ $libres->capacidad}}</td>
+                    <td>{{ $libres->fecha}}</td>
+                    <td>{{ $libres->hora}}</td>
                     <td>
                         <a href="{{ url('reservas/create') }}" class="btn btn-info">Reservar</a>
                     </td>
                 </tr>
+                
                 @endforeach
+                
             </table>
         </div>
     </div>
@@ -52,6 +53,16 @@
 <script>
   $('.select-tag').chosen({
     placeholder_text_multiple:'Seleccione los periodos de busqueda'
+  });
+
+  $('.select-comp').chosen({
+    placeholder_text_multiple:'Seleccione los complemento',
+    width: '100%'
+  });
+
+  $('.select-amb').chosen({
+    placeholder_text_multiple:'Seleccione los ambientes',
+    width: '100%'
   });
 </script>
 @endsection

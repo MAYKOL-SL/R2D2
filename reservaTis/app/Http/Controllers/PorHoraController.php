@@ -8,54 +8,200 @@ use Reserva\Http\Requests;
 use Reserva\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Redirect;
+use Reserva\Reserva;
 use Reserva\DetalleReserva;
 use Reserva\Ambiente;
 use Carbon\Carbon;
 use Reserva\Periodo;
+use Reserva\DetalleGeneral;
+use Reserva\Complemento;
 use DB;
 
 class PorHoraController extends Controller
 {
 
     public function index(Request $request)
-    {
+    {   
         if($request)
         {
-            $capacidad=1;
-            if ($request->get('capacidad') != null) {
-                $capacidad=$request->get('capacidad');
-            }
-
+            //datos necesarios
+            $periodos = Periodo::lists('hora','id');
             $fechaActual=Carbon::now();
             $fechaActual=$fechaActual->addDay(1);
-            //$periodo=DB::table('periodos')->get();
-            $hora = Periodo::lists('hora','id');
-            $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
-                $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
+            $complement=DB::table('complementos')->select('nombre_complemento','id')->lists('nombre_complemento','id');
+            $ambientes=Ambiente::lists('title','id');
+            $dias;
+            //dd($complement);
 
+            //request
+            $complementos=$request->get('complementos');
             $fechaIni=$request->get('fechaIni');
             $fechaFin=$request->get('fechaFin');
-            $periodoBuscado=$request->get('periodos');
-            //dd($periodoBuscado);
+            $capacidad=$request->get('capacidad');
+            $perBuscados=$request->get('periodos');//para llenar datos
+            $lunes=$request->get( 'lunes');
+            $martes=$request->get('martes');
+            $miercoles=$request->get('miercoles');
+            $jueves=$request->get('jueves');
+            $viernes=$request->get('viernes');
+            $sabado=$request->get('sabado');
+            $ambBuscado=$request->get('ambientes');
+            //dd($complementos);
 
 
 
-            $reservados=DB::table('detalle_reservas as dr')
-            ->join('ambientes as a','a.id','=','dr.ambiente_id')
-            ->join('calendarios as c','c.id','=','dr.calendario_id')->whereBetween('c.Fecha',[$fechaIni,$fechaFin])
-            ->whereIn('c.Dia',$dias)
-            ->join('periodos as p','p.id','=','dr.periodo_id')
-            ->whereIn('p.id',$periodoBuscado)
-            ->select('a.id');
+            //controles de error
+            //capacidad no sea nulo
+            if ($capacidad == null) {
+                $capacidad = 1;
+            }
+            //dd($capacidad);
+            //dias no sean nulos
+            
+            if ($lunes==null & $martes==null & $miercoles==null & $jueves==null
+             & $viernes==null& $sabado==null) {
+                $dias=['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
+            }
+            else{
+                $dias=[$request->get( 'lunes'),$request->get('martes'),$request->get('miercoles'),
+                $request->get('jueves'),$request->get('viernes'),$request->get('sabado')];
+            }
+            //dd($dias);
+
+            //Busqueda Listas y Objetos
+
+            //Listas
+            //Ambieentes con capacidad buscada(parece array)
+            $listAmb;
+            if ($ambientes == null ) {
+                if ($complementos == null) {
+                $listAmb=DB::table('ambientes as a')
+                ->where('capacidad','>=',$capacidad)
+                ->orderBy('a.capacidad')
+                ->select('a.title','a.id')
+                ->lists('a.id');
+                //dd($listAmb);
+                }
+                else{
+                    $listAmb=DB::table('ambientes as a')
+                    ->where('capacidad','>=',$capacidad)
+                    ->join('ambiente_complemento as ac','ac.ambiente_id','=','a.id')
+                    ->whereIn('ac.complemento_id',$complementos)
+                    ->orderBy('a.capacidad')
+                    ->select('a.title','a.id')
+                    ->lists('a.id');
+                    //dd($listAmb);
+                }
+            }
+            else{
+                if ($complementos == null) {
+                $listAmb=DB::table('ambientes as a')
+                ->whereIn('id',$ambBuscado)
+                ->where('capacidad','>=',$capacidad)
+                ->orderBy('a.capacidad')
+                ->select('a.title','a.id')
+                ->lists('a.id');
+                //dd($listAmb);
+                }
+                else{
+                    $listAmb=DB::table('ambientes as a')
+                    ->whereIn('id',$ambBuscado)
+                    ->where('capacidad','>=',$capacidad)
+                    ->join('ambiente_complemento as ac','ac.ambiente_id','=','a.id')
+                    ->whereIn('ac.complemento_id',$complementos)
+                    ->orderBy('a.capacidad')
+                    ->select('a.title','a.id')
+                    ->lists('a.id');
+                    //dd($listAmb);
+                }
+            }
 
 
-            $ambientes=DB::table('ambientes')
-            ->where('capacidad','>=',$capacidad)
-            ->whereNotIn('id',$reservados)
-            ->orderBy('capacidad')
-            ->get();
 
-            return view('porHora.index',["fechaActual"=>$fechaActual,"hora"=>$hora,"ambientes"=>$ambientes,"periodoBuscado"=>$periodoBuscado, "fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"capacidad"=>$capacidad]);
+
+            
+
+            //rango de fechas
+            $listFechas=DB::table('calendarios')
+            ->whereBetween('Fecha',[$fechaIni,$fechaFin])
+            ->whereIn('Dia',$dias)
+            ->select('Fecha','id')
+            ->orderBy('id')
+            ->lists('id');
+            //dd(count($listFechas));
+
+            //generando horarios y fechas disponibles de un ambiente
+            $detalles=array();//todos los espacios libres
+            //dd($detalles);
+            for ($cAmb=0; $cAmb < count($listAmb); $cAmb++) { 
+                for ($cFc=0; $cFc < count($listFechas); $cFc++) { 
+                    for ($cPer=0; $cPer < count($perBuscados); $cPer++) {
+                        //dd($listAmb[$cAmb]);
+                        //dd($listFechas[$cFc]);
+                        //dd($perBuscados[$cPer]);
+
+                        //$feriados=
+                        $Amb=DB::table('ambientes')
+                        //->join('ambiente_complemento as ac','ac.ambiente_id','=','a.id')
+                        //->whereIn('ac.complemento_id',$complementos)
+                        ->where('id',$listAmb[$cAmb])
+                        ->orderBy('capacidad')
+                        ->select('id','title','capacidad')
+                        ->get();
+                        //dd($Amb[0]->id);
+                        //rango de fechas
+                        $fecha=DB::table('calendarios')
+                        ->where('id',$listFechas[$cFc])
+                        ->whereIn('Dia',$dias)
+                        ->select('id','Fecha')
+                        ->orderBy('id')
+                        ->get();
+                        //dd($fecha[0]->id);
+                        //dd($detalles[$cDet]->calendario_id);
+                        $Per=DB::table('periodos')
+                        ->where('id',$perBuscados[$cPer])
+                        ->select('id','hora')
+                        ->get();
+                        //dd($detalles[$cDet]->periodo_id);
+                        //dd($listPer);
+
+
+                        //reservado
+                        $reservado=DB::table('detalle_reservas as dr')
+                        ->where('dr.estado','activo')
+                        ->join('ambientes as a','a.id','=','dr.ambiente_id')
+                        ->where('a.id','=',$listAmb[$cAmb])
+                        ->join('calendarios as c','c.id','=','dr.calendario_id')
+                        ->where('c.id','=',$listFechas[$cFc])
+                        ->join('periodos as p','p.id','=','dr.periodo_id')
+                        ->where('p.id',$perBuscados[$cPer])
+                        ->select('dr.id as id')
+                        ->lists('id');
+                        //dd(count($reservado));
+                        if (count($reservado) < 1) {
+                            $resauxiliar=new DetalleGeneral;
+                            $resauxiliar->calendario_id=$fecha[0]->id;
+                            $resauxiliar->fecha=$fecha[0]->Fecha;
+                            $resauxiliar->ambiente_id=$Amb[0]->id;
+                            $resauxiliar->title=$Amb[0]->title;
+                            $resauxiliar->capacidad=$Amb[0]->capacidad;
+                            $resauxiliar->periodo_id=$Per[0]->id;
+                            $resauxiliar->hora=$Per[0]->hora;
+                            array_push($detalles, $resauxiliar);
+                            //dd($resauxiliar);
+                        }
+                        
+                    }
+                    //dd($detalles);
+                }
+            }//dd($detalles);
+            
+            
+            //dd($perBuscados);
+
+
+
+            return view('porHora.index',["ambientes"=>$ambientes,"capacidad"=>$capacidad,"perBuscados"=>$perBuscados,"comp"=>$complementos,"fechaActual"=>$fechaActual,"hora"=>$periodos,"complement"=>$complement,"libres"=>$detalles]);
         }
 
     }
@@ -263,7 +409,7 @@ class PorHoraController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     public function destroy($id)

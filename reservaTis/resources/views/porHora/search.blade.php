@@ -4,21 +4,32 @@
 	<div class="input-group">
 
 		<div class="box-header">
-	      {!!Form::label('Hora inicio y final:')!!}
+	      {!!Form::label('Horas:')!!}
 	      <div class="input-group col-md-8">
 	      	{!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
 	      </div>
  		</div>
 
+		<div class="box-header">
+	      {!!Form::label('Horas:')!!}
+	      <div class="input-group col-md-8">
+	      	{!! Form::select('ambientes[]',$ambientes,null,['class'=>'form-control input-sm select-amb','multiple']) !!}
+	      </div>
+ 		</div>
 
+		<div class="box-header">
+	      {!!Form::label('Complementos:')!!}
+	      <div class="input-group col-md-8">
+	      	{!! Form::select('complementos[]',$complement,null,['class'=>'form-control input-sm select-comp','multiple']) !!}
+	      </div>
+ 		</div>
 
 		<div class="box-header">
 		{!!Form::label('Capacidad:')!!}
 		<div class="input-group">
-			<input type="text" class="form-control" name="capacidad" placeholder="Buscar..." value="{{$capacidad}}" required="">
+			<input type="number" class="form-control" name="capacidad" placeholder="Buscar..." value={{$capacidad}} required="">
 		</div>
 		</div>
-
 
 
 		<div class="box-header">
