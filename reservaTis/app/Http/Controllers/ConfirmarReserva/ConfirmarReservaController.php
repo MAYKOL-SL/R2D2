@@ -120,17 +120,27 @@ class ConfirmarReservaController extends Controller
 
         $detalles=DB:: table('detalle_reservas as dr')
                     ->where('dr.reserva_id',$id)
+                    ->where('dr.estado','libre')
                     ->get();
 
-        foreach ($detalles as $det ) {
-            $detalleReserva= DetalleReserva::find($det->id);
-            $detalleReserva->estado='activo';
-            $detalleReserva->save();
+        if(empty($detalles)){
+
+            Flash::error("Reserva ocupada");
+        }else{
+            foreach ($detalles as $det ) {
+                $detalleReserva= DetalleReserva::find($det->id);
+                $detalleReserva->estado='activo';
+                $detalleReserva->save();
+              }
+
+            $reserva->estado='activo';
+            $reserva->save();
+            Flash::success("Reserva Añadido!");
+
         }
 
-        $reserva->estado='activo';
-        $reserva->save();
-        Flash::success("Reserva Añadido!");
+
+        
         return Redirect::to('reservas');
 
     }
