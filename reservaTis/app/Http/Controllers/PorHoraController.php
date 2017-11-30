@@ -46,7 +46,7 @@ class PorHoraController extends Controller
             $viernes=$request->get('viernes');
             $sabado=$request->get('sabado');
             $ambBuscado=$request->get('ambientes');
-            //dd($complementos);
+            //dd($ambBuscado);
 
 
 
@@ -73,7 +73,7 @@ class PorHoraController extends Controller
             //Listas
             //Ambieentes con capacidad buscada(parece array)
             $listAmb;
-            if ($ambientes == null ) {
+            if ($ambBuscado == null ) {
                 if ($complementos == null) {
                 $listAmb=DB::table('ambientes as a')
                 ->where('capacidad','>=',$capacidad)
