@@ -17,7 +17,7 @@
         <div class="box-header">
             {!!Form::label('Ambiente:')!!}
             <div class="input-group">
-                <select name="ambiente_id" class="form-control select-category" required disabled="disabled">
+                <select name="ambiente_id" class="form-control select-category" required >
                     @foreach($ambiente as $amb)
 
                             @if($amb->id==$dreserva->ambiente_id)
