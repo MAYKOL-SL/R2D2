@@ -46,9 +46,11 @@ class CrearAmbienteController extends Controller
             $comp->tipo_ambiente;
 
         });
-        return view('CrearAmbiente.index' )
-        ->with('ambiente',$ambiente)
-        ->with('comp',$comp);
+
+        return($ambiente); 
+        //return view('CrearAmbiente.index' )
+        //->with('ambiente',$ambiente)
+        ///->with('comp',$comp);
     }
 
     /**

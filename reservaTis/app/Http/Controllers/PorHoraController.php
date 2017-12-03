@@ -21,7 +21,7 @@ class PorHoraController extends Controller
 {
 
     public function index(Request $request)
-    {   
+    {
         if($request)
         {
             //datos necesarios
@@ -29,7 +29,13 @@ class PorHoraController extends Controller
             $fechaActual=Carbon::now();
             $fechaActual=$fechaActual->addDay(1);
             $complement=DB::table('complementos')->select('nombre_complemento','id')->lists('nombre_complemento','id');
-            $ambientes=Ambiente::lists('title','id');
+            //$ambientes=Ambiente::lists('title','id');
+            /*ambientes sin datas 3-12-17*/
+            $ambientes=DB::table('ambientes as a')
+            ->join('tipo_ambientes AS ta','ta.id','=','a.tipo_ambiente_id')
+            ->where('ta.tipo_aula','<>','activo')
+            ->lists('a.title','a.id');
+
             $dias;
             //dd($complement);
 
@@ -57,7 +63,7 @@ class PorHoraController extends Controller
             }
             //dd($capacidad);
             //dias no sean nulos
-            
+
             if ($lunes==null & $martes==null & $miercoles==null & $jueves==null
              & $viernes==null& $sabado==null) {
                 $dias=['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'];
@@ -119,7 +125,7 @@ class PorHoraController extends Controller
 
 
 
-            
+
 
             //rango de fechas
             $listFechas=DB::table('calendarios')
@@ -133,8 +139,8 @@ class PorHoraController extends Controller
             //generando horarios y fechas disponibles de un ambiente
             $detalles=array();//todos los espacios libres
             //dd($detalles);
-            for ($cAmb=0; $cAmb < count($listAmb); $cAmb++) { 
-                for ($cFc=0; $cFc < count($listFechas); $cFc++) { 
+            for ($cAmb=0; $cAmb < count($listAmb); $cAmb++) {
+                for ($cFc=0; $cFc < count($listFechas); $cFc++) {
                     for ($cPer=0; $cPer < count($perBuscados); $cPer++) {
                         //dd($listAmb[$cAmb]);
                         //dd($listFechas[$cFc]);
@@ -190,13 +196,13 @@ class PorHoraController extends Controller
                             array_push($detalles, $resauxiliar);
                             //dd($resauxiliar);
                         }
-                        
+
                     }
                     //dd($detalles);
                 }
             }//dd($detalles);
-            
-            
+
+
             //dd($perBuscados);
 
 
@@ -409,7 +415,7 @@ class PorHoraController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+
     }
 
     public function destroy($id)

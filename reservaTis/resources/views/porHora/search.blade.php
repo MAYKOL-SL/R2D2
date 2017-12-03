@@ -11,7 +11,7 @@
  		</div>
 
 		<div class="box-header">
-	      {!!Form::label('Horas:')!!}
+	      {!!Form::label('Ambientes:')!!}
 	      <div class="input-group col-md-8">
 	      	{!! Form::select('ambientes[]',$ambientes,null,['class'=>'form-control input-sm select-amb','multiple']) !!}
 	      </div>
@@ -59,7 +59,7 @@
       </div>
 		</div>
 
-        
+
 		<div class="box-header">
 			<span class="input-group-btn">
 				<button type="submit" class="btn btn-primary">Buscar</button>
