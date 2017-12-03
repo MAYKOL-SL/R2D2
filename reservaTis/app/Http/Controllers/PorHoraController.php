@@ -87,6 +87,7 @@ class PorHoraController extends Controller
             //Listas
             //Ambieentes con capacidad buscada(parece array)
             $listAmb;
+            //dd($listAmb);
             if ($ambBuscado == null ) {
                 if ($complementos == null) {
                 $listAmb=DB::table('ambientes as a')
@@ -111,6 +112,7 @@ class PorHoraController extends Controller
                     //dd($listAmb);
                 }
             }
+
             else{
                 if ($complementos == null) {
                 $listAmb=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
@@ -130,12 +132,13 @@ class PorHoraController extends Controller
                     ->join('ambiente_complemento as ac','ac.ambiente_id','=','a.id')
                     ->whereIn('ac.complemento_id',$complementos)
                     ->orderBy('a.capacidad')
+                    ->distinct()
                     ->select('a.title','a.id')
                     ->lists('a.id');
                     //dd($listAmb);
                 }
             }
-
+            //dd($listAmb);
 
 
 
@@ -210,11 +213,12 @@ class PorHoraController extends Controller
                             array_push($detalles, $resauxiliar);
                             //dd($resauxiliar);
                         }
-                        
+                        //dd($detalles);
                     }
                     //dd($detalles);
                 }
-            }//dd($detalles);
+            }
+            //dd($detalles);
             if (count($detalles) == 0 && $verificador==false) {
                 Flash::warning("no se encontraron coincidencias");
             }
