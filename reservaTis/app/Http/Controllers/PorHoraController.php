@@ -33,7 +33,7 @@ class PorHoraController extends Controller
             $complement=DB::table('complementos')->select('nombre_complemento','id')->lists('nombre_complemento','id');
             $tiposAmbientes=TipoAmbiente::where('tipo_aula','!=','activo','and','tipo_aula','!=','inactivo')->lists('id');
             $ambientes=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
-            ->whereIn('tipo_ambiente_id',$tiposAmbientes)
+            ->whereIn('a.tipo_ambiente_id',$tiposAmbientes)
             ->select('a.title','a.id')->lists('title','id');
             $dias;
             //dd($complement);
@@ -89,8 +89,9 @@ class PorHoraController extends Controller
             $listAmb;
             if ($ambBuscado == null ) {
                 if ($complementos == null) {
-                $listAmb=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
-                ->whereIn('tipo_ambiente_id',$tiposAmbientes)
+                $listAmb=DB::table('ambientes as a')
+                ->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
+                ->whereIn('a.tipo_ambiente_id',$tiposAmbientes)
                 ->where('a.capacidad','>=',$capacidad)
                 ->orderBy('a.capacidad')
                 ->select('a.title','a.id')
@@ -100,8 +101,8 @@ class PorHoraController extends Controller
                 else{
                     $listAmb=DB::table('ambientes as a')
                     ->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
-                    ->whereIn('tipo_ambiente_id',$tiposAmbientes)
-                    ->where('capacidad','>=',$capacidad)
+                    ->whereIn('a.tipo_ambiente_id',$tiposAmbientes)
+                    ->where('a.capacidad','>=',$capacidad)
                     ->join('ambiente_complemento as ac','ac.ambiente_id','=','a.id')
                     ->whereIn('ac.complemento_id',$complementos)
                     ->orderBy('a.capacidad')
@@ -113,8 +114,8 @@ class PorHoraController extends Controller
             else{
                 if ($complementos == null) {
                 $listAmb=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
-                ->whereIn('tipo_ambiente_id',$tiposAmbientes)
-                ->whereIn('id',$ambBuscado)
+                ->whereIn('a.tipo_ambiente_id',$tiposAmbientes)
+                ->whereIn('a.id',$ambBuscado)
                 ->where('capacidad','>=',$capacidad)
                 ->orderBy('a.capacidad')
                 ->select('a.title','a.id')
@@ -123,9 +124,9 @@ class PorHoraController extends Controller
                 }
                 else{
                     $listAmb=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
-                    ->whereIn('tipo_ambiente_id',$tiposAmbientes)
-                    ->whereIn('id',$ambBuscado)
-                    ->where('capacidad','>=',$capacidad)
+                    ->whereIn('a.tipo_ambiente_id',$tiposAmbientes)
+                    ->whereIn('a.id',$ambBuscado)
+                    ->where('a.capacidad','>=',$capacidad)
                     ->join('ambiente_complemento as ac','ac.ambiente_id','=','a.id')
                     ->whereIn('ac.complemento_id',$complementos)
                     ->orderBy('a.capacidad')
