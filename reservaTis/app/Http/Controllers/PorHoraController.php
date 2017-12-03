@@ -15,6 +15,8 @@ use Carbon\Carbon;
 use Reserva\Periodo;
 use Reserva\DetalleGeneral;
 use Reserva\Complemento;
+use Reserva\TipoAmbiente;
+use Laracasts\Flash\Flash;
 use DB;
 
 class PorHoraController extends Controller
@@ -29,7 +31,10 @@ class PorHoraController extends Controller
             $fechaActual=Carbon::now();
             $fechaActual=$fechaActual->addDay(1);
             $complement=DB::table('complementos')->select('nombre_complemento','id')->lists('nombre_complemento','id');
-            $ambientes=Ambiente::lists('title','id');
+            $tiposAmbientes=TipoAmbiente::where('tipo_aula','!=','activo','and','tipo_aula','!=','inactivo')->lists('id');
+            $ambientes=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
+            ->whereIn('tipo_ambiente_id',$tiposAmbientes)
+            ->select('a.title','a.id')->lists('title','id');
             $dias;
             //dd($complement);
 
@@ -47,10 +52,19 @@ class PorHoraController extends Controller
             $sabado=$request->get('sabado');
             $ambBuscado=$request->get('ambientes');
             //dd($ambBuscado);
+            $verificador = false;
+            if ($complementos==null && $fechaIni==null && $fechaFin==null && $capacidad==null && $perBuscados==null && $ambBuscado==null) {
+                $verificador = true;
+            }
 
 
 
             //controles de error
+            //fecha
+            if ($fechaIni == null && $fechaFin == null) {
+                $fechaIni=$fechaActual;
+                $fechaFin=$fechaActual;
+            }
             //capacidad no sea nulo
             if ($capacidad == null) {
                 $capacidad = 1;
@@ -75,8 +89,9 @@ class PorHoraController extends Controller
             $listAmb;
             if ($ambBuscado == null ) {
                 if ($complementos == null) {
-                $listAmb=DB::table('ambientes as a')
-                ->where('capacidad','>=',$capacidad)
+                $listAmb=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
+                ->whereIn('tipo_ambiente_id',$tiposAmbientes)
+                ->where('a.capacidad','>=',$capacidad)
                 ->orderBy('a.capacidad')
                 ->select('a.title','a.id')
                 ->lists('a.id');
@@ -84,6 +99,8 @@ class PorHoraController extends Controller
                 }
                 else{
                     $listAmb=DB::table('ambientes as a')
+                    ->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
+                    ->whereIn('tipo_ambiente_id',$tiposAmbientes)
                     ->where('capacidad','>=',$capacidad)
                     ->join('ambiente_complemento as ac','ac.ambiente_id','=','a.id')
                     ->whereIn('ac.complemento_id',$complementos)
@@ -95,7 +112,8 @@ class PorHoraController extends Controller
             }
             else{
                 if ($complementos == null) {
-                $listAmb=DB::table('ambientes as a')
+                $listAmb=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
+                ->whereIn('tipo_ambiente_id',$tiposAmbientes)
                 ->whereIn('id',$ambBuscado)
                 ->where('capacidad','>=',$capacidad)
                 ->orderBy('a.capacidad')
@@ -104,7 +122,8 @@ class PorHoraController extends Controller
                 //dd($listAmb);
                 }
                 else{
-                    $listAmb=DB::table('ambientes as a')
+                    $listAmb=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
+                    ->whereIn('tipo_ambiente_id',$tiposAmbientes)
                     ->whereIn('id',$ambBuscado)
                     ->where('capacidad','>=',$capacidad)
                     ->join('ambiente_complemento as ac','ac.ambiente_id','=','a.id')
@@ -195,13 +214,17 @@ class PorHoraController extends Controller
                     //dd($detalles);
                 }
             }//dd($detalles);
-            
-            
-            //dd($perBuscados);
+            if (count($detalles) == 0 && $verificador==false) {
+                Flash::warning("no se encontraron coincidencias");
+            }
+            $comple=DB::table('complementos')->whereIn('id',$complementos)->select('nombre_complemento','id')->lists('id');
+            $perBusc=Periodo::whereIn('id',$perBuscados)->lists('id')->ToArray();
+            $ambBusc=Ambiente::whereIn('id',$ambBuscado)->lists('id')->ToArray();
+            //dd($perBusc);
 
 
 
-            return view('porHora.index',["ambientes"=>$ambientes,"capacidad"=>$capacidad,"perBuscados"=>$perBuscados,"comp"=>$complementos,"fechaActual"=>$fechaActual,"hora"=>$periodos,"complement"=>$complement,"libres"=>$detalles]);
+            return view('porHora.index',["ambientes"=>$ambientes,"capacidad"=>$capacidad,"perBuscados"=>$perBuscados,"comp"=>$complementos,"fechaActual"=>$fechaActual,"hora"=>$periodos,"complement"=>$complement,"libres"=>$detalles,"perBusc"=>$perBusc,"comple"=>$comple,"ambBusc"=>$ambBusc,"fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin]);
         }
 
     }

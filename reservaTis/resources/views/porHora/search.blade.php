@@ -6,21 +6,21 @@
 		<div class="box-header">
 	      {!!Form::label('Horas:')!!}
 	      <div class="input-group col-md-8">
-	      	{!! Form::select('periodos[]',$hora,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
+	      	{!! Form::select('periodos[]',$hora,$perBusc,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
 	      </div>
  		</div>
 
 		<div class="box-header">
 	      {!!Form::label('Ambientes:')!!}
 	      <div class="input-group col-md-8">
-	      	{!! Form::select('ambientes[]',$ambientes,null,['class'=>'form-control input-sm select-amb','multiple']) !!}
+	      	{!! Form::select('ambientes[]',$ambientes,$ambBusc,['class'=>'form-control input-sm select-amb','multiple']) !!}
 	      </div>
  		</div>
 
 		<div class="box-header">
 	      {!!Form::label('Complementos:')!!}
 	      <div class="input-group col-md-8">
-	      	{!! Form::select('complementos[]',$complement,null,['class'=>'form-control input-sm select-comp','multiple']) !!}
+	      	{!! Form::select('complementos[]',$complement,$comple,['class'=>'form-control input-sm select-comp','multiple']) !!}
 	      </div>
  		</div>
 
@@ -36,8 +36,8 @@
 			{!!Form::label('Fecha Inicio y Fin:')!!}
 		<div class="input-group col-md-12">
 			<i class="fa fa-calendar col-md-1"></i>
-        	<input type="date" name="fechaIni" min={{$fechaActual}}  value={{$fechaActual}} class="col-md-5" required="">
-        	<input type="date" name="fechaFin" min={{$fechaActual}} value={{$fechaActual}} class="col-md-5" required="">
+        	<input type="date" name="fechaIni" min={{$fechaActual}}  value={{$fechaIni}} class="col-md-5" required="">
+        	<input type="date" name="fechaFin" min={{$fechaActual}} value={{$fechaFin}} class="col-md-5" required="">
         </div>
     	</div>
 
