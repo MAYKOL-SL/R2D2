@@ -31,7 +31,7 @@ class PorHoraController extends Controller
             $fechaActual=Carbon::now();
             $fechaActual=$fechaActual->addDay(1);
             $complement=DB::table('complementos')->select('nombre_complemento','id')->lists('nombre_complemento','id');
-
+<<<<<<< HEAD
             //$ambientes=Ambiente::lists('title','id');
             /*ambientes sin datas 3-12-17*/
             $ambientes=DB::table('ambientes as a')
@@ -39,12 +39,12 @@ class PorHoraController extends Controller
             ->where('ta.tipo_aula','<>','activo')
             ->lists('a.title','a.id');
 
-
+=======
             $tiposAmbientes=TipoAmbiente::where('tipo_aula','!=','activo','and','tipo_aula','!=','inactivo')->lists('id');
             $ambientes=DB::table('ambientes as a')->join('tipo_ambientes as tp','tp.id','=','a.tipo_ambiente_id')
             ->whereIn('a.tipo_ambiente_id',$tiposAmbientes)
             ->select('a.title','a.id')->lists('title','id');
-
+>>>>>>> ac8c58d61abaca31303bb618de9716084774aad2
             $dias;
             //dd($complement);
 
@@ -223,7 +223,7 @@ class PorHoraController extends Controller
                             array_push($detalles, $resauxiliar);
                             //dd($resauxiliar);
                         }
-
+<<<<<<< HEAD
 
                     }
                     //dd($detalles);
@@ -231,7 +231,13 @@ class PorHoraController extends Controller
             }//dd($detalles);
 
 
-
+            //dd($perBuscados);
+=======
+                        //dd($detalles);
+                    }
+                    //dd($detalles);
+                }
+            }
             //dd($detalles);
             if (count($detalles) == 0 && $verificador==false) {
                 Flash::warning("no se encontraron coincidencias");
@@ -240,7 +246,7 @@ class PorHoraController extends Controller
             $perBusc=Periodo::whereIn('id',$perBuscados)->lists('id')->ToArray();
             $ambBusc=Ambiente::whereIn('id',$ambBuscado)->lists('id')->ToArray();
             //dd($perBusc);
-
+>>>>>>> ac8c58d61abaca31303bb618de9716084774aad2
 
 
 
