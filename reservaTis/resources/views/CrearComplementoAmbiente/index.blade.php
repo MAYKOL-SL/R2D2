@@ -13,11 +13,12 @@
   <div class="box-header">
                 <a href="{{ route('CrearAmbiente.create') }}" class="btn btn-info">Crear nuevo ambiente</a>
             <a href="{{ route('CrearComplementoAmbiente.create') }}" class="btn btn-info">Crear Complemento Para llevar</a>
-            <a href="{{ route('CrearComplementoAmbiente.index') }}" class="btn btn-info">Lista De Complemento Para llevar</a>
+            <a href="{{ route('CrearAmbiente.index') }}" class="btn btn-info">Lista De Ambientes</a>
 
 </div>
+
              <!-- Buscador de ambiente-->
-  {!! Form::open(['route'=>'CrearAmbiente.index','method'=>'GET', 'class'=>'navbar-form pull-right']) !!}
+  {!! Form::open(['route'=>'CrearComplementoAmbiente.index','method'=>'GET', 'class'=>'navbar-form pull-right']) !!}
   <div class="input-group col-md-6 pull-right">
   <span class="input-group-addon"><i class="fa fa-search"></i></span>
           {!! Form::text('name',null,['class'=>'form-control','placelhoder'=>'Buscar ambiente...','aria-describebdy'=>'search']) !!}
@@ -39,8 +40,8 @@
   </thead>
   <tbody>
     @foreach($ambiente as $ambientes)
-      @if($ambientes->tipo_ambiente->tipo_aula<>"activo" &&
-      $ambientes->tipo_ambiente->tipo_aula<>"inactivo")
+      @if($ambientes->tipo_ambiente->tipo_aula=="activo" ||
+      $ambientes->tipo_ambiente->tipo_aula=="inactivo")
       <tr>
         <td>{{$ambientes->title}}</td>
         <td>
@@ -56,7 +57,7 @@
           @endforeach
           </td>
         <td>
-         <a href="{{ route('CrearAmbiente.edit', $ambientes->id) }}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
+        <a href="{{ route('CrearComplementoAmbiente.edit', $ambientes->id) }}" class="btn btn-warning"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></a>
           <a href="{{ route('CrearAmbiente.destroy', $ambientes->id) }}" onclick="return confirm('¿Seguro que deseas eliminarlo?')" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
       </td>
       </tr>
@@ -73,19 +74,3 @@
 </div>
 <div class="col-md-2"></div>
  @endsection
-
- @section('js')
-<script>
-$(document).ready(function () {
-            (function ($) {
-                $('#filtrar').keyup(function () {
-                    var rex = new RegExp($(this).val(), 'i');
-                    $('.buscar tr').hide();
-                    $('.buscar tr').filter(function () {
-                        return rex.test($(this).text());
-                    }).show();
-                })
-            }(jQuery));
-        });
-</script>
-@endsection
