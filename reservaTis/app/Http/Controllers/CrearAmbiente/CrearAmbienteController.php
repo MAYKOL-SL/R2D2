@@ -39,7 +39,21 @@ class CrearAmbienteController extends Controller
             $ambiente->tipo_ambiente;
 
         });
+
+
+
+        $comp->each(function($comp){
+            $comp->complementos->lists('nombre_complemento')->ToArray();
+            $comp->tipo_ambiente;
+
+        });
+
+
+        //return($ambiente);
+
+
          
+
         return view('CrearAmbiente.index' )
         ->with('ambiente',$ambiente);
     }
