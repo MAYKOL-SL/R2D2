@@ -7,7 +7,7 @@
  <div class="box box-primary">
   <div class="table-responsive">
   <div class="box-header with-border">
-  <label class = "box-title">Lista de ambientes</label>
+  <label class = "box-title">Lista de complementos para llevar</label>
   </div>
 
   <div class="box-header">
