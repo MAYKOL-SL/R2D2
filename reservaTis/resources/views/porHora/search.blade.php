@@ -59,7 +59,7 @@
       </div>
 		</div>
 
-        
+
 		<div class="box-header">
 			<span class="input-group-btn">
 				<button type="submit" class="btn btn-primary">Buscar</button>
