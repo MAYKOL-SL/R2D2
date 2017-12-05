@@ -97,10 +97,12 @@
                               <div class="input-group col-md-12" > 
                                     <!--<div class="input-group-addon">-->
                                         <select name="ambiente_id" class="form-control select-category" required>
-                                            @foreach ($ambiente as $amb)
+                                            @foreach ($ambis as $amb)
+                                                @if($amb->tipo_ambiente->tipo_aula<>"activo" && $amb->tipo_ambiente->tipo_aula<>"inactivo")
                                                 <option value="{{$amb->id}}">
                                                     {{$amb->title}}
                                                 </option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     <!--</div>-->

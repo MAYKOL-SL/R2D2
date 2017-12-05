@@ -147,12 +147,17 @@ class CalendarioControllerDocenteSecreAux extends Controller
             }
 
         $user=DB::table('users')->get();
-        $ambiente=DB::table('ambientes')->get();
+        //$ambiente=DB::table('ambientes')->get();
 
+        $ambis = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(10);
+            $ambis->each(function($ambis){
+            $ambis->complementos->lists('nombre_complemento')->ToArray();
+            $ambis->tipo_ambiente;
+        });
 
         $hora = Periodo::lists('hora','id');
         $states = TipoAmbiente::lists('tipo_aula','id');
-        return view('calendario_docente_secre_aux',compact('states', 'hora', 'user', 'ambiente'));
+        return view('calendario_docente_secre_aux',compact('states', 'hora', 'user', 'ambis'));
         add('periodos');
 
         //return Response()->json($data);

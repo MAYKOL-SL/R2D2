@@ -146,12 +146,23 @@ class CalendarioController extends Controller
             }
 
         $user=DB::table('users')->get();
-        $ambiente=DB::table('ambientes')->get();
+        //$ambiente=DB::table('ambientes')->get();
+        //Cuando la reserva tiene conflictos y el que hace la reserva es el Docente y tiene
+        //conflictos con la reserva de admin 
+        //no aparece las reservas porque solo el admin puede ver todas las reservas 
+        //ya que se puso que el docente puede ver sus propias reservas 
+        //por tanto no podra ver con quien tiene reserva
+
+        $ambis = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(10);
+            $ambis->each(function($ambis){
+            $ambis->complementos->lists('nombre_complemento')->ToArray();
+            $ambis->tipo_ambiente;
+        });
 
 
         $hora = Periodo::lists('hora','id');
         $states = TipoAmbiente::lists('tipo_aula','id');
-        return view('calendario',compact('states', 'hora', 'user', 'ambiente'));
+        return view('calendario',compact('states', 'hora', 'user', 'ambis'));
         add('periodos');
 
         //return Response()->json($data);
