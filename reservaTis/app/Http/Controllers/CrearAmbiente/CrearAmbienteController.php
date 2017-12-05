@@ -34,20 +34,20 @@ class CrearAmbienteController extends Controller
     {
 
         $ambiente = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(20);
-        $comp = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(2);
+        //$comp = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(20);
         $ambiente->each(function($ambiente){
             $ambiente->complementos->lists('nombre_complemento')->ToArray();
             $ambiente->tipo_ambiente;
 
         });
 
-        $comp->each(function($comp){
+        /*$comp->each(function($comp){
             $comp->complementos->lists('nombre_complemento')->ToArray();
             $comp->tipo_ambiente;
 
-        });
+        });*/
 
-        //return($ambiente);
+        //return($comp);
         return view('CrearAmbiente.index' )
         ->with('ambiente',$ambiente);
 

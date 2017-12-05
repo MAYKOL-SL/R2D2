@@ -41,17 +41,17 @@
 </div>
 
 <div class="box-header">
-     
-           
-           
+
+
+
             <div class="form-group">
               {!!Form::label('Complemento:')!!}
               <select name="ambiente_id" id="ambiente_id" class="form-control select-complemento" required>
-                    @foreach ($ambis as $ambi)
-                        <option value="{{$ambi->id}}">
-                          @if($ambi->tipo_ambiente->tipo_aula=="activo" ||
-                               $ambi->tipo_ambiente->tipo_aula=="inactivo")
-                            {{$ambi->title}}
+                    @foreach ($ambis as $am)
+                        <option value="{{$am->id}}">
+                          @if($am->tipo_ambiente->tipo_aula=="activo" ||
+                               $am->tipo_ambiente->tipo_aula=="inactivo")
+                            {{$am->title}}
                           @endif
                         </option>
                     @endforeach
@@ -59,7 +59,7 @@
             </div>
 </div>
 
-   
+
 <div class="box-header">
       {!!Form::label('Nombre Reserva:')!!}
             <div class="form-group">

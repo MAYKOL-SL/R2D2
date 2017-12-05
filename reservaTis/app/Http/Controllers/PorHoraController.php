@@ -63,6 +63,7 @@ class PorHoraController extends Controller
             $ambBuscado=$request->get('ambientes');
             //dd($ambBuscado);
             $verificador = false;
+
             if ($complementos==null && $fechaIni==null && $fechaFin==null && $capacidad==null && $perBuscados==null && $ambBuscado==null) {
                 $verificador = true;
             }
@@ -196,7 +197,7 @@ class PorHoraController extends Controller
                         ->select('id','hora')
                         ->get();
                         //dd($detalles[$cDet]->periodo_id);
-                        //dd($listPer);
+                        //dd($Per);
 
 
                         //reservado
@@ -210,7 +211,7 @@ class PorHoraController extends Controller
                         ->where('p.id',$perBuscados[$cPer])
                         ->select('dr.id as id')
                         ->lists('id');
-                        //dd(count($reservado));
+                        //dd($reservado);
                         if (count($reservado) < 1) {
                             $resauxiliar=new DetalleGeneral;
                             $resauxiliar->calendario_id=$fecha[0]->id;
@@ -228,9 +229,8 @@ class PorHoraController extends Controller
                     }
                     //dd($detalles);
                 }
-            }//dd($detalles);
-
-
+            }
+            //dd($detalles);
 
             //dd($detalles);
             if (count($detalles) == 0 && $verificador==false) {
