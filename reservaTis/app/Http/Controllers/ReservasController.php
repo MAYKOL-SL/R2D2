@@ -77,7 +77,7 @@ class ReservasController extends Controller
      public function verReservaConComplemento(Request $request)
     {
         if ($request) {
-            $ambis = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(10);
+            $ambis = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(100);
             $ambis->each(function($ambis){
             $ambis->complementos->lists('nombre_complemento')->ToArray();
             $ambis->tipo_ambiente;
@@ -97,7 +97,8 @@ class ReservasController extends Controller
             $fechaActual=$fechaActual->addDay(1);
             $fechaIni=$request->get('fecha_ini');
             $fechaFin=$request->get('fecha_fin');
-            return view("reservas.reservaConComplemento",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"fechaActual"=>$fechaActual,"fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado,"hora"=>$hora,"ambis"=>$ambis]);
+            //return($ambis);
+          return view("reservas.reservaConComplemento",["ambiente"=>$ambiente,"user"=>$user,"periodo"=>$periodo, "periodos"=>$periodo,"fechaActual"=>$fechaActual,"fechaIni"=>$fechaIni,"fechaFin"=>$fechaFin,"lunes"=>$lunes,"martes"=>$martes,"miercoles"=>$miercoles,"jueves"=>$jueves,"viernes"=>$viernes,"sabado"=>$sabado,"hora"=>$hora,"ambis"=>$ambis]);
         }
 
     }
