@@ -54,6 +54,11 @@ class EntrustSetupTables extends Migration
 
             $table->primary(['role_id','permission_id']);
         });*/
+        Schema::create('facultads', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nombref');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -65,7 +70,8 @@ class EntrustSetupTables extends Migration
     {
         //Schema::drop('permission_role');
         //Schema::drop('permissions');
-        Schema::drop('role_user');
-        Schema::drop('roles');
+         Schema::drop('role_user');
+         Schema::drop('roles');
+         Schema::drop('facultads');
     }
 }

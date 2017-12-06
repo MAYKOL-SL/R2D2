@@ -109,6 +109,9 @@ Route::group(['middleware' => ['auth','admin']], function (){
 			Route::get('Confirm/{id}/destroy',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@destroy' ,'as'=>'Confirm.destroy']);
 			Route::get('Confirm/{id}/store',['uses'=>'ConfirmarReserva\\ConfirmarReservaController@store' ,'as'=>'Confirm.store']);
 
+			/*ultimo anadido para abteener los ambiente de una facultad*/
+		     Route::get('ambienteFacu/{id}','PorHoraController@getAmbientes');
+
 });
 
 //Docente
@@ -157,6 +160,8 @@ Route::get('calendario_docente_secre_aux','CalendarioControllerDocenteSecreAux@g
 			//Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
 			Route::resource('leer_datos_excel', 'CalendarioControllerDocenteSecreAux@loadCalendar');
 //---------------------------------------------------------------------------------------------
+      /*ultimo anadido para abteener los ambiente de una facultad*/
+	    Route::get('ambienteFacu/{id}','PorHoraController@getAmbientes');
 
 
 });
@@ -206,6 +211,8 @@ Route::get('calendario_docente_secre_aux','CalendarioControllerDocenteSecreAux@g
 			//Route::resource('get_reservas','CalendarioController@getDatosFullCalendar');
 			Route::resource('leer_datos_excel', 'CalendarioControllerDocenteSecreAux@loadCalendar');
 //---------------------------------------------------------------------------------------------
+      /*ultimo anadido para abteener los ambiente de una facultad*/
+	     Route::get('ambienteFacu/{id}','PorHoraController@getAmbientes');
 
 
 });

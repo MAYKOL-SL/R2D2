@@ -27,7 +27,7 @@ class CrearComplementoAmbienteController extends Controller
      */
     public function index(Request $request)
     {
-        $ambiente = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(20);
+        $ambiente = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(50);
         $ambiente->each(function($ambiente){
             $ambiente->complementos->lists('nombre_complemento')->ToArray();
             $ambiente->tipo_ambiente;
@@ -59,7 +59,15 @@ class CrearComplementoAmbienteController extends Controller
      */
     public function store(Request $request)
     {
-        $ambiente = new Ambiente($request->all());
+         //$ambiente->imagen = $request->file('imagen');
+        //return($request->all());
+        $ambiente = new Ambiente;
+        $ambiente->title = $request->input('title');
+        $ambiente->imagen = $request->file('imagen');
+        $ambiente->capacidad = $request->input('capacidad');
+        $ambiente->ubicacion = $request->input('ubicacion');
+        $ambiente->facultad_id = 6;
+        $ambiente->tipo_ambiente_id = $request->input('tipo_ambiente_id');
         $ambiente->save();
 
        $ambiente->complementos()->sync($request->complementos);

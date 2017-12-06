@@ -15,26 +15,34 @@
 {!!Form::open(['route'=>'CrearAmbiente.store','method'=>'POST', 'files' => true])!!}
 
 <div class="box-header">
-    {!! Form::label('Nombre: ') !!}       
+    {!! Form::label('Nombre: ') !!}
     {!! Form::text('title', null, ['class' => 'form-control', 'required' => 'required']) !!}
 </div>
 
-<div class="box-header">  
+<div class="box-header">
 {!! Form::label('Capacidad: ') !!}
 {!! Form::number('capacidad', null, ['class' => 'form-control', 'required' => 'required']) !!}
 </div>
 
-<div class="box-header"> 
+<div class="box-header">
 {!! Form::label('Ubicación: ')!!}
 {!! Form::text('ubicacion',null, ['class' => 'form-control', 'required' => 'required']) !!}
 </div>
 
-<div class="box-header">         
-{!! Form::label('Complementos: ') !!} 
+<div class="box-header">
+{!! Form::label('Complementos: ') !!}
 {!! Form::select('complementos[]',$complementos,null,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
 </div>
 
-<div class="box-header"> 
+<div class="box-header">
+{!! Form::label('Facultad :') !!}
+    {!! Form::select('facultad_id',$facultades,null,['id'=>'state','class'=>'form-control input-sm'
+    ,'placeholder'=>'Seleccione','required'=>'required']) !!}
+
+</div>
+
+
+<div class="box-header">
 {!! Form::label('Tipo ambiente: ') !!}
     {!! Form::select('tipo_ambiente_id',$tipos,null,['id'=>'state','class'=>'form-control input-sm'
     ,'placeholder'=>'Seleccione','required'=>'required']) !!}
@@ -46,7 +54,7 @@
   {!! Form::file('imagen',['class'=>'form-control input-sm']) !!}
 </div>
 
- 
+
 <div class="box-header">
     <td>
 {!! Form::submit('Crear Ambiente ', ['class' => 'btn btn-primary']) !!}

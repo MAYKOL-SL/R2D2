@@ -21,6 +21,12 @@ class CreateAmbientesTable extends Migration
               $table->string('ubicacion',50);
             $table->timestamps();
 
+            $table->integer('facultad_id')->unsigned();
+              $table->foreign('facultad_id')->references('id')->on('facultads')
+            ->onUpdate('CASCADE')
+            ->onDelete('NO ACTION');
+
+
             $table->integer('tipo_ambiente_id')->unsigned();
               $table->foreign('tipo_ambiente_id')->references('id')->on('tipo_ambientes')
             ->onUpdate('CASCADE')

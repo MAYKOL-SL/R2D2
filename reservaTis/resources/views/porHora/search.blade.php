@@ -1,4 +1,4 @@
-{!! Form::open(array('url'=>'porHora','method'=>'GET','autocomplete'=>'off','role'=>'search')) !!}
+{!! Form::open(array('url'=>'porHora','method'=>'GET','autocomplete'=>'off','role'=>'search','name'=>'formulario')) !!}
 
 <div class="form-group">
 	<div class="input-group">
@@ -6,15 +6,17 @@
 		<div class="box-header">
 	      {!!Form::label('Horas:')!!}
 	      <div class="input-group col-md-8">
-	      	{!! Form::select('periodos[]',$hora,$perBusc,['class'=>'form-control input-sm select-tag','multiple','required']) !!}
+	      	{!! Form::select('periodos[]',$hora,$perBusc,['class'=>'form-control input-sm select-tag required','multiple']) !!}
 	      </div>
  		</div>
 
 		<div class="box-header">
-	      {!!Form::label('Ambientes:')!!}
-	      <div class="input-group col-md-8">
-	      	{!! Form::select('ambientes[]',$ambientes,$ambBusc,['class'=>'form-control input-sm select-amb','multiple']) !!}
-	      </div>
+	       {!!Form::label('Facultad')!!}
+			<div class="input-group col-md-8">
+			 {!! Form::select('facultades',$facultades,null,['id'=>'facultades','class'=>'form-control select-category input-sm', 'required'=>'required']) !!}
+			  {!!Form::label('Ambiente')!!}
+			 {!! Form::select('ambientes',['placeholder'=>'Selecciona'],null,['id'=>'ambiente','class'=>'form-control select-category input-sm', 'required'=>'required']) !!}
+			</div>
  		</div>
 
 		<div class="box-header">
@@ -67,3 +69,15 @@
 		</div>
 	</div>
 </div>
+
+ <script>
+		 function validarFormulario(){
+			 jQuery.validator.messages.required = 'Esta campo es obligatorio.';
+			 $("#formulario").validate();
+
+				}
+				$(document).ready(function(){
+					 validarFormulario();
+				});
+
+ </script>

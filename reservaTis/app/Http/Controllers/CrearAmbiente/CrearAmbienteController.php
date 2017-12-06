@@ -16,6 +16,7 @@ use Reserva\Imagen;
 use Reserva\TipoAmbiente;
 use Reserva\AmbienteComplemento;
 use Laracasts\Flash\Flash;
+use Reserva\Facultad;
 use DB;
 
 
@@ -33,6 +34,7 @@ class CrearAmbienteController extends Controller
     public function index(Request $request)
     {
 
+        //$facultades = Facultad::where('nombref','<>','complemento')->lists('nombref','id');
         $ambiente = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(20);
         //$comp = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(20);
         $ambiente->each(function($ambiente){
@@ -51,6 +53,7 @@ class CrearAmbienteController extends Controller
         return view('CrearAmbiente.index' )
         ->with('ambiente',$ambiente);
 
+
     }
 
     /**
@@ -61,12 +64,12 @@ class CrearAmbienteController extends Controller
 
     public function create()
     {
-
+        $facultades = Facultad::where('nombref','<>','complemento')->lists('nombref','id');
         $complementos = Complemento::orderBy('nombre_complemento','ASC')->where('estado','=','Activo')->lists('nombre_complemento','id');
         $tipos = TipoAmbiente::orderBy('tipo_aula','ASC')->lists('tipo_aula','id')->ToArray();
         $tipos = array_diff($tipos, array('activo','inactivo'));
 
-        return view('CrearAmbiente.create', compact('complementos','tipos'));
+        return view('CrearAmbiente.create', compact('complementos','tipos','facultades'));
     }
 
     /**
@@ -76,7 +79,7 @@ class CrearAmbienteController extends Controller
      */
     public function store(Request $request)
     {
-
+        //dd($request->all());
        $ambiente = new Ambiente($request->all());
         $ambiente->save();
 
@@ -110,6 +113,7 @@ class CrearAmbienteController extends Controller
      */
     public function edit($id)
     {
+        $facultades = Facultad::where('nombref','<>','complemento')->lists('nombref','id');
         $ambiente = Ambiente::find($id);
         $ambiente->tipo_ambiente;
         $complementos = Complemento::orderBy('nombre_complemento','ASC')->where('estado','=','Activo')->lists('nombre_complemento','id');
@@ -121,6 +125,7 @@ class CrearAmbienteController extends Controller
         ->with('complementos',$complementos)
         ->with('ambiente',$ambiente)
         ->with('tipos',$tipos)
+        ->with('facultades',$facultades)
         ->with('my_complementos', $my_complementos);
 
     }
