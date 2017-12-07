@@ -24,6 +24,7 @@
                     <th>Usuario</th>
                     <th>Ambiente</th>
                     <th>Fecha</th>
+                    <th>Dia</th>
                     <th>periodo</th>
                    {{--  <th>iddetalle</th> --}}
                     <th>Opciones</th>
@@ -34,7 +35,9 @@
                     <td>{{ $res->id_reserva}}</td>
                     <td>{{ $res->usuario}}</td>
                     <td>{{ $res->nombre_aula}}</td>
+
                     <td>{{ $res->Fecha}}</td>
+                    <td>{{$res->Dia}}</td>
                     <td>{{ $res->hora}}</td>
                    {{--  <td>{{$res->id_detalle}}</td> --}}
                     <td>
