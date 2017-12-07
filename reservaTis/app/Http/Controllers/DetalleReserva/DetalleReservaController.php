@@ -41,7 +41,7 @@ class DetalleReservaController extends Controller
                             ->join('users as us','us.id','=','r.user_id')
                             ->join('calendarios as cal','cal.id','=','dr.calendario_id')
                             ->join('periodos','periodos.id','=','dr.periodo_id')
-                            ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end','cal.Fecha','periodos.hora','dr.id as id_detalle')
+                            ->select('r.id as id_reserva','us.name as usuario','amb.title as nombre_aula','r.nombre_reseva as nombre_reserva','r.description','r.start','r.end','cal.Fecha','periodos.hora','dr.id as id_detalle','cal.Dia')
 
                             ->where('dr.reserva_id','=',$idreserva)
                             //->distinct()
