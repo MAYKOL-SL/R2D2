@@ -10,7 +10,7 @@ class Ambiente extends Model
 
     public $timestamps = true;
 
-    protected $fillable=['title','capacidad','ubicacion','imagen','tipo_ambiente_id'];
+    protected $fillable=['title','capacidad','ubicacion','imagen','facultad_id','tipo_ambiente_id'];
 
     public function setImagenAttribute($imagen){
         if (!empty($imagen)) {
@@ -37,5 +37,15 @@ class Ambiente extends Model
     {
         return $this->belongsTo('Reserva\TipoAmbiente');
     }
+
+    public function facultads()
+   {
+       return $this->belongsTo('Reserva\Facultad');
+   }
+   /*ultimo anadido para dosselects*/
+   public static function ambientesFacultad($id){
+      return Ambiente::where('facultad_id','=',$id)
+      ->get();
+   }
 
 }

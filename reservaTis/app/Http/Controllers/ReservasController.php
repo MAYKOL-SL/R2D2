@@ -49,7 +49,7 @@ class ReservasController extends Controller
     public function create(Request $request)
     {
         if ($request) {
-            $ambis = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(10);
+            $ambis = Ambiente::search($request->name)->orderBy('title','ASC')->paginate(100);
             $ambis->each(function($ambis){
             $ambis->complementos->lists('nombre_complemento')->ToArray();
             $ambis->tipo_ambiente;
