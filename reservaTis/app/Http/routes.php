@@ -111,6 +111,13 @@ Route::group(['middleware' => ['auth','admin']], function (){
 
 			/*ultimo anadido para abteener los ambiente de una facultad*/
 		     Route::get('ambienteFacu/{id}','PorHoraController@getAmbientes');
+				 Route::resource('facultad', 'FacultadController');
+
+				 Route::get('facultad/{id}/destroy',[
+	 				'uses' => 'FacultadController@destroy',
+	 				'as' => 'facultad.destroy'
+	 			]);
+
 
 });
 

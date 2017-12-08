@@ -65,6 +65,7 @@
                     <li><a href="{{url('CrearAmbiente')}}">Ambiente</a></li>
                     <li><a href="{{url('tiposambiente')}}">Tipos Ambiente</a></li>
                     <li><a href="{{url('complemento')}}">Complementos</a></li>
+                    <li><a href="{{url('facultad')}}">Facultades</a></li>
                 </ul>
             </li>
             @endif
