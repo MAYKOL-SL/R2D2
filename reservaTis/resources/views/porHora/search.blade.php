@@ -6,7 +6,7 @@
 		<div class="box-header">
 	      {!!Form::label('Horas:')!!}
 	      <div class="input-group col-md-8">
-	      	{!! Form::select('periodos[]',$hora,$perBusc,['class'=>'form-control input-sm select-tag required','multiple']) !!}
+	      	{!! Form::select('periodos[]',$hora,$perBusc,['class'=>'form-control input-sm select-tag required ','multiple','id'=>'horaper']) !!}
 	      </div>
  		</div>
 
@@ -64,20 +64,22 @@
 
 		<div class="box-header">
 			<span class="input-group-btn">
-				<button type="submit" class="btn btn-primary">Buscar</button>
+				<!--button type="submit" class="btn btn-primary">Buscar</button-->
+				<input type="submit" class="btn btn-primary" name="btn" value="Enviar" onclick="validar()">
 			</span>
 		</div>
 	</div>
 </div>
 
- <script>
-		 function validarFormulario(){
-			 jQuery.validator.messages.required = 'Esta campo es obligatorio.';
-			 $("#formulario").validate();
 
-				}
-				$(document).ready(function(){
-					 validarFormulario();
-				});
+ <script>
+
+      function validar() {
+      	if (document.getElementById('horaper').value == "") {
+             alert("llene almenos el campo Horas");
+						 
+      	}
+      };
+
 
  </script>
